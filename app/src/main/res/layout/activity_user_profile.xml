@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_user_profile"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="cse110.jamwithme.UserProfileActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="27dp" />
+
+    <TextView
+        android:text="name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/imageView"
+        android:layout_toLeftOf="@+id/imageView"
+        android:layout_toStartOf="@+id/imageView"
+        android:layout_marginRight="100dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginTop="25dp"
+        android:id="@+id/Profile_tv_name" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="username"
+        android:ems="10"
+        android:layout_below="@+id/Profile_tv_name"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/Profile_Username"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Instruments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Profile_Username"
+        android:layout_alignLeft="@+id/Profile_tv_name"
+        android:layout_alignStart="@+id/Profile_tv_name"
+        android:layout_marginTop="25dp"
+        android:id="@+id/Profile_tv_instruments" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Instrument"
+        android:ems="10"
+        android:layout_below="@+id/Profile_tv_instruments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/Profile_Instr" />
+
+    <Button
+        android:text="add Instruments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/Profile_Instr"
+        android:layout_toRightOf="@+id/Profile_Instr"
+        android:layout_toEndOf="@+id/Profile_Instr"
+        android:layout_marginLeft="16dp"
+        android:layout_marginStart="16dp"
+        android:id="@+id/Profile_add_botton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:layout_below="@+id/Profile_add_botton"
+        android:layout_marginTop="27dp"
+        android:id="@+id/Profile_Biography"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="Personal Biography" />
+
+    <TextView
+        android:text="My Jams"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Profile_Biography"
+        android:layout_alignLeft="@+id/Profile_tv_instruments"
+        android:layout_alignStart="@+id/Profile_tv_instruments"
+        android:layout_marginTop="42dp"
+        android:id="@+id/Profile_tv_Jam" />
+
+    <Button
+        android:text="MyJam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Profile_tv_Jam"
+        android:layout_alignLeft="@+id/Profile_tv_Jam"
+        android:layout_alignStart="@+id/Profile_tv_Jam"
+        android:layout_marginTop="17dp"
+        android:id="@+id/Profile_MyJam_botton" />
+</RelativeLayout>
