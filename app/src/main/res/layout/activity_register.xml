@@ -15,33 +15,20 @@
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/Register_password"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/editText5"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:hint="Instrument" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/Register_Name"
+        android:id="@+id/Register_Email"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Name" />
+        android:hint="User_Email" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:layout_below="@+id/Register_Name"
+        android:layout_below="@+id/Register_Email"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -57,23 +44,23 @@
         android:layout_below="@+id/Register_password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/Re_Instr1"
+        android:id="@+id/Re_Username"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Instrument" />
+        android:hint="Username" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
         android:ems="10"
-        android:layout_below="@+id/editText5"
+        android:layout_below="@+id/Re_Username"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/Re_Exp"
+        android:id="@+id/Re_Instr"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="year of experience" />
+        android:hint="Instrument" />
 
     <Button
         android:text="Register"
