@@ -91,23 +91,12 @@
         android:layout_alignParentStart="true"
         android:hint="Personal Biography" />
 
-    <TextView
-        android:text="My Jams"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Profile_Biography"
-        android:layout_alignLeft="@+id/Profile_tv_instruments"
-        android:layout_alignStart="@+id/Profile_tv_instruments"
-        android:layout_marginTop="42dp"
-        android:id="@+id/Profile_tv_Jam" />
-
     <Button
-        android:text="MyJam"
+        android:text="add my jams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/Profile_tv_Jam"
-        android:layout_alignLeft="@+id/Profile_tv_Jam"
-        android:layout_alignStart="@+id/Profile_tv_Jam"
-        android:layout_marginTop="17dp"
-        android:id="@+id/Profile_MyJam_botton" />
+        android:id="@+id/add_my_jams"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="47dp" />
 </RelativeLayout>
