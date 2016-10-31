@@ -21,7 +21,7 @@
         android:layout_marginTop="27dp" />
 
     <TextView
-        android:text="name"
+        android:text="@string/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imageView"
@@ -36,7 +36,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="username"
+        android:text="@string/name"
         android:ems="10"
         android:layout_below="@+id/Profile_tv_name"
         android:layout_alignParentLeft="true"
@@ -46,7 +46,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Instruments"
+        android:text="@string/instruments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Profile_Username"
@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Instrument"
+        android:text="@string/instruments"
         android:ems="10"
         android:layout_below="@+id/Profile_tv_instruments"
         android:layout_alignParentLeft="true"
@@ -67,7 +67,7 @@
         android:id="@+id/Profile_Instr" />
 
     <Button
-        android:text="add Instruments"
+        android:text="@string/addI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/Profile_Instr"
@@ -89,10 +89,10 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="Personal Biography" />
+        android:hint="@string/bio" />
 
     <Button
-        android:text="add my jams"
+        android:text="@string/addjams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_my_jams"

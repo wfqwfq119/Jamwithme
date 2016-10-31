@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Jamwithme</string>
+    <string name="app_name">Jam With Me</string>
+    <string name="email">User Email</string>
+    <string name="pass">Password</string>
+    <string name="name">Name</string>
+    <string name="instruments">Instruments</string>
+    <string name="addI">Add Instruments</string>
+    <string name="bio">Personal Biography</string>
+    <string name="addjams">Add My Jams</string>
 </resources>

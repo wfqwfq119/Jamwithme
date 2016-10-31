@@ -21,7 +21,7 @@
         android:id="@+id/Login_name"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="User_Email"
+        android:hint="@string/email"
         />
 
     <EditText
@@ -36,7 +36,7 @@
         android:id="@+id/Login_pass"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Password" />
+        android:hint="@string/pass" />
 
     <Button
         android:text="Login"
