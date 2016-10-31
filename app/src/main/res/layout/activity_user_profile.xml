@@ -59,12 +59,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="Instrument"
         android:ems="10"
         android:layout_below="@+id/Profile_tv_instruments"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/Profile_Instr" />
+        android:id="@+id/Profile_Instr"
+        android:hint="Instrument" />
 
     <Button
         android:text="add Instruments"
@@ -110,4 +110,5 @@
         android:layout_alignStart="@+id/Profile_tv_Jam"
         android:layout_marginTop="17dp"
         android:id="@+id/Profile_MyJam_botton" />
+
 </RelativeLayout>
