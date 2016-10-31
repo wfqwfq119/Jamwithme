@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -22,11 +23,7 @@ import java.io.FilenameFilter;
 import java.net.URI;
 
 
-class MP3_filter implements FilenameFilter {
-    public boolean accept(File dir, String name) {
-        return (name.endsWith(".mp3"));
-    }
-}
+
 
 
 public class add_jams_activity extends AppCompatActivity {
@@ -38,26 +35,51 @@ public class add_jams_activity extends AppCompatActivity {
 
     private MediaPlayer jam_mp = new MediaPlayer();
     private static final int AUDIO_INTENT = 1;
+    private ProgressDialog upl_progress;
+    private StorageReference myjams;
     private StorageReference store_aud;
     private Button upload_aud;
     private Button stop_jam;
 
 
+    // Suspend media player if user returns to profile page
+    @Override
+    protected void onPause() {
+        super.onPause();
+        jam_mp.release();
+    }
+
+    // Setup layout: ListView with arr_jams[] elems, Buttons for Media Player,
+    //               Buttons for profile customization
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_jams_activity);
+        upl_progress = new ProgressDialog(this);
 
         store_aud = FirebaseStorage.getInstance().getReference();
         upload_aud = (Button)findViewById(R.id.upload) ;
         stop_jam = (Button)findViewById(R.id.stop_audio);
 
-        // arr_jams[] displayed when 'ADD JAM' button is on
+
+
+        // 'ADD JAM' button is on --> display arr_jams[] elements
         arr_jams = (ListView)findViewById(R.id.jams_list);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, jams);
         arr_jams.setAdapter(adapter);
 
-        // Single audio file can be uploaded from device when "UPLOAD JAM" button is on
+
+
+        // Populate listview with playable sound files
+        arr_jams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override //TODO
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //TODO
+            }
+        }); //TODO
+
+
+        // 'UPLOAD JAM' button is on --> Single audio file can be uploaded from device
         upload_aud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,35 +90,7 @@ public class add_jams_activity extends AppCompatActivity {
         });
 
 
-        // Enable media player when user clicks on particular sound ref //TODO
-        arr_jams.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                if (position == 0) {
-                    Toast.makeText(add_jams_activity.this, "Position ONE", Toast.LENGTH_LONG).show();
-                }
-
-                else if (position == 1) {
-                    Toast.makeText(add_jams_activity.this, "Position TWO", Toast.LENGTH_LONG).show();
-                }
-
-                else if (position == 2) {
-                    Toast.makeText(add_jams_activity.this, "Position THREE", Toast.LENGTH_LONG).show();
-                }
-
-                else if (position == 3) {
-                    Toast.makeText(add_jams_activity.this, "Position FOUR", Toast.LENGTH_LONG).show();
-                }
-
-                else if (position  == 4){
-                    Toast.makeText(add_jams_activity.this, "Position FIVE", Toast.LENGTH_LONG).show();
-                }
-                //adapterView.getItemAtPosition(position);
-                //Intent play_jam = new Intent(//Get )
-            } //TODO
-        }); //TODO
-
-        // Stop Button Functionality: Media player suspends when this button is on
+        // 'STOP JAM' button is on --> Media player suspends
         Button stop_jam = (Button)findViewById(R.id.stop_audio);
         stop_jam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,22 +100,37 @@ public class add_jams_activity extends AppCompatActivity {
         });
     }
 
+
+
+
+    // Single sound file is chosen --> file uploaded to FireBase server
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == AUDIO_INTENT && resultCode == RESULT_OK) {
+            upl_progress.setMessage("Uploading Audio...");
+            upl_progress.show();
+
             Uri uri = data.getData();
             StorageReference file_path = store_aud.child("MyJams").child(uri.getLastPathSegment());
             file_path.putFile(uri).addOnSuccessListener(
                                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(add_jams_activity.this,
-                                   "Upload Successful", Toast.LENGTH_LONG).show();
-
+                    upl_progress.dismiss();
+                    Toast.makeText(add_jams_activity.this, "Upload Successful", Toast.LENGTH_LONG).show();
                 }
             });
         }
     }
 }
+
+//REQUESTS FROM CUSTOMERS:
+
+// -listview items are more toggle friendly (play/pause)
+
+// -scenario: Given there are five sound files already uploaded, when the user tries
+//            to upload another sound file, then a "error" text box will appear.
+
+
