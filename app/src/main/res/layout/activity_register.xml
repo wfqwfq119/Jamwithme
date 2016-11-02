@@ -21,7 +21,7 @@
         android:id="@+id/Register_Email"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="User_Email" />
+        android:hint="@string/email" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -33,7 +33,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Password"
+        android:hint="@string/pass"
         android:id="@+id/Register_password" />
 
     <EditText
@@ -47,7 +47,7 @@
         android:id="@+id/Re_Username"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Username" />
+        android:hint="@string/name" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -60,10 +60,10 @@
         android:id="@+id/Re_Instr"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:hint="Instrument" />
+        android:hint="@string/instruments" />
 
     <Button
-        android:text="Register"
+        android:text="@string/reg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="115dp"

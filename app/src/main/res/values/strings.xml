@@ -7,4 +7,7 @@
     <string name="addI">Add Instruments</string>
     <string name="bio">Personal Biography</string>
     <string name="addjams">Add My Jams</string>
+    <string name="login">Login</string>
+    <string name="register">Register Here</string>
+    <string name="reg">Register</string>
 </resources>

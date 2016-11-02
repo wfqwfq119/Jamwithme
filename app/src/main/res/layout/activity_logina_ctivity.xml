@@ -39,7 +39,7 @@
         android:hint="@string/pass" />
 
     <Button
-        android:text="Login"
+        android:text="@string/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Login_pass"
@@ -48,7 +48,7 @@
         android:id="@+id/Login_botton" />
 
     <TextView
-        android:text="Register Here"
+        android:text="@string/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Login_botton"
