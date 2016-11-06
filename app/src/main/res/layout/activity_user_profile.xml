@@ -14,89 +14,105 @@
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:scaleX = "5"
+        android:scaleY = "5"
         app:srcCompat="@android:drawable/alert_light_frame"
-        android:id="@+id/imageView"
+        android:id="@+id/ivProfile2"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="27dp" />
+        android:layout_marginTop="70dp" />
 
     <TextView
-        android:text="@string/name"
+        android:text="About Me"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imageView"
-        android:layout_toLeftOf="@+id/imageView"
-        android:layout_toStartOf="@+id/imageView"
-        android:layout_marginRight="100dp"
-        android:layout_marginEnd="100dp"
-        android:layout_marginTop="25dp"
-        android:id="@+id/Profile_tv_name" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/name"
-        android:ems="10"
-        android:layout_below="@+id/Profile_tv_name"
+        android:id="@+id/tVAboutMe"
+        android:textSize="18sp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/Profile_Username"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:text="@string/instruments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/Profile_Username"
-        android:layout_alignLeft="@+id/Profile_tv_name"
-        android:layout_alignStart="@+id/Profile_tv_name"
-        android:layout_marginTop="25dp"
-        android:id="@+id/Profile_tv_instruments" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="@string/instruments"
-        android:ems="10"
-        android:layout_below="@+id/Profile_tv_instruments"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:id="@+id/Profile_Instr" />
+        android:layout_marginBottom="63dp" />
 
     <Button
         android:text="@string/addI"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/Profile_Instr"
-        android:layout_toRightOf="@+id/Profile_Instr"
-        android:layout_toEndOf="@+id/Profile_Instr"
-        android:layout_marginLeft="16dp"
-        android:layout_marginStart="16dp"
-        android:id="@+id/Profile_add_botton" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:layout_below="@+id/Profile_add_botton"
-        android:layout_marginTop="27dp"
-        android:id="@+id/Profile_Biography"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:id="@+id/Profile_add_botton"
+        android:backgroundTint="?attr/colorPrimaryDark"
+        android:textColor="@android:color/white"
+        android:layout_above="@+id/tVAboutMe"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:hint="@string/bio" />
+        android:layout_marginBottom="18dp" />
 
     <Button
         android:text="@string/addjams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_my_jams"
+        android:backgroundTint="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:layout_alignBaseline="@+id/Profile_add_botton"
+        android:layout_alignBottom="@+id/Profile_add_botton"
+        android:layout_toRightOf="@+id/ivProfile2"
+        android:layout_toEndOf="@+id/ivProfile2" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/Profile_Username"
+        android:hint="Username"
+        android:textSize="18sp"
+        android:layout_above="@+id/ratingBar2"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="13dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar2"
+        android:layout_marginBottom="39dp"
+        android:layout_above="@+id/Profile_add_botton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:id="@+id/iBTakePic"
+        android:layout_marginLeft="29dp"
+        android:layout_marginStart="29dp"
+        android:layout_alignTop="@+id/ivProfile2"
+        android:layout_toRightOf="@+id/Profile_add_botton"
+        android:layout_toEndOf="@+id/Profile_add_botton"
+        android:layout_marginTop="27dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textPersonName"
+        android:ems="10"
+        android:id="@+id/eTPersonalBiography"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="47dp" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:maxLength = "500"/>
+
+    <TextView
+        android:text="Experience Level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tVExperience"
+        android:textSize="18sp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/Profile_Username"
+        android:layout_alignBottom="@+id/ratingBar2"
+        android:layout_toLeftOf="@+id/ratingBar2"
+        android:layout_toStartOf="@+id/ratingBar2" />
+
 </RelativeLayout>
