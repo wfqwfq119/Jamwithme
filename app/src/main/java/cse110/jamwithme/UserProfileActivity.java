@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 public class UserProfileActivity extends AppCompatActivity {
 
     public Button add_jams;
+    private EditText add_Instr;
 
     // Give 'add_jams' button functionality
     public void init() {
@@ -28,5 +30,12 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         init();
+        add_Instr = (EditText) findViewById(R.id.Profile_Instr);
+        add_Instr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this,InstrumentSelect.class));
+            }
+        });
     }
 }

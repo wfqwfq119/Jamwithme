@@ -47,7 +47,6 @@ public class add_jams_activity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_jams_activity);
-
         store_aud = FirebaseStorage.getInstance().getReference();
         upload_aud = (Button)findViewById(R.id.upload) ;
         stop_jam = (Button)findViewById(R.id.stop_audio);

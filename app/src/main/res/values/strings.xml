@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Jamwithme</string>
+    <string name="title_activity_instrument_select">InstrumentSelect</string>
 </resources>
