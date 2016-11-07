@@ -11,6 +11,8 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -20,6 +22,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     public Button add_jams;
+    private ImageView ivProfile;
+    private ImageButton camButton;
 
     // Give 'add_jams' button functionality
     public void init() {
@@ -41,7 +45,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         //If no user is logged in, go to login page
         if (user == null) {
-            startActivity(new Intent(UserProfileActivity.this,logina_ctivity.class));
+            startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
         }
 
         String key = "users/" + user.getUid();
@@ -50,7 +54,7 @@ public class UserProfileActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String name = (String) dataSnapshot.getValue();
-                TextView username = (TextView) findViewById(R.id.Profile_Username);
+                TextView username = (TextView) findViewById(R.id.eTName);
                 username.setText(name);
                 // do your stuff here with value
             }
@@ -62,6 +66,20 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
+    }
+
+    /** GIVE CAMERA BUTTON FUNCTIONALITY **/
+    public void cameraButton() {
+        ivProfile = (ImageView) findViewById(R.id.ivProfile);
+        camButton = (ImageButton) findViewById(R.id.iBTakePic);
+        camButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent image = new Intent(UserProfileActivity.this,
+                        camera.class);
+                startActivity(image);
+            }
+        });
     }
 
     @Override
@@ -76,6 +94,7 @@ public class UserProfileActivity extends AppCompatActivity {
         myRef = database.getReference();
 
         updateData();
+        cameraButton();
     }
 }
 
