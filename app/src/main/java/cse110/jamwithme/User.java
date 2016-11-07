@@ -15,21 +15,18 @@ public class User {
     /** Constructors for User */
     public User() {
         name = "Default Name";
-        personalBio = "Blah";
+        personalBio = "Default Bio";
         age = 0;
     }
 
-    public User(String username, String pBio, int userAge) {
-        name = username;
+    public User(String inname, String pBio, int userAge) {
+        name = inname;
         personalBio = pBio;
         age = userAge;
     }
 
     /** Getters for user info */
-    public String getName() {
-        return name;
-    }
-
+    public String getName() { return name; }
     public String getPersonalBio() {
         return personalBio;
     }
@@ -42,9 +39,12 @@ public class User {
     public void setName(String newName) {
         name = newName;
     }
-
     public void setBio(String newBio) {
-        personalBio = newBio;
+        //500 character limit
+        if(newBio.length() < 500)
+            personalBio = newBio;
+        else
+            personalBio = newBio.substring(0, 499);
     }
 
     public void setAge(int newAge) {

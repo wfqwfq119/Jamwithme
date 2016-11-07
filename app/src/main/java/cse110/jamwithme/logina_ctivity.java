@@ -27,6 +27,7 @@ public class logina_ctivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_logina_ctivity);
+
         Login_name = (EditText)findViewById(R.id.Login_name);
         Login_Pass = (EditText)findViewById(R.id.Login_pass);
         Button Login_button = (Button)findViewById(R.id.Login_botton);
