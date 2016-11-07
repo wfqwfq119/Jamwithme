@@ -10,5 +10,4 @@
     <string name="login">Login</string>
     <string name="register">Register Here</string>
     <string name="reg">Register</string>
-    <string name="title_activity_camera">CameraActivity</string>
 </resources>
