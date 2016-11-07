@@ -38,6 +38,25 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
+    /* Update data by giving in the "key" (where to find user info in database) and which view
+     * on the layout to put the new data to.
+     */
+    private void updateDataBy(String key, final int tview) {
+
+        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String newval = (String) dataSnapshot.getValue();
+                TextView viewval = (TextView) findViewById(tview);
+                viewval.setText(newval);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
     //Update page according to database info
     private void updateData() {
         ProgressDialog Re_Pro = new ProgressDialog(UserProfileActivity.this); //TODO
@@ -48,22 +67,10 @@ public class UserProfileActivity extends AppCompatActivity {
             startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
         }
 
+        //Get key to the user node in database
         String key = "users/" + user.getUid();
-
-        myRef.child(key + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String name = (String) dataSnapshot.getValue();
-                TextView username = (TextView) findViewById(R.id.eTName);
-                username.setText(name);
-                // do your stuff here with value
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        //update name data of that user into the name view
+        updateDataBy(key+"/name", R.id.eTName);
 
         /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
     }
