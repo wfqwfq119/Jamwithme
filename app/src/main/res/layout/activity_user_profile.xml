@@ -23,17 +23,6 @@
         android:layout_marginTop="96dp"
         />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/eTName"
-        android:layout_centerVertical="true"
-        android:layout_alignLeft="@+id/Profile_add_botton"
-        android:layout_alignStart="@+id/Profile_add_botton"
-        android:hint="Username" />
-
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,5 +96,16 @@
         android:layout_alignStart="@+id/ivProfile"
         android:layout_marginLeft="34dp"
         android:layout_marginStart="34dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/eTName"
+        android:hint="Username"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>
