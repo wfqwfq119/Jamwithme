@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_add_jams_activity"
     android:layout_width="match_parent"
@@ -21,43 +22,48 @@
         android:layout_height="250dp"></ListView>
 
     <Button
-        android:text="delete jam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/del_audio"
-        android:layout_below="@+id/jams_list"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="11dp" />
-
-    <Button
         android:text="upload jam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/upload"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
         android:layout_alignBaseline="@+id/del_audio"
         android:layout_alignBottom="@+id/del_audio"
-        android:layout_centerHorizontal="true" />
-
-    <Button
-        android:text="Stop jam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/stop_audio"
-        android:layout_marginLeft="11dp"
-        android:layout_marginStart="11dp"
-        android:layout_alignBaseline="@+id/upload"
-        android:layout_alignBottom="@+id/upload"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/green_stop"
+        android:id="@+id/stop_audio"
+        android:layout_below="@+id/jams_list"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="19dp" />
+
+    <Button
+        android:text="delete jam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/del_audio"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="17dp"
+        android:layout_alignBottom="@+id/stop_audio"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 
     <Button
         android:text="select profile jam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/prof_aud"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="58dp" />
+        android:layout_marginBottom="26dp" />
 
 </RelativeLayout>
