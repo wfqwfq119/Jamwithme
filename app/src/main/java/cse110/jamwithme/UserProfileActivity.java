@@ -14,6 +14,13 @@ import com.google.firebase.database.*;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.EditText;
+import android.widget.TextView;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.*;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -23,6 +30,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     public Button add_jams;
+    private ImageView ivProfile;
+    private ImageButton camButton;
     private EditText add_Instr;
     private ImageView ivProfile;
     private ImageButton camButton;
@@ -89,6 +98,14 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         init();
+
+        //TODO update according to database saved
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        updateData();
+        cameraButton();
         add_Instr = (EditText) findViewById(R.id.Profile_Instr);
         add_Instr.setOnClickListener(new View.OnClickListener() {
             @Override
