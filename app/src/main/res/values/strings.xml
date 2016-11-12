@@ -10,4 +10,6 @@
     <string name="login">Login</string>
     <string name="register">Register Here</string>
     <string name="reg">Register</string>
+    <string name="title_activity_instrument_select">InstrumentSelect</string>
+    <string name="title_activity_display_userpro">DisplayUserproActivity</string>
 </resources>
