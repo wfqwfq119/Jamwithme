@@ -50,6 +50,8 @@ public class add_jams_activity extends AppCompatActivity {
     private Button upload_aud;
     private Button delete_aud;
 
+    // NANCY AND MAYA
+    private Button bNext2;
 
 
     /** Suspend media player if user returns to profile page **/
@@ -116,8 +118,23 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
+        // NANCY AND MAYA
+        nextPage2();
+
     }
 
+
+    // NANCY AND MAYA
+    public void nextPage2() {
+        bNext2 = (Button) findViewById(R.id.bNext2);
+        bNext2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
+            }
+        } );
+
+    }
     /** Handle results for runtime permissions page to READ_EXTERNAL_STORAGE **/
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

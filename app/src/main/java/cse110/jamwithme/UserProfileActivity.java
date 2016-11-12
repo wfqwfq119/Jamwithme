@@ -2,17 +2,23 @@ package cse110.jamwithme;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -22,8 +28,23 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     public Button add_jams;
-    private ImageView ivProfile;
-    private ImageButton camButton;
+    //private ImageView ivProfile;
+    //private ImageButton camButton;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_user_profile);
+        init();
+
+        //TODO update according to database saved
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        updateData();
+        //cameraButton();
+    }
 
     // Give 'add_jams' button functionality
     public void init() {
@@ -76,7 +97,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/
-    public void cameraButton() {
+    /*public void cameraButton() {
         ivProfile = (ImageView) findViewById(R.id.ivProfile);
         camButton = (ImageButton) findViewById(R.id.iBTakePic);
         camButton.setOnClickListener(new View.OnClickListener() {
@@ -87,22 +108,12 @@ public class UserProfileActivity extends AppCompatActivity {
                 startActivity(image);
             }
         });
-    }
+    }*/
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_user_profile);
-        init();
 
-        //TODO update according to database saved
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
 
-        updateData();
-        cameraButton();
-    }
+
+
 }
 
 
