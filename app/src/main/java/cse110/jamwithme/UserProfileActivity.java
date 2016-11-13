@@ -39,6 +39,9 @@ public class UserProfileActivity extends AppCompatActivity {
         init();
         initSaveButton();
 
+        String[] elems = {"personalBio", "name"};
+        final int[] info = {R.id.eTBiography, R.id.eTName};
+
         //TODO update according to database saved
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -46,7 +49,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         DatabaseWatcher d = new DatabaseWatcher(this);
 
-        d.updateData();
+        d.updateData(elems, info);
         //cameraButton();
     }
 
