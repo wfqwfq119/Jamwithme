@@ -44,20 +44,6 @@
         android:layout_toStartOf="@+id/ratingBar" />
 
     <Button
-        android:text="@string/addI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Profile_add_button"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"
-        android:layout_toLeftOf="@+id/ivProfile"
-        android:layout_toStartOf="@+id/ivProfile" />
-
-    <Button
         android:text="@string/addjams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -107,5 +93,17 @@
         android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <Button
+        android:text="@string/addI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Profile_add_button"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>
