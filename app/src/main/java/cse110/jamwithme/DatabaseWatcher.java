@@ -5,6 +5,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -65,5 +66,29 @@ public class DatabaseWatcher {
         updateDataBy(key+"/name", R.id.eTName);
 
         /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
+    }
+
+    public void updateData(String[] keys, final int[] r_id) {
+        CharSequence error_msg = "Error: not enough data to " +
+                "update or not enough matching section for data.";
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        //quick error check that provided keys have matching r_id
+        if(keys.length != r_id.length) {
+            Toast.makeText(mContext, error_msg, Toast.LENGTH_LONG).show();
+        }
+
+        //for each provided thing, update
+        for(int i = 0; i < keys.length; i++) {
+            updateDataBy(key+"/"+keys[i], r_id[i]);
+        }
     }
 }

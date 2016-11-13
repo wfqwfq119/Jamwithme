@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Experience Level"
+        android:text="@string/exp_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tVExperience"
@@ -105,5 +105,16 @@
         android:layout_below="@+id/ratingBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
+
+    <Button
+        android:text="@string/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:id="@+id/save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

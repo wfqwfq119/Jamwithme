@@ -28,6 +28,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     public Button add_jams;
+    public Button saveB;
     //private ImageView ivProfile;
     //private ImageButton camButton;
 
@@ -36,6 +37,7 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         init();
+        initSaveButton();
 
         //TODO update according to database saved
         mAuth = FirebaseAuth.getInstance();
@@ -57,6 +59,23 @@ public class UserProfileActivity extends AppCompatActivity {
                 Intent access_jams = new Intent(UserProfileActivity.this,
                                                 add_jams_activity.class);
                 startActivity(access_jams);
+            }
+        });
+    }
+
+    // Allow saving
+    public void initSaveButton() {
+        saveB = (Button)findViewById(R.id.save_button);
+        saveB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveData();
+                try {
+                    startActivity(new Intent(UserProfileActivity.this, ProfileDisplay.class));
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -86,6 +105,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         //update current view of user to database
         saveDataBy(key+"/name", R.id.eTName);
+        saveDataBy(key+"/personalBio", R.id.eTBiography);
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/

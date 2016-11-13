@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -21,19 +23,23 @@ import com.google.firebase.database.ValueEventListener;
  */
 
 public class ProfileDisplay extends AppCompatActivity {
+
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
-    public Button add_jams;
-    //private ImageView ivProfile;
-    //private ImageButton camButton;
+    public ImageButton edit_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
+        Toast.makeText(ProfileDisplay.this, "Display Profile", Toast.LENGTH_LONG).show();
+        init();
+
+        String[] elems = {"personalBio", "name"};
+        final int[] info = {R.id.pbio, R.id.name};
 
         //TODO update according to database saved
         mAuth = FirebaseAuth.getInstance();
@@ -41,23 +47,20 @@ public class ProfileDisplay extends AppCompatActivity {
         myRef = database.getReference();
 
         DatabaseWatcher d = new DatabaseWatcher(this);
-
-        d.updateData();
-        //cameraButton();
+        d.updateData(elems, info);
     }
 
-    /** GIVE CAMERA BUTTON FUNCTIONALITY **/
-    /*public void cameraButton() {
-        ivProfile = (ImageView) findViewById(R.id.ivProfile);
-        camButton = (ImageButton) findViewById(R.id.iBTakePic);
-        camButton.setOnClickListener(new View.OnClickListener() {
+    // Give 'save' button functionality
+    public void init() {
+        edit_button = (ImageButton)findViewById(R.id.editProf);
+        edit_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent image = new Intent(UserProfileActivity.this,
-                        camera.class);
-                startActivity(image);
+                Intent edit_profile = new Intent(ProfileDisplay.this,
+                        UserProfileActivity.class);
+                startActivity(edit_profile);
             }
         });
-    }*/
+    }
 
 }
