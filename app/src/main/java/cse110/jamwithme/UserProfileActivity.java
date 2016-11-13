@@ -28,6 +28,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private DatabaseReference myRef;
 
     public Button add_jams;
+    public Button saveB;
     //private ImageView ivProfile;
     //private ImageButton camButton;
 
@@ -36,13 +37,16 @@ public class UserProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
         init();
+        initSaveButton();
 
         //TODO update according to database saved
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        updateData();
+        DatabaseWatcher d = new DatabaseWatcher(this);
+
+        d.updateData();
         //cameraButton();
     }
 
@@ -59,28 +63,36 @@ public class UserProfileActivity extends AppCompatActivity {
         });
     }
 
-    /* Update data by giving in the "key" (where to find user info in database) and which view
-     * on the layout to put the new data to.
-     */
-    private void updateDataBy(String key, final int tview) {
-
-        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+    // Allow saving
+    public void initSaveButton() {
+        saveB = (Button)findViewById(R.id.save_button);
+        saveB.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                String newval = (String) dataSnapshot.getValue();
-                TextView viewval = (TextView) findViewById(tview);
-                viewval.setText(newval);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onClick(View v) {
+                saveData();
+                try {
+                    startActivity(new Intent(UserProfileActivity.this, ProfileDisplay.class));
+                }
+                catch(Exception e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
 
-    //Update page according to database info
-    private void updateData() {
-        ProgressDialog Re_Pro = new ProgressDialog(UserProfileActivity.this); //TODO
+    /** Save data by giving in the "key" (where to find user info in database) and which view
+     * on the layout to pull the new data from.
+     */
+    private void saveDataBy(String key, final int tview) {
+        myRef = FirebaseDatabase.getInstance().getReference();
+        TextView viewval = (TextView) findViewById(tview);
+        String newInput = viewval.getText().toString();
+
+        myRef.child(key).setValue(newInput);
+    }
+
+    //Save page to database
+    private void saveData() {
         FirebaseUser user = mAuth.getCurrentUser();
 
         //If no user is logged in, go to login page
@@ -90,10 +102,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
         //Get key to the user node in database
         String key = "users/" + user.getUid();
-        //update name data of that user into the name view
-        updateDataBy(key+"/name", R.id.eTName);
 
-        /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
+        //update current view of user to database
+        saveDataBy(key+"/name", R.id.eTName);
+        saveDataBy(key+"/personalBio", R.id.eTBiography);
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/
@@ -109,10 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }*/
-
-
-
-
 
 }
 

@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "455856227225",
-    "firebase_url": "https://jamwme-63b9e.firebaseio.com",
-    "project_id": "jamwme-63b9e",
-    "storage_bucket": "jamwme-63b9e.appspot.com"
+    "project_number": "415317581725",
+    "firebase_url": "https://project--7485959122158148823.firebaseio.com",
+    "project_id": "project--7485959122158148823",
+    "storage_bucket": "project--7485959122158148823.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:455856227225:android:e6ce1e5b1ba74d90",
+        "mobilesdk_app_id": "1:415317581725:android:e6ce1e5b1ba74d90",
         "android_client_info": {
           "package_name": "cse110.jamwithme"
         }
       },
       "oauth_client": [
         {
-          "client_id": "455856227225-0kkt1pa3u1n4p2s85842sq21utp7p650.apps.googleusercontent.com",
+          "client_id": "415317581725-l7quntgvkcbqjeq2ktn9a8sdjq87dtop.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBBA45FYO1rHZOC9CuwFf268vLyC6AQt9s"
+          "current_key": "AIzaSyClvIFqj4cULIvw-WSGKE5Fx4wg5ZmN3Do"
         }
       ],
       "services": {
