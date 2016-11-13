@@ -51,9 +51,9 @@
         android:text="@string/register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="27dp"
+        android:id="@+id/Login_tv"
         android:layout_below="@+id/Login_botton"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="25dp"
-        android:id="@+id/Login_tv" />
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>

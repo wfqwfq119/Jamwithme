@@ -68,8 +68,12 @@ public class add_jams_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_jams_activity);
         upl_progress = new ProgressDialog(this);
-        store_aud = FirebaseStorage.getInstance().getReferenceFromUrl("gs://jamwme-63b9e.appspot.com");
+        //store_aud = FirebaseStorage.getInstance().getReferenceFromUrl("gs://jamwme-63b9e.appspot"
+         //       + ".com"); //TODO
 
+        //TEST
+        store_aud = FirebaseStorage.getInstance().getReference();
+        //gs://project--7485959122158148823.appspot.com
 
 
         upload_aud = (Button)findViewById(R.id.upload) ;
@@ -130,7 +134,7 @@ public class add_jams_activity extends AppCompatActivity {
         bNext2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
+                startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
             }
         } );
 
