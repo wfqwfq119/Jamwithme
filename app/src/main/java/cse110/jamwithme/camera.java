@@ -36,7 +36,6 @@ public class camera extends AppCompatActivity {
     private Button bNext;
    // private StorageReference mStorage;
 
-
     String userChoosenTask;
     private StorageReference imgStorage;
     MediaPlayer mp = new MediaPlayer();
@@ -54,7 +53,6 @@ public class camera extends AppCompatActivity {
         selectImage();
         cameraButton();
         nextPage();
-
     }
 
     public void nextPage() {
