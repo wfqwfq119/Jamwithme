@@ -11,10 +11,13 @@ import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -25,29 +28,55 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 public class camera extends AppCompatActivity {
+
     private static final int REQUEST_GALLERY = 1;
     private static final int REQUEST_CAMERA = 2;
     private ImageView imageView;
-    private ImageButton imageButton;
-
-          //private Bitmap bitmap;
-          //private ProgressDialog dialog;
-          //Uri imageUri;
+    private ImageButton camButton;
+    private Button bNext;
+   // private StorageReference mStorage;
 
     String userChoosenTask;
     private StorageReference imgStorage;
     MediaPlayer mp = new MediaPlayer();
 
-    //static final int REQUEST_IMAGE_CAPTURE = 1;
-
-    /** CALLED WHEN ACTIVITY IS FIRST CREATED **/
+    /*
+     * onCreate
+     * Description: CALLED WHEN ACTIVITY IS FIRST CREATED
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.activity_camera);
-        //imageView = (ImageView) findViewById(R.id.ivProfile2);
+        setContentView(R.layout.activity_camera);
+        imgStorage = FirebaseStorage.getInstance().getReference();
+        imageView = (ImageView) findViewById(R.id.ivProfile);
         selectImage();
-        setContentView(R.layout.activity_user_profile);
+        cameraButton();
+        nextPage();
+    }
+
+    public void nextPage() {
+        bNext = (Button) findViewById(R.id.bNext);
+        bNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(camera.this,add_jams_activity.class));
+            }
+        });
+    }
+
+    /** GIVE CAMERA BUTTON FUNCTIONALITY **/
+    public void cameraButton() {
+        //imageView = (ImageView) findViewById(R.id.ivProfile);
+        camButton = (ImageButton) findViewById(R.id.camButton);
+        camButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent image = new Intent(camera.this,
+                        camera.class);
+                startActivity(image);
+            }
+        });
     }
 
     /** CREATE DIALOG BOX **/
@@ -102,12 +131,25 @@ public class camera extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == REQUEST_CAMERA)
-                 onCaptureImageResult(data);
-            if (requestCode == REQUEST_GALLERY)
-                onSelectFromGalleryResult(data);
+        if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
+            onCaptureImageResult(data);
+            Uri uri = data.getData();
+
+            StorageReference filepath = imgStorage.child("Photos").child(uri.getLastPathSegment());
+            filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+
+
+                @Override
+                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                    Toast.makeText(camera.this, "Upload Done", Toast.LENGTH_LONG).show();
+
+                }
+            });
         }
+        if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
+            onSelectFromGalleryResult(data);
+        }
+
     }
 
     /** CAPTURE IMAGE FROM CAMERA **/
@@ -150,19 +192,23 @@ public class camera extends AppCompatActivity {
             imageView.setImageBitmap(bm);
           }
 
+
         /** CONNECT TO FIREBASE **/
+        /*
         private void connectToFirebase(Intent data) {
+            // file from intent
             Uri uri = data.getData();
+
             StorageReference filepath = imgStorage.child("Photos").child(uri.getLastPathSegment());
             filepath.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    //Toast.makeText(Camera.this, "Upload Done", Toast.LENGTH_LONG.show();
+                    Toast.makeText(camera.this, "Upload Done", Toast.LENGTH_LONG.show();
 
                 }
             });
-        }
+        }*/
 
 
 }

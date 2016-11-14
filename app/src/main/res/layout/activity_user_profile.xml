@@ -11,7 +11,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cse110.jamwithme.UserProfileActivity">
 
-
     <ImageView
         android:scaleX="5"
         android:scaleY="5"
@@ -45,28 +44,14 @@
         android:layout_toStartOf="@+id/ratingBar" />
 
     <Button
-        android:text="@string/addI"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/Baddinstr"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="19dp"
-        android:layout_toLeftOf="@+id/ivProfile"
-        android:layout_toStartOf="@+id/ivProfile" />
-
-    <Button
         android:text="@string/addjams"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/add_my_jams"
         android:background="?attr/actionModeSplitBackground"
         android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/Baddinstr"
-        android:layout_alignBottom="@+id/Baddinstr"
+        android:layout_alignBaseline="@+id/Profile_add_button"
+        android:layout_alignBottom="@+id/Profile_add_button"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/eTBiography"
@@ -79,7 +64,7 @@
         android:ems="10"
         android:id="@+id/eTBiography"
         android:hint="@string/bio"
-        android:layout_below="@+id/Baddinstr"
+        android:layout_below="@+id/Profile_add_button"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp"
@@ -109,5 +94,27 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
+    <Button
+        android:text="@string/addI"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/Profile_add_button"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="19dp"
+        android:layout_below="@+id/ratingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <Button
+        android:text="@string/save"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:id="@+id/save_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"/>
 
 </RelativeLayout>

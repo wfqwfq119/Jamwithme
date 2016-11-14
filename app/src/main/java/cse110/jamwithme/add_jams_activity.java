@@ -50,6 +50,8 @@ public class add_jams_activity extends AppCompatActivity {
     private Button upload_aud;
     private Button delete_aud;
 
+    // NANCY AND MAYA
+    private Button bNext2;
 
 
     /** Suspend media player if user returns to profile page **/
@@ -66,8 +68,12 @@ public class add_jams_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_jams_activity);
         upl_progress = new ProgressDialog(this);
-        store_aud = FirebaseStorage.getInstance().getReferenceFromUrl("gs://jamwme-63b9e.appspot.com");
+        //store_aud = FirebaseStorage.getInstance().getReferenceFromUrl("gs://jamwme-63b9e.appspot"
+         //       + ".com"); //TODO
 
+        //TEST
+        store_aud = FirebaseStorage.getInstance().getReference();
+        //gs://project--7485959122158148823.appspot.com
 
 
         upload_aud = (Button)findViewById(R.id.upload) ;
@@ -116,8 +122,23 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
+        // NANCY AND MAYA
+        nextPage2();
+
     }
 
+
+    // NANCY AND MAYA
+    public void nextPage2() {
+        bNext2 = (Button) findViewById(R.id.bNext2);
+        bNext2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
+            }
+        } );
+
+    }
     /** Handle results for runtime permissions page to READ_EXTERNAL_STORAGE **/
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
