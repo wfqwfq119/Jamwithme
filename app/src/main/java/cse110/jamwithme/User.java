@@ -1,5 +1,7 @@
 package cse110.jamwithme;
 
+import com.firebase.geofire.GeoLocation;
+
 /**
  * Created by Storm Quark on 10/21/2016.
  */
@@ -10,7 +12,7 @@ public class User {
     private int age;
     //private Song[] exampleSongs;
     //private ProfilePics[] profilePics;
-    //private Location location;
+    private GeoLocation location;
 
     /** Constructors for User */
     public User() {
@@ -35,6 +37,10 @@ public class User {
         return age;
     }
 
+    public GeoLocation getLocation() {
+        return location;
+    }
+
     /** Setters for user info */
     public void setName(String newName) {
         name = newName;
@@ -49,5 +55,9 @@ public class User {
 
     public void setAge(int newAge) {
         age = newAge;
+    }
+
+    public void setLocation(GeoLocation newLoc) {
+        location = newLoc;
     }
 }

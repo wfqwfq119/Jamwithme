@@ -50,6 +50,11 @@ public class UserProfileActivity extends AppCompatActivity {
         DatabaseWatcher d = new DatabaseWatcher(this);
 
         d.updateData(elems, info);
+        Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
+        UserLocation ul = new UserLocation(this);
+        //String[] s = {};
+        //final int[] inf = {};
+        //saveDataBy();
         //cameraButton();
     }
 
@@ -109,6 +114,28 @@ public class UserProfileActivity extends AppCompatActivity {
         //update current view of user to database
         saveDataBy(key+"/name", R.id.eTName);
         saveDataBy(key+"/personalBio", R.id.eTBiography);
+    }
+
+    private void saveData(String[] keys, final int[] r_id) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        //quick error check that provided keys have matching r_id
+        if(keys.length != r_id.length) {
+            Toast.makeText(this, "Error matching user id to database", Toast.LENGTH_LONG).show();
+        }
+
+        //for each provided thing, update
+        for(int i = 0; i < keys.length; i++) {
+            saveDataBy(key+"/"+keys[i], r_id[i]);
+        }
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/

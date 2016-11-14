@@ -35,13 +35,13 @@ public class ProfileDisplay extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
-        Toast.makeText(ProfileDisplay.this, "Display Profile", Toast.LENGTH_LONG).show();
+        //Toast.makeText(ProfileDisplay.this, "Display Profile", Toast.LENGTH_LONG).show();
         init();
 
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.pbio, R.id.name};
 
-        //TODO update according to database saved
+        //update according to database saved
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
