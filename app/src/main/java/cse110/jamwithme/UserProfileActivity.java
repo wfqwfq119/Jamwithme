@@ -115,7 +115,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     //Save page to database
     private void saveData() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //If no user is logged in, go to login page
         if (user == null) {

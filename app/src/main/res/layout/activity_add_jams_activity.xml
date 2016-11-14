@@ -11,70 +11,86 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cse110.jamwithme.add_jams_activity">
 
-    <ListView
-        android:id="@+id/jams_list"
-        android:layout_width="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_height="250dp"></ListView>
-
-    <Button
-        android:text="upload jam"
+    <TextView
+        android:text="Select profile jam for other users to hear!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/upload"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/del_audio"
-        android:layout_alignBottom="@+id/del_audio"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:id="@+id/title_amj"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="14dp" />
+
+
+    <ImageButton
+        android:background="@null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/play_green_cropped"
+        android:id="@+id/ib_play_amj"
+        android:layout_marginRight="23dp"
+        android:layout_marginEnd="23dp"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@+id/ib_stop_amj"
+        android:layout_toStartOf="@+id/ib_stop_amj" />
 
     <ImageButton
         android:background="@null"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/green_stop"
-        android:id="@+id/stop_audio"
-        android:layout_below="@+id/jams_list"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="19dp" />
+        android:id="@+id/ib_stop_amj"
+        android:layout_marginRight="52dp"
+        android:layout_marginEnd="52dp"
+        android:layout_alignTop="@+id/ib_play_amj"
+        android:layout_alignRight="@+id/title_amj"
+        android:layout_alignEnd="@+id/title_amj" />
 
     <Button
-        android:text="delete jam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/del_audio"
+        android:text="Select Jam"
+        android:layout_width="200dp"
+        android:id="@+id/select_amj"
         android:background="?attr/actionModeSplitBackground"
         android:textColor="@android:color/white"
-        android:layout_marginBottom="17dp"
-        android:layout_alignBottom="@+id/stop_audio"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <Button
-        android:text="select profile jam"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/prof_aud"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="26dp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_marginTop="44dp"
+        android:layout_below="@+id/title_amj"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:text="Next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/prof_aud"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
         android:id="@+id/bNext2"
         android:background="?android:attr/statusBarColor"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="29dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Delete Jam"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/delet_amj"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:layout_marginTop="43dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:layout_below="@+id/ib_stop_amj"
+        android:layout_alignLeft="@+id/select_amj"
+        android:layout_alignStart="@+id/select_amj" />
+
+    <TextView
+        android:text="Nothing to play..."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/curr_jam"
+        android:textAppearance="@android:style/TextAppearance.Material.Large"
+        android:layout_marginBottom="6dp"
+        android:layout_above="@+id/ib_play_amj"
+        android:layout_centerHorizontal="true" />
+
 
 </RelativeLayout>

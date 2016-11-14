@@ -55,7 +55,7 @@
         android:layout_alignParentStart="true"/>
 
     <Button
-        android:text="@string/jams"
+        android:text="@string/prof_jam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/my_jams"
@@ -66,7 +66,8 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/pbio"
-        android:layout_toEndOf="@+id/pbio" />
+        android:layout_toEndOf="@+id/pbio"
+        android:elevation="20dp" />
 
     <TextView
         android:layout_width="wrap_content"
