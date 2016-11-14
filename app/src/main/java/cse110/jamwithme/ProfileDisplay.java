@@ -45,7 +45,10 @@ public class ProfileDisplay extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-
+        TextView insrt_list = (TextView)findViewById(R.id.tvIntsrlist);
+        Bundle insrt_Bun = getIntent().getExtras();
+        String msg = insrt_Bun.getString("instrs");
+        insrt_list.setText(msg);
         DatabaseWatcher d = new DatabaseWatcher(this);
         d.updateData(elems, info);
     }

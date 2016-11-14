@@ -32,7 +32,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="@string/exp_lvl"
+        android:text="Experience Level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tVExperience"

@@ -14,4 +14,6 @@
     <string name="uname">Username</string>
     <string name="save">Save</string>
     <string name="exp_lvl">Experience Level</string>
+    <string name="title_activity_instrument_select">InstrumentSelect</string>
+    <string name="title_activity_display_userpro">DisplayUserproActivity</string>
 </resources>

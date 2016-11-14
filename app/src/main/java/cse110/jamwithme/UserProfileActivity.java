@@ -19,6 +19,8 @@ import com.google.firebase.storage.UploadTask;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.EditText;
+
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public Button add_jams;
     public Button saveB;
+    private Button add_Instr;
     //private ImageView ivProfile;
     //private ImageButton camButton;
 
@@ -36,6 +39,11 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         init();
         initSaveButton();
 
@@ -51,10 +59,18 @@ public class UserProfileActivity extends AppCompatActivity {
 
         d.updateData(elems, info);
         //cameraButton();
+        add_Instr = (Button) findViewById(R.id.Profile_add_button);
+        add_Instr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this,InstrumentSelect.class));
+            }
+        });
 
     }
-    private ImageView ivProfile;
-    private ImageButton camButton;
+
+
+
 
     // Give 'add_jams' button functionality
     public void init() {

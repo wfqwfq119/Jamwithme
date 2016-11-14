@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/content_display_userpro"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="cse110.jamwithme.DisplayUserproActivity"
+    tools:showIn="@layout/display_userpro">
+
+
+    <ImageView
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/IVpropicture"
+        android:layout_weight="3"
+        android:layout_gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="96dp"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="false"
+        android:layout_below="@+id/IVpropicture"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="25dp"
+            >
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="display user name"
+                android:id="@+id/TVdisname"
+                android:layout_margin="24dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="display user distance"
+                android:id="@+id/TVshowdis"
+                android:layout_margin="24dp"/>
+            <RatingBar
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/RBdisexp"
+                android:layout_margin="24dp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="show list of instr"
+                android:id="@+id/TVdisinstr"
+                android:layout_marginBottom="12dp"
+                android:textSize="24sp"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/TVdisbio"
+                android:hint="display user profile"
+                android:layout_margin="50dp"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Play profile jam"/>
+
+        </LinearLayout>
+
+</ScrollView>
+</RelativeLayout>

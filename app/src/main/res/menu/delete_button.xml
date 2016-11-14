@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="cse110.jamwithme.InstrumentSelect"
+    >
 
+
+    <item
+        android:title="add"
+        app:showAsAction="ifRoom"
+        android:id="@+id/add_id"
+        android:icon="@drawable/ic_playlist_add_white_24dp"
+        />
 </menu>
