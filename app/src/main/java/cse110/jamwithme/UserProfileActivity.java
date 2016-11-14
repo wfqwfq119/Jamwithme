@@ -31,6 +31,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public Button add_jams;
     public Button saveB;
+    private Button add_Instr;
     //private ImageView ivProfile;
     //private ImageButton camButton;
 
@@ -38,6 +39,11 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         init();
         initSaveButton();
 
@@ -45,25 +51,22 @@ public class UserProfileActivity extends AppCompatActivity {
         final int[] info = {R.id.eTBiography, R.id.eTName};
 
         //TODO update according to database saved
-        mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
 
         DatabaseWatcher d = new DatabaseWatcher(this);
 
         d.updateData(elems, info);
         //cameraButton();
-        add_Instr = (Button) findViewById(R.id.Baddinstr);
+        add_Instr = (Button) findViewById(R.id.Profile_add_button);
         add_Instr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(UserProfileActivity.this,InstrumentSelect.class));
             }
         });
+
     }
-    private ImageView ivProfile;
-    private ImageButton camButton;
-    private Button add_Instr;
+
+
 
 
     // Give 'add_jams' button functionality
@@ -118,7 +121,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
         //Get key to the user node in database
         String key = "users/" + user.getUid();
-
 
         //update current view of user to database
         saveDataBy(key+"/name", R.id.eTName);

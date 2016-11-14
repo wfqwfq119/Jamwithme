@@ -39,13 +39,7 @@
             android:name=".InstrumentSelect"
             android:label="@string/title_activity_instrument_select"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".add_jams_activity" />
         <activity android:name=".camera" />
-        <activity
-            android:name=".DisplayUserproActivity"
-            android:label="@string/title_activity_display_userpro"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".camera"></activity>
         <activity android:name=".ProfileDisplay"></activity>
     </application>
 

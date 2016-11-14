@@ -35,7 +35,7 @@ public class InstrumentSelect extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         instr_view = (ListView)findViewById(R.id.Instr_List);
-        instr_selected = new Intent(this,DisplayUserproActivity.class);
+        instr_selected = new Intent(this,ProfileDisplay.class);
         items_list.add("Keyboard");
         items_list.add("Piano");
         items_list.add(("Recorder"));
