@@ -51,6 +51,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
         d.updateData(elems, info);
         //cameraButton();
+
     }
 
     // Give 'add_jams' button functionality
