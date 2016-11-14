@@ -55,9 +55,6 @@ public class UserProfileActivity extends AppCompatActivity {
     }
     private ImageView ivProfile;
     private ImageButton camButton;
-    private EditText add_Instr;
-    private ImageView ivProfile;
-    private ImageButton camButton;
 
     // Give 'add_jams' button functionality
     public void init() {

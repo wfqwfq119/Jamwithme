@@ -15,6 +15,22 @@
       },
       "oauth_client": [
         {
+          "client_id": "455856227225-3a8slsnk9t1nt5s2ntvt3n1n4a0b4g1f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cse110.jamwithme",
+            "certificate_hash": "21BA544618FF2F18379ED127945292B50295E4B2"
+          }
+        },
+        {
+          "client_id": "455856227225-ggjp10bju4psg6gl7etqod687enbjapg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "cse110.jamwithme",
+            "certificate_hash": "4C602066EBE1C92E26FD8EBB1360F2BE9A429B12"
+          }
+        },
+        {
           "client_id": "455856227225-0kkt1pa3u1n4p2s85842sq21utp7p650.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -29,8 +45,13 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "455856227225-0kkt1pa3u1n4p2s85842sq21utp7p650.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
           "status": 2
