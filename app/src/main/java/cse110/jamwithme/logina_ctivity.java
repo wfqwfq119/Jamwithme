@@ -39,7 +39,7 @@ public class logina_ctivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
                     finish();
-                    startActivity(new Intent(logina_ctivity.this, UserProfileActivity.class));
+                    startActivity(new Intent(logina_ctivity.this, camera.class));
                 }
             }
         };
