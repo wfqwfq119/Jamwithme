@@ -4,6 +4,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
@@ -56,12 +59,28 @@ public class camera extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.ivProfile);
 
         // the little man
-        
+        //Drawable myDrawable = getResources().getDrawable(R.drawable.defaultphoto);
+        //imageView.setImageDrawable(myDrawable);
+        Bitmap bm = BitmapFactory.decodeResource(this.getResources(), R.drawable.defaultphoto);
+        // show image to user
+        imageView.setImageBitmap(bm);
+        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(),bm,
+                "Your image", null);
+        Picasso.with(camera.this).load(path).resize(130, 100).into(imageView); // width/height
+
 
         selectImage();
         cameraButton();
         nextPage();
     }
+
+    /*
+    private Drawable resize(Drawable myDrawable) {
+        Bitmap b = ((BitmapDrawable)myDrawable).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 5, 5, false);
+        return new BitmapDrawable(getResources(), bitmapResized);
+    }
+    */
 
     /** GETS CALLED WHEN THE ACTIVITY IS LAUNCHED AND GIVES THE REQUEST CODE
      *  AND THE RESULT IT RETURNS
@@ -162,6 +181,7 @@ public class camera extends AppCompatActivity {
                 String path = MediaStore.Images.Media.insertImage(this.getContentResolver(),bm,
                                 "Your image", null);
                 Picasso.with(camera.this).load(path).resize(100, 100).into(imageView);
+                Toast.makeText(camera.this, "Looking good!", Toast.LENGTH_LONG).show();
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -190,6 +210,7 @@ public class camera extends AppCompatActivity {
         String path = MediaStore.Images.Media.insertImage(this.getContentResolver(),bitMap,
                 "Your image", null);
         Picasso.with(camera.this).load(path).resize(100, 100).into(imageView);
+        Toast.makeText(camera.this, "Looking good!", Toast.LENGTH_LONG).show();
     }
 
     /** CAPTURE IMAGE FROM CAMERA **/

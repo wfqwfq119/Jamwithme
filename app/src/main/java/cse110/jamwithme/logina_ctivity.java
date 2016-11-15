@@ -68,7 +68,7 @@ public class logina_ctivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        //mAuth.signOut();
+        mAuth.signOut();
         if(mAuthListener != null){
             mAuth.removeAuthStateListener(mAuthListener);
 

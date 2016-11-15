@@ -113,7 +113,7 @@ public class add_jams_activity extends AppCompatActivity {
                     }
                 }
                 if (aud_uri != null) { upload_aud(AUDIO_INTENT, RESULT_OK, aud_uri); }
-                startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
+                startActivity(new Intent(add_jams_activity.this,experience.class));
             }
         });
         //nextPage2();
@@ -156,6 +156,7 @@ public class add_jams_activity extends AppCompatActivity {
         bNext2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+<<<<<<< Updated upstream
                 if (mp != null) {
                     if (mp.isPlaying()) {
                         mp.stop();
@@ -163,6 +164,9 @@ public class add_jams_activity extends AppCompatActivity {
                     }
                 }
                 startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
+=======
+                startActivity(new Intent(add_jams_activity.this, experience.class));
+>>>>>>> Stashed changes
             }
         } );
     } */
