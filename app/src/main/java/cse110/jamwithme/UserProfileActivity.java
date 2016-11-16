@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,9 +54,8 @@ public class UserProfileActivity extends AppCompatActivity {
         d.updateData(elems, info);
         Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
         UserLocation ul = new UserLocation(this);
-        //String[] s = {};
-        //final int[] inf = {};
-        //saveDataBy();
+        String[] s = {"location"};
+        //saveDataBy("location", ul.getLongLat());
         //cameraButton();
     }
 
@@ -97,6 +98,12 @@ public class UserProfileActivity extends AppCompatActivity {
         String newInput = viewval.getText().toString();
 
         myRef.child(key).setValue(newInput);
+    }
+
+    private void saveDataBy(String key, Object newval) {
+        myRef = FirebaseDatabase.getInstance().getReference();
+        key = mAuth.getCurrentUser().getUid() + key;
+        myRef.child(key).setValue(newval);
     }
 
     //Save page to database

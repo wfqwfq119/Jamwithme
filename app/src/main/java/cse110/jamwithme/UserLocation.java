@@ -14,6 +14,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoLocation;
+
 /**
  * Created by Matthew on 11/13/2016.
  */
@@ -124,15 +126,17 @@ public class UserLocation implements LocationListener {
                     }
                 }
             }
-        } catch (Exception e) {
+        }
+
+        catch (Exception e) {
             e.printStackTrace();
         }
 
         return userLoc;
     }
 
-    public double[] getLongLat() {
-        double[] retval = {lng, lat};
+    public GeoLocation getLongLat() {
+        GeoLocation retval = new GeoLocation(lat, lng);
         return retval;
     }
 

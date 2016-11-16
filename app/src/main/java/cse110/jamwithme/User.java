@@ -19,12 +19,14 @@ public class User {
         name = "Default Name";
         personalBio = "Default Bio";
         age = 0;
+        location = new GeoLocation(-9999, -9999);
     }
 
-    public User(String inname, String pBio, int userAge) {
+    public User(String inname, String pBio, int userAge, GeoLocation g) {
         name = inname;
         personalBio = pBio;
         age = userAge;
+        location = new GeoLocation(-9999, -9999);
     }
 
     /** Getters for user info */
