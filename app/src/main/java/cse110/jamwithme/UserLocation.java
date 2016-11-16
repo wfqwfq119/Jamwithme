@@ -14,7 +14,13 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Matthew on 11/13/2016.
@@ -32,13 +38,23 @@ public class UserLocation implements LocationListener {
     public Location userLoc;
     private double lng;
     private double lat;
+    private GeoFire geoFire;
 
-    private LocationListener locationListener;
+    private FirebaseAuth mAuth;
+    private DatabaseReference myRef;
+    private String userkey;
 
-    public UserLocation(Context c){
+    public UserLocation(Context c, FirebaseAuth fa, DatabaseReference userData){
         mContext = c;
         this.lng = 0;
         this.lat = 0;
+
+        myRef = userData;
+        mAuth = fa;
+
+        userkey = "geofire/" + fa.getCurrentUser().getUid();
+
+        geoFire = new GeoFire(myRef);
 
         /*LocationListener locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
@@ -48,8 +64,8 @@ public class UserLocation implements LocationListener {
         };*/
 
         getLocation();
-        Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
-        Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
     }
 
     public Location getLocation() {
@@ -132,6 +148,21 @@ public class UserLocation implements LocationListener {
             e.printStackTrace();
         }
 
+        //TODO GEOFIRE
+        geoFire.setLocation(userkey, getLongLat(), new GeoFire.CompletionListener() {
+            @Override
+            public void onComplete(String key, DatabaseError error) {
+                if (error != null) {
+                    System.err.println("There was an error saving the location to GeoFire: " + error);
+                    Toast.makeText(mContext, "ERROR SAVING LOCATION", Toast.LENGTH_LONG).show();
+                } else {
+                    System.out.println("Location saved on server successfully!");
+                    Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+
         return userLoc;
     }
 
@@ -141,10 +172,12 @@ public class UserLocation implements LocationListener {
     }
 
     public double getLatitude() {
+        getLocation();
         return lat;
     }
 
     public double getLongitude() {
+        getLocation();
         return lng;
     }
 

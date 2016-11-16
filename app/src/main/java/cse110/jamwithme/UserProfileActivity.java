@@ -49,14 +49,23 @@ public class UserProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        //String key = "users/" + mAuth.getCurrentUser().getUid();
+
         DatabaseWatcher d = new DatabaseWatcher(this);
 
         d.updateData(elems, info);
-        Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
-        UserLocation ul = new UserLocation(this);
+        //Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
+        UserLocation ul = new UserLocation(this, mAuth, myRef);
         String[] s = {"location"};
-        //saveDataBy("location", ul.getLongLat());
+        saveDataBy("location", ul.getLongLat());
+
+        //locationT(myRef, key);
+
         //cameraButton();
+    }
+
+    public void locationT(DatabaseReference dRef, String key) {
+        //myRef.child(key).setValue();
     }
 
     // Give 'add_jams' button functionality
