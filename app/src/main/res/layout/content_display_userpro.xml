@@ -29,14 +29,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentTop="false"
-        android:layout_below="@+id/IVpropicture"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true">
+        android:layout_marginLeft="21dp"
+        android:layout_marginStart="21dp">
 
 
         <LinearLayout
@@ -48,7 +46,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="display user name"
+                android:hint="@string/uname"
                 android:id="@+id/TVdisname"
                 android:layout_margin="24dp"/>
             <TextView
@@ -65,7 +63,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:hint="show list of instr"
+                android:hint="@string/instruments"
                 android:id="@+id/TVdisinstr"
                 android:layout_marginBottom="12dp"
                 android:textSize="24sp"/>

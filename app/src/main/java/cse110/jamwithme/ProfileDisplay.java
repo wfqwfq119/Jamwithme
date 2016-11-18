@@ -46,8 +46,8 @@ public class ProfileDisplay extends AppCompatActivity {
         //Toast.makeText(ProfileDisplay.this, "Display Profile", Toast.LENGTH_LONG).show();
         init();
 
-        String[] elems = {"personalBio", "name"};
-        final int[] info = {R.id.pbio, R.id.name};
+        //String[] elems = {"personalBio", "name"};
+        //final int[] info = {R.id.pbio, R.id.name};
         
         //TODO update according to database saved
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -62,7 +62,9 @@ public class ProfileDisplay extends AppCompatActivity {
         //String msg = insrt_Bun.getString("instrs");
         //insrt_list.setText(msg);
         DatabaseWatcher d = new DatabaseWatcher(this);
-        d.updateData(elems, info);
+        //d.updateData(elems, info);
+
+        d.updateUserProfile();
     }
 
     // Give 'save' button functionality

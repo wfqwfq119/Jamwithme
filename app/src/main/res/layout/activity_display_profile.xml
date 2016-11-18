@@ -11,46 +11,23 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="cse110.jamwithme.ProfileDisplay">
 
-    <ImageView
-        android:scaleX="5"
-        android:scaleY="5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_light_frame"
-        android:id="@+id/profile_pic"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
-        />
-
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/rating"
-        android:layout_below="@+id/name"
+        android:id="@+id/ratingBar"
+        android:layout_below="@+id/eTName"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20sp"
-        android:id="@+id/name"
-        android:text="@string/uname"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
     <Button
         android:text="@string/instruments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/instruments"
+        android:id="@+id/tvIntsrlist"
         android:background="?attr/actionModeSplitBackground"
         android:textColor="@android:color/white"
         android:layout_marginTop="19dp"
-        android:layout_below="@+id/rating"
+        android:layout_below="@+id/ratingBar"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -61,12 +38,12 @@
         android:id="@+id/my_jams"
         android:background="?attr/actionModeSplitBackground"
         android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/instruments"
-        android:layout_alignBottom="@+id/instruments"
+        android:layout_alignBaseline="@+id/tvIntsrlist"
+        android:layout_alignBottom="@+id/tvIntsrlist"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/pbio"
-        android:layout_toEndOf="@+id/pbio"
+        android:layout_toRightOf="@+id/eTBiography"
+        android:layout_toEndOf="@+id/eTBiography"
         android:elevation="20dp" />
 
     <TextView
@@ -74,18 +51,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:textSize="20sp"
-        android:id="@+id/tvIntsrlist"
-        android:hint="Add Instrument"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/instruments"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20sp"
-        android:id="@+id/pbio"
+        android:id="@+id/eTBiography"
         android:text="@string/bio"
         android:maxLength="500"
         android:layout_below="@+id/tvIntsrlist"
@@ -93,18 +59,6 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp"
         />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_edit"
-        android:layout_marginTop="22dp"
-        android:id="@+id/editProf"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp"
-        android:layout_alignTop="@+id/profile_pic"
-        android:layout_alignLeft="@+id/profile_pic"
-        android:layout_alignStart="@+id/profile_pic"/>
 
     <TextView
         android:text="@string/exp_lvl"
@@ -114,8 +68,40 @@
         android:textSize="18sp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/instruments"
-        android:layout_toLeftOf="@+id/rating"
-        android:layout_toStartOf="@+id/rating"/>
+        android:layout_above="@+id/tvIntsrlist"
+        android:layout_toLeftOf="@+id/ratingBar"
+        android:layout_toStartOf="@+id/ratingBar"/>
+
+    <ImageView
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/profile_pic"
+        android:layout_marginBottom="43dp"
+        android:layout_above="@+id/eTName"
+        android:layout_centerHorizontal="true"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_edit"
+        android:id="@+id/editProf"
+        android:layout_alignTop="@+id/profile_pic"
+        android:layout_alignRight="@+id/eTName"
+        android:layout_alignEnd="@+id/eTName"
+        android:layout_marginTop="20dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:id="@+id/eTName"
+        android:text="@string/uname"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
 
 </RelativeLayout>

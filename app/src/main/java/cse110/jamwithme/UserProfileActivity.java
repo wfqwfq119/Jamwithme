@@ -49,9 +49,6 @@ public class UserProfileActivity extends AppCompatActivity {
         init();
         initSaveButton();
 
-        String[] elems = {"personalBio", "name"};
-        final int[] info = {R.id.eTBiography, R.id.eTName};
-
         //TODO update according to database saved
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -60,14 +57,15 @@ public class UserProfileActivity extends AppCompatActivity {
         //String key = "users/" + mAuth.getCurrentUser().getUid();
 
         DatabaseWatcher d = new DatabaseWatcher(this);
+        /*UserLocation ul = new UserLocation(this, mAuth, myRef);
+
+        String[] elems = {"personalBio", "name"};
+        final int[] info = {R.id.eTBiography, R.id.eTName};
 
         d.updateData(elems, info);
-        //Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
-        UserLocation ul = new UserLocation(this, mAuth, myRef);
-        String[] s = {"location"};
-        saveDataBy("location", ul.getLongLat());
-
-        //locationT(myRef, key);
+        d.updateRating(R.id.ratingBar);
+        d.saveDataBy("location", ul.getLongLat());*/
+        d.updateUserProfile();
 
         //cameraButton();
         add_Instr = (Button) findViewById(R.id.Profile_add_button);
@@ -96,10 +94,11 @@ public class UserProfileActivity extends AppCompatActivity {
     // Allow saving
     public void initSaveButton() {
         saveB = (Button)findViewById(R.id.save_button);
+        final DatabaseWatcher d = new DatabaseWatcher(this);
         saveB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveData();
+                d.saveData();
                 try {
                     startActivity(new Intent(UserProfileActivity.this, ProfileDisplay.class));
                 }
@@ -108,62 +107,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    /** Save data by giving in the "key" (where to find user info in database) and which view
-     * on the layout to pull the new data from.
-     */
-    private void saveDataBy(String key, final int tview) {
-        myRef = FirebaseDatabase.getInstance().getReference();
-        TextView viewval = (TextView) findViewById(tview);
-        String newInput = viewval.getText().toString();
-
-        myRef.child(key).setValue(newInput);
-    }
-
-    private void saveDataBy(String key, Object newval) {
-        myRef = FirebaseDatabase.getInstance().getReference();
-        key = mAuth.getCurrentUser().getUid() + key;
-        myRef.child(key).setValue(newval);
-    }
-
-    //Save page to database
-    private void saveData() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
-        }
-
-        //Get key to the user node in database
-        String key = "users/" + user.getUid();
-
-        //update current view of user to database
-        saveDataBy(key+"/name", R.id.eTName);
-        saveDataBy(key+"/personalBio", R.id.eTBiography);
-    }
-
-    private void saveData(String[] keys, final int[] r_id) {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
-        }
-
-        //Get key to the user node in database
-        String key = "users/" + user.getUid();
-
-        //quick error check that provided keys have matching r_id
-        if(keys.length != r_id.length) {
-            Toast.makeText(this, "Error matching user id to database", Toast.LENGTH_LONG).show();
-        }
-
-        //for each provided thing, update
-        for(int i = 0; i < keys.length; i++) {
-            saveDataBy(key+"/"+keys[i], r_id[i]);
-        }
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/

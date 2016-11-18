@@ -12,6 +12,7 @@ public class User {
     private String personalBio;
     private int age;
     private File profile_jam;
+    private float rating;
     //private Song[] exampleSongs;
     //private ProfilePics[] profilePics;
     private GeoLocation location;
@@ -22,14 +23,16 @@ public class User {
         personalBio = "Default Bio";
         age = 0;
         location = new GeoLocation(0.0, 0.0);
+        rating = 0;
         //profile_jam = null;
     }
 
-    public User(String inname, String pBio, int userAge, GeoLocation g) {
+    public User(String inname, String pBio, int userAge, GeoLocation g, float r) {
         name = inname;
         personalBio = pBio;
         age = userAge;
         location = g;
+        rating = r;
     }
 
     /** Getters for user info */
@@ -45,6 +48,8 @@ public class User {
     public GeoLocation getLocation() {
         return location;
     }
+
+    public float getRating() { return rating; }
 
     /** Setters for user info */
     public void setName(String newName) {
@@ -67,6 +72,8 @@ public class User {
     public void setLocation(GeoLocation newLoc) {
         location = newLoc;
     }
+
+    public void setRating(float newR) { rating = newR; }
 
     //public void setProfile_jam(File nextjam) { profile_jam = nextjam; }
 }
