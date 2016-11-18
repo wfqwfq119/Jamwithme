@@ -1,7 +1,7 @@
 package cse110.jamwithme;
 
-import com.firebase.geofire.GeoLocation;
 import java.io.File;
+import com.firebase.geofire.GeoLocation;
 
 /**
  * Created by Storm Quark on 10/21/2016.

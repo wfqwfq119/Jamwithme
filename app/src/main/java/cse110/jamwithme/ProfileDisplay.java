@@ -48,12 +48,12 @@ public class ProfileDisplay extends AppCompatActivity {
 
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.pbio, R.id.name};
+        
+        //TODO update according to database saved
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //update according to database saved
         mAuth = FirebaseAuth.getInstance();
-
-        //TODO update according to database saved
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
