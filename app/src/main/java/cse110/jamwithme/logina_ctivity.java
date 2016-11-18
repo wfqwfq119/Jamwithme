@@ -71,7 +71,6 @@ public class logina_ctivity extends AppCompatActivity {
         mAuth.signOut();
         if(mAuthListener != null){
             mAuth.removeAuthStateListener(mAuthListener);
-
         }
     }
 

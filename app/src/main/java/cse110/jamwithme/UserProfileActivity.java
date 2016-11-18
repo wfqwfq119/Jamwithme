@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,9 +57,18 @@ public class UserProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        //String key = "users/" + mAuth.getCurrentUser().getUid();
+
         DatabaseWatcher d = new DatabaseWatcher(this);
 
         d.updateData(elems, info);
+        //Toast.makeText(this, "USER LOCATION", Toast.LENGTH_LONG).show();
+        UserLocation ul = new UserLocation(this, mAuth, myRef);
+        String[] s = {"location"};
+        saveDataBy("location", ul.getLongLat());
+
+        //locationT(myRef, key);
+
         //cameraButton();
         add_Instr = (Button) findViewById(R.id.Profile_add_button);
         add_Instr.setOnClickListener(new View.OnClickListener() {
@@ -68,9 +79,6 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
     }
-
-
-
 
     // Give 'add_jams' button functionality
     public void init() {
@@ -113,6 +121,12 @@ public class UserProfileActivity extends AppCompatActivity {
         myRef.child(key).setValue(newInput);
     }
 
+    private void saveDataBy(String key, Object newval) {
+        myRef = FirebaseDatabase.getInstance().getReference();
+        key = mAuth.getCurrentUser().getUid() + key;
+        myRef.child(key).setValue(newval);
+    }
+
     //Save page to database
     private void saveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -128,6 +142,28 @@ public class UserProfileActivity extends AppCompatActivity {
         //update current view of user to database
         saveDataBy(key+"/name", R.id.eTName);
         saveDataBy(key+"/personalBio", R.id.eTBiography);
+    }
+
+    private void saveData(String[] keys, final int[] r_id) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            startActivity(new Intent(UserProfileActivity.this, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        //quick error check that provided keys have matching r_id
+        if(keys.length != r_id.length) {
+            Toast.makeText(this, "Error matching user id to database", Toast.LENGTH_LONG).show();
+        }
+
+        //for each provided thing, update
+        for(int i = 0; i < keys.length; i++) {
+            saveDataBy(key+"/"+keys[i], r_id[i]);
+        }
     }
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/

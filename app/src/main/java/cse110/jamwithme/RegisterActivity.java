@@ -74,6 +74,9 @@ public class RegisterActivity extends AppCompatActivity {
         //Create user object and places into database
         User newUser = new User();
         newUser.setName(username);
+        UserLocation ul = new UserLocation(this, fAuth, mDatabase);
+        newUser.setLocation(ul.getLongLat());
+
         mDatabase.child("users").child(user.getUid()).setValue(newUser);
 
         //TODO Assign user instrument values
