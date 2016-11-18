@@ -75,6 +75,7 @@ public class DatabaseWatcher {
 
         //If no user is logged in, go to login page
         if (user == null) {
+            System.out.println("USER IS NULL!!!!\n");
             mContext.startActivity(new Intent(mContext, logina_ctivity.class));
         }
 

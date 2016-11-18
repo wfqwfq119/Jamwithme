@@ -1,6 +1,7 @@
 package cse110.jamwithme;
 
 import com.firebase.geofire.GeoLocation;
+import java.io.File;
 
 /**
  * Created by Storm Quark on 10/21/2016.
@@ -10,6 +11,7 @@ public class User {
     private String name;
     private String personalBio;
     private int age;
+    private File profile_jam;
     //private Song[] exampleSongs;
     //private ProfilePics[] profilePics;
     private GeoLocation location;
@@ -20,6 +22,7 @@ public class User {
         personalBio = "Default Bio";
         age = 0;
         location = new GeoLocation(0.0, 0.0);
+        //profile_jam = null;
     }
 
     public User(String inname, String pBio, int userAge, GeoLocation g) {
@@ -55,6 +58,8 @@ public class User {
             personalBio = newBio.substring(0, 499);
     }
 
+    //public User getUsr() { return this; }
+
     public void setAge(int newAge) {
         age = newAge;
     }
@@ -62,4 +67,6 @@ public class User {
     public void setLocation(GeoLocation newLoc) {
         location = newLoc;
     }
+
+    //public void setProfile_jam(File nextjam) { profile_jam = nextjam; }
 }

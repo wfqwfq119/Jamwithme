@@ -38,7 +38,7 @@ public class logina_ctivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 if(firebaseAuth.getCurrentUser() != null){
-                    finish();
+                    //finish();
                     startActivity(new Intent(logina_ctivity.this, UserProfileActivity.class));
                 }
             }

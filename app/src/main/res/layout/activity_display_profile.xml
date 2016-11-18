@@ -55,7 +55,7 @@
         android:layout_alignParentStart="true"/>
 
     <Button
-        android:text="@string/jams"
+        android:text="@string/prof_jam"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/my_jams"
@@ -66,8 +66,20 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/pbio"
-        android:layout_toEndOf="@+id/pbio" />
+        android:layout_toEndOf="@+id/pbio"
+        android:elevation="20dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="20sp"
+        android:id="@+id/tvIntsrlist"
+        android:hint="Add Instrument"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/instruments"/>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -76,7 +88,7 @@
         android:id="@+id/pbio"
         android:text="@string/bio"
         android:maxLength="500"
-        android:layout_below="@+id/instruments"
+        android:layout_below="@+id/tvIntsrlist"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_marginTop="21dp"

@@ -7,11 +7,15 @@
     <string name="addI">Add Instruments</string>
     <string name="bio">Personal Biography</string>
     <string name="addjams">Add My Jams</string>
-    <string name="jams">My Jams</string>
+    <string name="prof_jam">Play My Jam</string>
     <string name="login">Login</string>
     <string name="register">Register Here</string>
     <string name="reg">Register</string>
+    <string name="def">Nothing to play...</string>
+    <string name="prof_jam_display">Profile Jam:</string>
     <string name="uname">Username</string>
     <string name="save">Save</string>
     <string name="exp_lvl">Experience Level</string>
+    <string name="title_activity_instrument_select">InstrumentSelect</string>
+    <string name="title_activity_display_userpro">DisplayUserproActivity</string>
 </resources>

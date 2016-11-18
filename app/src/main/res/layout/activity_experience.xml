@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_experience"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="cse110.jamwithme.experience">
+
+    <TextView
+        android:text="Brag about yourself! Rate yourself based on your years of experience jammin'! And beginners, don't worry! There are plenty of beginners on Jam With Me."
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvExperience"
+        android:layout_marginTop="39dp"
+        android:id="@+id/tvInfo"
+        android:textSize="22sp"
+        android:layout_alignRight="@+id/tvExperience"
+        android:layout_alignEnd="@+id/tvExperience"
+        android:layout_alignLeft="@+id/tvExperience"
+        android:layout_alignStart="@+id/tvExperience"
+        android:textColor="@android:color/black"
+        android:textStyle="normal|italic"
+        android:textAlignment="viewStart" />
+
+    <TextView
+        android:text="Experience Level"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="34dp"
+        android:id="@+id/tvExperience"
+        android:textSize="36sp"
+        android:textStyle="normal|bold"
+        android:textColor="@android:color/black"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="    1         2        3        4         5+"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3"
+        android:textSize="18sp"
+        android:layout_alignTop="@+id/ratingBar2"
+        android:layout_alignLeft="@+id/ratingBar2"
+        android:layout_alignStart="@+id/ratingBar2"
+        android:layout_marginTop="54dp" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar2"
+        android:layout_marginTop="28dp"
+        android:layout_below="@+id/tvInfo"
+        android:layout_alignLeft="@+id/tvInfo"
+        android:layout_alignStart="@+id/tvInfo" />
+
+    <Button
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:id="@+id/bNext3"
+        android:textColor="@android:color/white"
+        android:background="?android:attr/statusBarColor" />
+</RelativeLayout>

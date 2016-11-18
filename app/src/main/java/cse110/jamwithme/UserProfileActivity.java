@@ -21,6 +21,8 @@ import com.google.firebase.storage.UploadTask;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import android.widget.EditText;
+
 
 public class UserProfileActivity extends AppCompatActivity {
 
@@ -31,6 +33,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     public Button add_jams;
     public Button saveB;
+    private Button add_Instr;
     //private ImageView ivProfile;
     //private ImageButton camButton;
 
@@ -38,6 +41,11 @@ public class UserProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
         init();
         initSaveButton();
 
@@ -62,10 +70,14 @@ public class UserProfileActivity extends AppCompatActivity {
         //locationT(myRef, key);
 
         //cameraButton();
-    }
+        add_Instr = (Button) findViewById(R.id.Profile_add_button);
+        add_Instr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(UserProfileActivity.this,InstrumentSelect.class));
+            }
+        });
 
-    public void locationT(DatabaseReference dRef, String key) {
-        //myRef.child(key).setValue();
     }
 
     // Give 'add_jams' button functionality
@@ -117,7 +129,7 @@ public class UserProfileActivity extends AppCompatActivity {
 
     //Save page to database
     private void saveData() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         //If no user is logged in, go to login page
         if (user == null) {
