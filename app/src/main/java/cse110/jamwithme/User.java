@@ -21,8 +21,8 @@ public class User {
         name = "Default Name";
         personalBio = "Default Bio";
         age = 0;
-        //profile_jam = null;
         location = new GeoLocation(0.0, 0.0);
+        //profile_jam = null;
     }
 
     public User(String inname, String pBio, int userAge, GeoLocation g) {

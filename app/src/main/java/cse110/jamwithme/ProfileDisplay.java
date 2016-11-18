@@ -48,7 +48,7 @@ public class ProfileDisplay extends AppCompatActivity {
 
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.pbio, R.id.name};
-
+        
         //TODO update according to database saved
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
