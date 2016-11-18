@@ -1,9 +1,9 @@
 package cse110.jamwithme;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +24,7 @@ public class DatabaseWatcher {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    //String userkey;
 
     public DatabaseWatcher(Context c) {
         mAuth = FirebaseAuth.getInstance();
@@ -35,7 +36,7 @@ public class DatabaseWatcher {
     /** Update data by giving in the "key" (where to find user info in database) and which view
      * on the layout to put the new data to.
      */
-    private void updateDataBy(String key, final int tview) {
+    private void updateTextDataBy(String key, final int tview) {
 
         myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -50,22 +51,6 @@ public class DatabaseWatcher {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-    }
-
-    public void updateData() {
-        FirebaseUser user = mAuth.getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
-        }
-
-        //Get key to the user node in database
-        String key = "users/" + user.getUid();
-        //update name data of that user into the name view
-        updateDataBy(key+"/name", R.id.eTName);
-
-        /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
     }
 
     public void updateData(String[] keys, final int[] r_id) {
@@ -89,7 +74,106 @@ public class DatabaseWatcher {
 
         //for each provided thing, update
         for(int i = 0; i < keys.length; i++) {
-            updateDataBy(key+"/"+keys[i], r_id[i]);
+            updateTextDataBy(key+"/"+keys[i], r_id[i]);
         }
     }
+
+    public void updateRating(final int r_id) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            System.out.println("USER IS NULL!!!!\n");
+            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid() + "/rating";
+
+        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Activity a = (Activity)mContext;
+                float newval = Float.valueOf(dataSnapshot.getValue().toString());
+                RatingBar viewR = (RatingBar) a.findViewById(r_id);
+                viewR.setRating(newval);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }
+
+    public void updateUserProfile() {
+        UserLocation ul = new UserLocation(mContext, mAuth, myRef);
+
+        String[] elems = {"personalBio", "name"};
+        final int[] info = {R.id.eTBiography, R.id.eTName};
+
+        updateData(elems, info);
+        updateRating(R.id.ratingBar);
+        saveDataBy("location", ul.getLongLat());
+    }
+
+    /** Save data by giving in the "key" (where to find user info in database) and which view
+     * on the layout to pull the new data from.
+     */
+    public void saveDataBy(String key, final int tview) {
+        Activity a = (Activity)mContext;
+        TextView viewval = (TextView) a.findViewById(tview);
+        String newInput = viewval.getText().toString();
+
+        myRef.child(key).setValue(newInput);
+        /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
+    }
+
+    public void saveDataBy(String key, Object newval) {
+        key = mAuth.getCurrentUser().getUid() + key;
+        myRef.child(key).setValue(newval);
+    }
+
+    public void saveRating(String key, float newval) {
+        key = "users/" + mAuth.getCurrentUser().getUid() + "/" + key;
+        myRef.child(key).setValue(newval);
+    }
+
+    public void saveData() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        //update current view of user to database
+        saveDataBy(key+"/name", R.id.eTName);
+        saveDataBy(key+"/personalBio", R.id.eTBiography);
+    }
+
+    public void saveData(String[] keys, final int[] r_id) {
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        //If no user is logged in, go to login page
+        if (user == null) {
+            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+        }
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        //quick error check that provided keys have matching r_id
+        if (keys.length != r_id.length) {
+            Toast.makeText(mContext, "Error matching user id to database", Toast.LENGTH_LONG).show();
+        }
+
+        //for each provided thing, update
+        for (int i = 0; i < keys.length; i++) {
+            saveDataBy(key + "/" + keys[i], r_id[i]);
+        }
+    }
+
 }

@@ -20,9 +20,13 @@ public class Biography extends AppCompatActivity {
     // NANCY AND MAYA
     public void nextPage4() {
         bNext4 = (Button) findViewById(R.id.bNext4);
+        final DatabaseWatcher d = new DatabaseWatcher(this);
         bNext4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String[] b = {"personalBio"};
+                final int[] r_id = {R.id.eTBiography};
+                d.saveData(b, r_id);
                 startActivity(new Intent(Biography.this, UserProfileActivity.class));
             }
         } );
