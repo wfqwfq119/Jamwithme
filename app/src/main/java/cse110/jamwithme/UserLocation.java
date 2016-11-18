@@ -83,12 +83,10 @@ public class UserLocation implements LocationListener {
                     ContextCompat.checkSelfPermission( mContext, android.Manifest.permission
                             .ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-                Toast.makeText(mContext, "Can't access location! No permissions!", Toast
-                        .LENGTH_LONG).show();
-
                 if(ActivityCompat.shouldShowRequestPermissionRationale((Activity)mContext, Manifest
                         .permission.ACCESS_FINE_LOCATION)) {
-
+                    Toast.makeText(mContext, "Can't access location! No permissions!", Toast
+                            .LENGTH_LONG).show();
                 }
                 else {
                     ActivityCompat.requestPermissions((Activity)mContext, new String[]{Manifest
@@ -157,7 +155,7 @@ public class UserLocation implements LocationListener {
                     Toast.makeText(mContext, "ERROR SAVING LOCATION", Toast.LENGTH_LONG).show();
                 } else {
                     System.out.println("Location saved on server successfully!");
-                    Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
+                    //Toast.makeText(mContext, "Location saved", Toast.LENGTH_LONG).show();
                 }
             }
         });

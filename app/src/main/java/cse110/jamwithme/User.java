@@ -26,7 +26,7 @@ public class User {
         name = inname;
         personalBio = pBio;
         age = userAge;
-        location = new GeoLocation(0.0, 0.0);
+        location = g;
     }
 
     /** Getters for user info */
