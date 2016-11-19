@@ -28,7 +28,7 @@ public class RegisterActivity extends AppCompatActivity {
     private String username;
 
     private EditText Re_Email;
-    private EditText Re_Instr;
+    //private EditText Re_Instr;
     private EditText Re_Name;
     private EditText Re_Pass;
     private Button Re_Button;
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
 
         Re_Email = (EditText)findViewById(R.id.Register_Email);
-        Re_Instr = (EditText)findViewById(R.id.Re_Instr);
+        //Re_Instr = (EditText)findViewById(R.id.Re_Instr);
         Re_Name = (EditText)findViewById(R.id.Re_Username);
         Re_Pass = (EditText)findViewById(R.id.Register_password);
         Re_Button = (Button)findViewById(R.id.Re_button);
@@ -100,7 +100,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Re_Pro.dismiss();
                 if (task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-                    addToDatabase(Re_Instr.getText().toString()); //Add user to database
+                    //addToDatabase(Re_Instr.getText().toString()); //Add user to database
                     startActivity(new Intent(RegisterActivity.this, camera.class));
                 }
                 else{

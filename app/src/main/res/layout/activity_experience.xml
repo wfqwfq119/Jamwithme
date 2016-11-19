@@ -17,7 +17,7 @@
         android:layout_below="@+id/tvExperience"
         android:layout_marginTop="39dp"
         android:id="@+id/tvInfo"
-        android:textSize="22sp"
+        android:textSize="18sp"
         android:layout_alignRight="@+id/tvExperience"
         android:layout_alignEnd="@+id/tvExperience"
         android:layout_alignLeft="@+id/tvExperience"
@@ -65,7 +65,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/bNext3"
+        android:id="@+id/bNext4"
         android:textColor="@android:color/white"
         android:background="?android:attr/statusBarColor" />
 </RelativeLayout>
