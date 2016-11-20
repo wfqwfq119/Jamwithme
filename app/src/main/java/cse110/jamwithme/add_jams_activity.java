@@ -113,7 +113,7 @@ public class add_jams_activity extends AppCompatActivity {
                     }
                 }
                 if (aud_uri != null) { upload_aud(AUDIO_INTENT, RESULT_OK, aud_uri); }
-                startActivity(new Intent(add_jams_activity.this,experience.class));
+                startActivity(new Intent(add_jams_activity.this,InstrumentSelect.class));
             }
         });
         //nextPage2();

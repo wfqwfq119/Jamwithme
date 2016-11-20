@@ -15,7 +15,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,6 +30,9 @@ public class InstrumentSelect extends AppCompatActivity {
     ArrayList<String> items_list = new ArrayList<String>();
     ArrayList<String> select_list = new ArrayList<String>();
     int count = 0;
+
+    Button bNext3; // MAYA AND NANCY
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,6 +107,20 @@ public class InstrumentSelect extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        nextPage3(); // MAYA and NANCY
+    }
+
+    // MAYA AND NANCY
+    public void nextPage3() {
+        bNext3 = (Button) findViewById(R.id.bNext3);
+        final DatabaseWatcher d = new DatabaseWatcher(this);
+        bNext3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InstrumentSelect.this, experience.class));
+            }
+        } );
     }
 
 }

@@ -8,20 +8,20 @@ import android.widget.Button;
 
 public class Biography extends AppCompatActivity {
 
-    Button bNext4;
+    Button bNext5;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_biography);
 
-        nextPage4();
+        nextPage5();
     }
 
     // NANCY AND MAYA
-    public void nextPage4() {
-        bNext4 = (Button) findViewById(R.id.bNext4);
+    public void nextPage5() {
+        bNext5 = (Button) findViewById(R.id.bNext5);
         final DatabaseWatcher d = new DatabaseWatcher(this);
-        bNext4.setOnClickListener(new View.OnClickListener() {
+        bNext5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String[] b = {"personalBio"};

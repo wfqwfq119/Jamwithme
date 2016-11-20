@@ -9,20 +9,20 @@ import android.widget.RatingBar;
 
 public class experience extends AppCompatActivity {
 
-    Button bNext3;
+    Button bNext4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experience);
 
-        nextPage3();
+        nextPage4();
     }
 
     // NANCY AND MAYA
-    public void nextPage3() {
-        bNext3 = (Button) findViewById(R.id.bNext3);
+    public void nextPage4() {
+        bNext4 = (Button) findViewById(R.id.bNext4);
         final DatabaseWatcher d = new DatabaseWatcher(this);
-        bNext3.setOnClickListener(new View.OnClickListener() {
+        bNext4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 RatingBar currRat = (RatingBar) findViewById(R.id.ratingBar2);

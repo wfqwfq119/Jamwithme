@@ -21,4 +21,8 @@
     <string name="title_activity_swap_view">SwapView</string>
     <string name="action_settings">Settings</string>
     <string name="logout">Log out</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_navigation_bar">NavigationBar</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
