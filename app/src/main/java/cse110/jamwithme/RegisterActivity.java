@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
                 Re_Pro.dismiss();
                 if (task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this,"Registered Successfully",Toast.LENGTH_LONG).show();
-                    addToDatabase("stop commenting this out"); //Add user to database
+                    addToDatabase(); //Add user to database
                     startActivity(new Intent(RegisterActivity.this, camera.class));
                 }
                 else{
