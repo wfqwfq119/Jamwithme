@@ -3,6 +3,7 @@ package cse110.jamwithme;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.ActivityCompat;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,9 +43,13 @@ public class DatabaseWatcher {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Activity a = (Activity)mContext;
-                String newval = (String) dataSnapshot.getValue();
-                TextView viewval = (TextView)a.findViewById(tview);
-                viewval.setText(newval);
+                if(dataSnapshot.exists()) {
+                    String newval = (String) dataSnapshot.getValue();
+                    TextView viewval = (TextView) a.findViewById(tview);
+                    viewval.setText(newval);
+                }
+                else
+                    badData();
             }
 
             @Override
@@ -58,11 +63,7 @@ public class DatabaseWatcher {
                 "update or not enough matching section for data.";
         FirebaseUser user = mAuth.getCurrentUser();
 
-        //If no user is logged in, go to login page
-        if (user == null) {
-            System.out.println("USER IS NULL!!!!\n");
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
-        }
+        badUser(user);
 
         //Get key to the user node in database
         String key = "users/" + user.getUid();
@@ -80,12 +81,7 @@ public class DatabaseWatcher {
 
     public void updateRating(final int r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            System.out.println("USER IS NULL!!!!\n");
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
-        }
+        badUser(user);
 
         //Get key to the user node in database
         String key = "users/" + user.getUid() + "/rating";
@@ -94,9 +90,13 @@ public class DatabaseWatcher {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Activity a = (Activity)mContext;
-                float newval = Float.valueOf(dataSnapshot.getValue().toString());
-                RatingBar viewR = (RatingBar) a.findViewById(r_id);
-                viewR.setRating(newval);
+                if(dataSnapshot.exists()) {
+                    float newval = Float.valueOf(dataSnapshot.getValue().toString());
+                    RatingBar viewR = (RatingBar) a.findViewById(r_id);
+                    viewR.setRating(newval);
+                }
+                else
+                    badData();
             }
 
             @Override
@@ -140,11 +140,7 @@ public class DatabaseWatcher {
 
     public void saveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
-        }
+        badUser(user);
 
         //Get key to the user node in database
         String key = "users/" + user.getUid();
@@ -152,15 +148,16 @@ public class DatabaseWatcher {
         //update current view of user to database
         saveDataBy(key+"/name", R.id.eTName);
         saveDataBy(key+"/personalBio", R.id.eTBiography);
+
+        Activity a = (Activity)mContext;
+        RatingBar currRat = (RatingBar) a.findViewById(R.id.ratingBar2);
+        float cR = currRat.getRating();
+        saveRating("rating", cR);
     }
 
     public void saveData(String[] keys, final int[] r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
-
-        //If no user is logged in, go to login page
-        if (user == null) {
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
-        }
+        badUser(user);
 
         //Get key to the user node in database
         String key = "users/" + user.getUid();
@@ -176,4 +173,31 @@ public class DatabaseWatcher {
         }
     }
 
+    private void badUser(FirebaseUser user) {
+        //if no user is logged in, go to login page
+        if (user == null) {
+            System.out.println("USER IS NULL!!!!\n");
+            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+        }
+    }
+
+    private void badData() {
+        System.out.println("USER IS NULL!!!!\n");
+        mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+    }
+
+    /*public boolean failedDatabase(String key) {
+        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("") )
+                    return False;
+                return True;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+    }*/
 }

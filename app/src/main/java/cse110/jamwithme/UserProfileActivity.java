@@ -57,14 +57,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //String key = "users/" + mAuth.getCurrentUser().getUid();
 
         DatabaseWatcher d = new DatabaseWatcher(this);
-        /*UserLocation ul = new UserLocation(this, mAuth, myRef);
-
-        String[] elems = {"personalBio", "name"};
-        final int[] info = {R.id.eTBiography, R.id.eTName};
-
-        d.updateData(elems, info);
-        d.updateRating(R.id.ratingBar);
-        d.saveDataBy("location", ul.getLongLat());*/
         d.updateUserProfile();
 
         //cameraButton();
