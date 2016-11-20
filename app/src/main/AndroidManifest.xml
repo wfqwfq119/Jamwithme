@@ -35,17 +35,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".add_jams_activity" />
-
         <activity
             android:name=".InstrumentSelect"
             android:label="@string/title_activity_instrument_select"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".camera" />
-        <activity android:name=".ProfileDisplay"></activity>
-
-        <activity android:name=".experience"/>
-        <activity android:name=".Biography"></activity>
-
+        <activity android:name=".ProfileDisplay" />
+        <activity android:name=".experience" />
+        <activity android:name=".Biography" />
     </application>
 
 </manifest>

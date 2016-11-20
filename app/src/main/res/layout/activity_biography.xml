@@ -29,12 +29,12 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:id="@+id/bNext4"
+        android:id="@+id/bNext5"
         android:textColor="@android:color/white"
         android:background="?android:attr/statusBarColor"/>
 
     <TextView
-        android:text="Tell us about yourself. Who's your favorite artist? What's your favorite genre? Your other Jammers can't wait to know more about you!"
+        android:text="Tell us about yourself. Who's your favorite artist? What's your favorite genre? Other Jammers can't wait to know more about you!"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"
