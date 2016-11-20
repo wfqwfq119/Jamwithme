@@ -45,10 +45,10 @@ public class InstrumentSelect extends AppCompatActivity {
         items_list.add("Piano");
         items_list.add(("Recorder"));
         items_list.add("Classical guitar");
-        items_list.add("Drunm kit");
+        items_list.add("Drum kit");
         items_list.add("Electric Guitar");
         items_list.add("Violin");
-        items_list.add("percussion");
+        items_list.add("Percussion");
         items_list.add("Bass Guitar");
         instr_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items_list);
         instr_view.setAdapter(instr_adapter);
