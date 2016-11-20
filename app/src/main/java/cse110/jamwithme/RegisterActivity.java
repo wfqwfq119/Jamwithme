@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +23,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import static android.R.attr.mode;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -59,6 +62,9 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+
+        //Test menu
+        //getMenuInflater().inflate(R.menu.menu_main, );
     }
 
     //Adds created user to Firebase database
