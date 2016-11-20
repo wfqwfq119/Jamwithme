@@ -150,7 +150,7 @@ public class DatabaseWatcher {
         saveDataBy(key+"/personalBio", R.id.eTBiography);
 
         Activity a = (Activity)mContext;
-        RatingBar currRat = (RatingBar) a.findViewById(R.id.ratingBar2);
+        RatingBar currRat = (RatingBar) a.findViewById(R.id.ratingBar);
         float cR = currRat.getRating();
         saveRating("rating", cR);
     }
