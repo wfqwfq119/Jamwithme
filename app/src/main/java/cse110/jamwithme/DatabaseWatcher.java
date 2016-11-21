@@ -208,6 +208,16 @@ public class DatabaseWatcher {
         mContext.startActivity(new Intent(mContext, logina_ctivity.class));
     }
 
+    public void deleteUserFromDatabase() {
+        FirebaseUser user = mAuth.getCurrentUser();
+        badUser(user);
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid();
+
+        myRef.child(key).removeValue();
+    }
+
     /*public boolean failedDatabase(String key) {
         myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

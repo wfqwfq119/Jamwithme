@@ -45,7 +45,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
-
     public Button add_jams;
     public Button saveB;
     private Button add_Instr;
@@ -60,10 +59,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        float x_size = imageView.getScaleX();
-        System.out.print(x_size);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
@@ -86,7 +81,6 @@ public class UserProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-
         DatabaseWatcher d = new DatabaseWatcher(this);
         d.updateUserProfile();
 
@@ -101,11 +95,9 @@ public class UserProfileActivity extends AppCompatActivity {
         /****** CAMERA - Nancy *****/
         camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
-        camObj.dialogBox();
+        //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
     }
-
-
 
     /*@Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
