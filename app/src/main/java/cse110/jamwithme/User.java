@@ -8,6 +8,7 @@ import com.firebase.geofire.GeoLocation;
  */
 
 public class User {
+    private String uid;
     private String name;
     private String personalBio;
     private int age;
@@ -24,15 +25,17 @@ public class User {
         age = 0;
         location = new GeoLocation(0.0, 0.0);
         rating = 0;
+        uid = "No UID";
         //profile_jam = null;
     }
 
-    public User(String inname, String pBio, int userAge, GeoLocation g, float r) {
+    public User(String inname, String pBio, int userAge, GeoLocation g, float r, String userid) {
         name = inname;
         personalBio = pBio;
         age = userAge;
         location = g;
         rating = r;
+        uid = userid;
     }
 
     /** Getters for user info */
@@ -50,6 +53,8 @@ public class User {
     }
 
     public float getRating() { return rating; }
+
+    public String getUserId() { return uid; }
 
     /** Setters for user info */
     public void setName(String newName) {
@@ -74,6 +79,8 @@ public class User {
     }
 
     public void setRating(float newR) { rating = newR; }
+
+    public void setUid(String inUid) { uid = inUid; }
 
     //public void setProfile_jam(File nextjam) { profile_jam = nextjam; }
 }

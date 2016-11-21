@@ -28,6 +28,7 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DeleteAccountActivity" />
         <activity android:name=".UserProfileActivity" />
+        <activity android:name=".DisplayOtherUserActivity" />
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
