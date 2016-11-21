@@ -106,7 +106,9 @@ public class RegisterActivity extends AppCompatActivity {
                 if (task.isSuccessful()){
                     Toast.makeText(RegisterActivity.this,"Registered Successfully",Toast.LENGTH_LONG).show();
                     addToDatabase(); //Add user to database
-                    startActivity(new Intent(RegisterActivity.this, SetUpPicture.class));
+                    Intent next = new Intent(RegisterActivity.this, SetUpPicture.class);
+                    next.putExtra("activity", "RegisterActivity");
+                    startActivity(next);
                 }
                 else{
                     Toast.makeText(RegisterActivity.this,"Cannot register, please try again",Toast.LENGTH_LONG).show();

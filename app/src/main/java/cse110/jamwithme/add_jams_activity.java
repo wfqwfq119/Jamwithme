@@ -7,8 +7,10 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.OpenableColumns;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,36 +20,37 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import java.util.UUID;
-
 
 public class add_jams_activity extends AppCompatActivity {
-
     private static final int AUDIO_INTENT = 1;
     private static final int REQ_READ_EXT_STORAGE = 2;
     private MediaPlayer mp;
     private Uri aud_uri;
     private ProgressDialog upl_progress;
     private FirebaseStorage storage;
+    private FirebaseAuth firebaseAuth;
     private StorageReference stor_ref;
-    private FirebaseUser fb_usr;
     private Cursor returnCursor;
 
-
+    private Intent prev_intent;
+    private String prev_activ;
     private Intent sel_sound;
     private ImageButton play_mp;
     private ImageButton stop_mp;
     private Button select_aud;
+    private Button upl_aud;
     private Button delete_aud;
     private Button bNext2;
     private TextView filename_TV;
-
 
 
     /** Setup layout: ListView with arr_jams[] elems, Buttons for Media Player,
@@ -55,10 +58,20 @@ public class add_jams_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_jams_activity);
+
+        // Get previous activity context to redirect accordingly when this activity finished
+        prev_intent = getIntent();
+        prev_activ = prev_intent.getStringExtra("activity");
         upl_progress = new ProgressDialog(this);
+
+        setContentView(R.layout.activity_add_jams_activity);
         storage = FirebaseStorage.getInstance();
         stor_ref = storage.getReference();
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        // Get previous activity context to redirect accordingly when this activity finished
+        prev_intent = getIntent();
+        prev_activ = prev_intent.getStringExtra("activity");
 
 
         // 'SELECT JAM' button is on --> Single audio file can be selected from device
@@ -66,22 +79,33 @@ public class add_jams_activity extends AppCompatActivity {
         select_aud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sel_sound = new Intent(Intent.ACTION_GET_CONTENT);
+                sel_sound.setType("audio/*");
                 // Prompt runtime permissions page iff SDK is compatible
-                if (Build.VERSION.SDK_INT < 23) {
+                if (Build.VERSION.SDK_INT < 23 && (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
+                        != PackageManager.PERMISSION_GRANTED)) {
                     Toast.makeText(getApplicationContext(), "Setting > Apps > Jam With Me > Permissions > Storage", Toast.LENGTH_LONG).show();
                 }
                 else {
                     // Continue with upload process if permission was GRANTED
                     if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE)
                             == PackageManager.PERMISSION_GRANTED) {
-                        sel_sound = new Intent(Intent.ACTION_GET_CONTENT);
-                        sel_sound.setType("audio/*");
                         startActivityForResult(sel_sound, AUDIO_INTENT);
                     }
                     else {
                         // Prompt runtime permission for the first time
                         requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQ_READ_EXT_STORAGE);
                     }
+                }
+            }
+        });
+
+        upl_aud = (Button)findViewById(R.id.bUpload);
+        upl_aud.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (aud_uri != null) {
+                    upload_aud(AUDIO_INTENT, RESULT_OK, aud_uri);
                 }
             }
         });
@@ -112,65 +136,52 @@ public class add_jams_activity extends AppCompatActivity {
                         mp.release();
                     }
                 }
-                if (aud_uri != null) { upload_aud(AUDIO_INTENT, RESULT_OK, aud_uri); }
-                startActivity(new Intent(add_jams_activity.this,InstrumentSelect.class));
+
+                if (prev_activ.equals("UserProfileActivity")) {
+                    startActivity(new Intent(add_jams_activity.this, UserProfileActivity.class));
+                }
+                else if (prev_activ.equals("SetUpPicture")) {
+                    startActivity(new Intent(add_jams_activity.this, InstrumentSelect.class));
+                }
             }
         });
-        //nextPage2();
 
     }
 
+    /** Upload audio file to FireBase Storage w/authentication and handle results **/
     private void upload_aud(int requestCode, int resultCode, Uri toUpload) {
         if(requestCode == AUDIO_INTENT && resultCode == RESULT_OK) {
-            upl_progress.setMessage("Uploading Audio...");
-            upl_progress.show();
+            FirebaseUser user = firebaseAuth.getCurrentUser();
 
-            String upl_path = "MyJam/" + UUID.randomUUID() + ".mp3";
-            StorageReference upl_ref = storage.getReference(upl_path);
+            //Get key to the user node in database
+            String key = "users/" + user.getUid() + "/myjam";
 
-            upl_progress.setMessage("Uploading Audio...");
-            upl_progress.show();
-            UploadTask upl_task = upl_ref.putFile(toUpload);
-            upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            final UploadTask upl_task = stor_ref.child(key).putFile(toUpload);
+            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
                 @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    Toast.makeText(add_jams_activity.this, "Upload Successful", Toast.LENGTH_LONG).show();
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    int progress = (int) ((100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+                    upl_progress.setMessage("Upload is " + progress + "% done");
+                    upl_progress.show();
+
+                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(add_jams_activity.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                        }
+                    });
+                    upl_task.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(add_jams_activity.this, "Upload Failed!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                        }
+                    });
                 }
             });
-
-            //stor_ref = storage.getReference().child("MyJam").child(toUpload.getPath());
-            /*stor_ref.putFile(toUpload).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    upl_progress.dismiss();
-                    Toast.makeText(add_jams_activity.this, "Upload Successful", Toast.LENGTH_LONG).show();
-                }
-            }); */
         }
     }
-
-    /* NANCY AND MAYA
-    public void nextPage2() {
-
-        bNext2 = (Button) findViewById(R.id.bNext2);
-        bNext2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-<<<<<<< Updated upstream
-                if (mp != null) {
-                    if (mp.isPlaying()) {
-                        mp.stop();
-                        mp.release();
-                    }
-                }
-                startActivity(new Intent(add_jams_activity.this,UserProfileActivity.class));
-=======
-                startActivity(new Intent(add_jams_activity.this, experience.class));
->>>>>>> Stashed changes
-            }
-        } );
-    } */
-
 
 
     /** Handle results for runtime permissions page to READ_EXTERNAL_STORAGE **/
@@ -219,33 +230,9 @@ public class add_jams_activity extends AppCompatActivity {
                 mp = MediaPlayer.create(add_jams_activity.this, aud_uri);
             }
         });
-
-
-
-        /*if(requestCode == AUDIO_INTENT && resultCode == RESULT_OK) {
-            upl_progress.setMessage("Uploading Audio...");
-            upl_progress.show();
-
-            //File prof_jam = new File(uri.getPath());
-            //final String next_jam_name = next_jam.getName();
-
-            StorageReference file_path = store_aud.child("MyJams").child(uri.getPath());
-            file_path.putFile(uri).addOnSuccessListener(
-                                   new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    upl_progress.dismiss();
-                    Toast.makeText(add_jams_activity.this, "Upload Successful", Toast.LENGTH_LONG).show();
-                }
-            });
-        } */
     }
-
-
-
-
-
-
 }
+
+
 
 

@@ -28,18 +28,20 @@ import java.io.IOException;
 public class UsingCamera {
 
     Activity activity;
+    private String prev_activ;
     private static final int REQUEST_GALLERY = 1;
     private static final int REQUEST_CAMERA = 2;
     String userChoosenTask;
     private StorageReference imgStorage;
-    MediaPlayer mp = new MediaPlayer();
 
     /* Constructor: when you want to use camera you have to pass in the activity you want to use it
                     in
      */
-    public UsingCamera(Activity activity) {
+    public UsingCamera(Activity activity, String prev) {
         this.activity = activity;
+        this.prev_activ = prev;
     }
+
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/
     public void cameraButton(ImageButton camButton) {
@@ -50,6 +52,7 @@ public class UsingCamera {
             public void onClick(View v) {
                 Intent image = new Intent(activity,
                         SetUpPicture.class);
+                image.putExtra("activity", prev_activ);
                 activity.startActivity(image);
             }
         });

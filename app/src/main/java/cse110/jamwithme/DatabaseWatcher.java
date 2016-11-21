@@ -83,6 +83,7 @@ public class DatabaseWatcher {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
 
+
         //Get key to the user node in database
         String key = "users/" + user.getUid() + "/rating";
 
