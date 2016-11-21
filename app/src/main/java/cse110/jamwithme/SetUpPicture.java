@@ -26,8 +26,8 @@ public class SetUpPicture extends AppCompatActivity {
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camObj = new UsingCamera(this);
 
-        camObj.dialogBox();
         camObj.cameraButton(camButton);
+        camObj.dialogBox();
         nextPage();
 
     }
@@ -54,7 +54,4 @@ public class SetUpPicture extends AppCompatActivity {
             }
         });
     }
-
-
-
 }

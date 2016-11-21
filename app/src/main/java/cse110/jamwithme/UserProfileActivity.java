@@ -45,8 +45,13 @@ public class UserProfileActivity extends AppCompatActivity {
     public Button add_jams;
     public Button saveB;
     private Button add_Instr;
-    //private ImageView ivProfile;
-    //private ImageButton camButton;
+
+    /*** CAMERA OBJECTS ***/
+    private static final int REQUEST_GALLERY = 1;
+    private static final int REQUEST_CAMERA = 2;
+    private ImageView imageView;
+    private ImageButton camButton;
+    private UsingCamera camObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +75,6 @@ public class UserProfileActivity extends AppCompatActivity {
         DatabaseWatcher d = new DatabaseWatcher(this);
         d.updateUserProfile();
 
-        //cameraButton();
         add_Instr = (Button) findViewById(R.id.Profile_add_button);
         add_Instr.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +83,26 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
+        /****** CAMERA - Nancy *****/
+        camObj = new UsingCamera(this);
+        imageView = (ImageView) findViewById(R.id.ivProfile);
+        camObj.dialogBox();
+        camObj.cameraButton(camButton);
     }
+
+
+
+    /*@Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
+            camObj.usingCamera(data, imageView);
+        }
+        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
+            camObj.selectFromGallery(data, imageView);
+        }
+    }*/
+
     //try to create menu
     public boolean onCreateOptionsMenu(Menu menu)
     {
@@ -148,20 +171,6 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-    /** GIVE CAMERA BUTTON FUNCTIONALITY **/
-    /*public void cameraButton() {
-        ivProfile = (ImageView) findViewById(R.id.ivProfile);
-        camButton = (ImageButton) findViewById(R.id.iBTakePic);
-        camButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent image = new Intent(UserProfileActivity.this,
-                        camera.class);
-                startActivity(image);
-            }
-        });
-    }*/
 
 }
 
