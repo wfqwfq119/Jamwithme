@@ -11,6 +11,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,13 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -40,11 +46,14 @@ public class camera extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 2;
     private ImageView imageView;
     private ImageButton camButton;
+    private Button upl_img;
     private Button bNext;
-   // private StorageReference mStorage;
+    private ProgressDialog upl_progress;
 
     String userChoosenTask;
-    private StorageReference imgStorage;
+    private Uri img_uri;
+    private FirebaseAuth firebaseAuth;
+    private StorageReference stor_ref;
     MediaPlayer mp = new MediaPlayer();
 
     /*
@@ -54,8 +63,11 @@ public class camera extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        upl_progress = new ProgressDialog(this);
+        firebaseAuth = FirebaseAuth.getInstance();
+        stor_ref = FirebaseStorage.getInstance().getReference();
+
         setContentView(R.layout.activity_camera);
-        imgStorage = FirebaseStorage.getInstance().getReference();
         imageView = (ImageView) findViewById(R.id.ivProfile);
 
         // the little man
@@ -71,6 +83,17 @@ public class camera extends AppCompatActivity {
 
         selectImage();
         cameraButton();
+
+        upl_img = (Button)findViewById(R.id.bConfirm);
+        upl_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (img_uri != null) {
+                    upload_img(img_uri);
+                }
+            }
+        });
+
         nextPage();
     }
 
@@ -91,6 +114,8 @@ public class camera extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        img_uri = data.getData();
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
             usingCamera(data);
             //onCaptureImageResult(data);
@@ -258,16 +283,54 @@ public class camera extends AppCompatActivity {
             });
         }*/
 
-        /*------------------------------- GO TO NEXT PAGE ---------------------------------------*/
-        public void nextPage() {
-            bNext = (Button) findViewById(R.id.bNext);
-            bNext.setOnClickListener(new View.OnClickListener() {
+    /** Upload image file to FireBase Storage w/authentication and handle results **/
+    private void upload_img(Uri toUpload) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        //Get key to the user node in database
+        String key = "users/" + user.getUid() + "/myimg";
+        final UploadTask upl_task = stor_ref.child(key).putFile(toUpload);
+        upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                int progress = (int) ((100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
+                upl_progress.setMessage("Upload is " + progress + "% done");
+                upl_progress.show();
+            }
+        });
+
+
+        upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(camera.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+                upl_progress.dismiss();
+            }
+        });
+
+        upl_task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(camera.this, "Upload Failed!", Toast.LENGTH_LONG).show();
+                upl_progress.dismiss();
+            }
+        });
+
+    }
+
+
+    /*------------------------------- GO TO NEXT PAGE ---------------------------------------*/
+    public void nextPage() {
+        bNext = (Button) findViewById(R.id.bNext);
+        bNext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(new Intent(camera.this,add_jams_activity.class));
+                    Intent next = new Intent(camera.this, add_jams_activity.class);
+                    next.putExtra("activity", "camera");
+                    startActivity(next);
                 }
-            });
-        }
 
+        });
 
+    }
 }

@@ -2,13 +2,17 @@ package cse110.jamwithme;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +27,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.squareup.picasso.Picasso;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 
 /**
  * Created by Storm Quark on 11/12/2016.
@@ -36,25 +44,46 @@ public class ProfileDisplay extends AppCompatActivity {
     private DatabaseReference myRef;
     private StorageReference storage;
 
-    public ImageButton edit_button;
-    public Button play_myjam;
+    private ImageView prof_pic;
+    private ImageButton edit_button;
+    private Button play_myjam;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
-        //Toast.makeText(ProfileDisplay.this, "Display Profile", Toast.LENGTH_LONG).show();
+
+        mAuth = FirebaseAuth.getInstance();
+        final FirebaseUser user = mAuth.getCurrentUser();
+        storage = FirebaseStorage.getInstance().getReference();
+
+        prof_pic = (ImageView)findViewById(R.id.profile_pic);
+        final String key = "users/" + user.getUid();
+        storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
+        });
+
+        play_myjam = (Button)findViewById(R.id.my_jams);
+        play_myjam.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                storage.child(key + "/myjam").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                    @Override
+                    public void onSuccess(Uri uri) {
+                        MediaPlayer mp = MediaPlayer.create(ProfileDisplay.this, uri);
+                        mp.start();
+                    }
+                });
+            }
+        });
+
         init();
 
         //String[] elems = {"personalBio", "name"};
         //final int[] info = {R.id.pbio, R.id.name};
         
         //TODO update according to database saved
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //update according to database saved
-        mAuth = FirebaseAuth.getInstance();
-
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
         TextView insrt_list = (TextView)findViewById(R.id.tvIntsrlist);
@@ -76,22 +105,6 @@ public class ProfileDisplay extends AppCompatActivity {
                 Intent edit_profile = new Intent(ProfileDisplay.this,
                         UserProfileActivity.class);
                 startActivity(edit_profile);
-            }
-        });
-
-        storage = FirebaseStorage.getInstance().getReference();
-
-        play_myjam = (Button)findViewById(R.id.my_jams);
-        play_myjam.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                storage.child("MyJam/54ea3a83-b745-4886-b163-ac999c1fd607.mp3").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        MediaPlayer mp = MediaPlayer.create(ProfileDisplay.this, uri);
-                        mp.start();
-                    }
-                });
             }
         });
     }
