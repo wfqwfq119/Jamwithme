@@ -40,16 +40,20 @@
             android:name=".InstrumentSelect"
             android:label="@string/title_activity_instrument_select"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".camera" />
         <activity android:name=".ProfileDisplay" />
         <activity android:name=".experience" />
         <activity android:name=".Biography" />
         <activity android:name=".DisplayUserproActivity" />
-        <activity android:name=".messagerAct"/><!-- ATTENTION: This was auto-generated to add Google Play services to your project for
-     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information. -->
+        <activity android:name=".messagerAct" />
+        <!--
+ ATTENTION: This was auto-generated to add Google Play services to your project for
+     App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
+        -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
+
+        <activity android:name=".SetUpPicture"></activity>
     </application>
 
 </manifest>
