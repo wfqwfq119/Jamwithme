@@ -26,12 +26,14 @@ import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+import com.squareup.picasso.Picasso;
 import android.widget.EditText;
 
 
@@ -39,8 +41,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+
 
     public Button add_jams;
     public Button saveB;
@@ -52,6 +56,7 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton camButton;
     private UsingCamera camObj;
+    private ImageView ivProf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +64,15 @@ public class UserProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_user_profile);
 
         mAuth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        myRef = database.getReference();
+        final FirebaseUser user = mAuth.getCurrentUser();
+
+        ivProf= (ImageView)findViewById(R.id.ivProfile);
+
+        storage = FirebaseStorage.getInstance().getReference();
+        storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) { Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(ivProf); }
+        });
 
         init();
         initSaveButton();
@@ -70,7 +82,6 @@ public class UserProfileActivity extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        //String key = "users/" + mAuth.getCurrentUser().getUid();
 
         DatabaseWatcher d = new DatabaseWatcher(this);
         d.updateUserProfile();
@@ -84,7 +95,7 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
         /****** CAMERA - Nancy *****/
-        camObj = new UsingCamera(this);
+        camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camObj.dialogBox();
         camObj.cameraButton(camButton);
@@ -149,6 +160,7 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent access_jams = new Intent(UserProfileActivity.this,
                                                 add_jams_activity.class);
+                access_jams.putExtra("activity", "UserProfileActivity");
                 startActivity(access_jams);
             }
         });

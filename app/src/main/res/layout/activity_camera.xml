@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:background="?android:attr/statusBarColor"
         android:textColor="@android:color/white"
-        android:id="@+id/bConfirm"
+        android:id="@+id/bUpload"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />

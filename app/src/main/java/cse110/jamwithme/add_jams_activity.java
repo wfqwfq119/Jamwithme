@@ -140,7 +140,7 @@ public class add_jams_activity extends AppCompatActivity {
                 if (prev_activ.equals("UserProfileActivity")) {
                     startActivity(new Intent(add_jams_activity.this, UserProfileActivity.class));
                 }
-                else if (prev_activ.equals("camera")) {
+                else if (prev_activ.equals("SetUpPicture")) {
                     startActivity(new Intent(add_jams_activity.this, InstrumentSelect.class));
                 }
             }
