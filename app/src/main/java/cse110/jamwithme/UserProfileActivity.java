@@ -60,6 +60,10 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        float x_size = imageView.getScaleX();
+        System.out.print(x_size);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
