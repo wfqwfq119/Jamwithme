@@ -8,6 +8,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.geofire.GeoFire;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -211,11 +212,12 @@ public class DatabaseWatcher {
     public void deleteUserFromDatabase() {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
+        String userstring = user.getUid().toString();
 
         //Get key to the user node in database
-        String key = "users/" + user.getUid();
-
-        myRef.child(key).removeValue();
+        myRef.child("users/" + userstring).removeValue();
+        myRef.child("geofire/" + userstring).removeValue();
+        myRef.child(userstring + "location").removeValue();
     }
 
     /*public boolean failedDatabase(String key) {

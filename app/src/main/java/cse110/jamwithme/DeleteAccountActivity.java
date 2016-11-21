@@ -39,6 +39,8 @@ public class DeleteAccountActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
 
+        final DatabaseWatcher d = new DatabaseWatcher(this);
+
         delete_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +70,6 @@ public class DeleteAccountActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                DatabaseWatcher d = new DatabaseWatcher(this);
                                 d.deleteUserFromDatabase();
                                 user.delete()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
