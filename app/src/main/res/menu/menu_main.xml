@@ -5,8 +5,20 @@
     <item
         android:id="@+id/action_settings"
         android:orderInCategory="100"
-        android:title="Setting"
+        android:title="@string/action_settings"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/navi_disprofile"
+        android:title="User Profile"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/navi_message"
+        android:title="Message"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
     <item
         android:id="@+id/log_out"
         android:title="Log out"
@@ -14,15 +26,10 @@
         android:orderInCategory="100"
         />
     <item
-        android:id="@+id/navi_disprofile"
-        android:title="user profile"
+        android:id="@+id/delete_acct"
+        android:title="DELETE ACCOUNT"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
-    <item
-        android:id="@+id/navi_message"
-        android:title="message"
-        app:showAsAction="never"
-        android:orderInCategory="100"
-        />
+
 </menu>

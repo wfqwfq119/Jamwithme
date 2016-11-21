@@ -19,7 +19,10 @@ import android.support.v4.widget.DrawerLayout;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.*;
@@ -101,9 +104,20 @@ public class UserProfileActivity extends AppCompatActivity {
             case R.id.navi_message:
                 startActivity(new Intent(this,messagerAct.class));
                 break;
+            case R.id.delete_acct:
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
+                        .show();
+                try{
+                    startActivity(new Intent(this, DeleteAccountActivity.class));
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
         }
         return super.onOptionsItemSelected(item);
     }
+
     // Give 'add_jams' button functionality
     public void init() {
         add_jams = (Button)findViewById(R.id.add_my_jams);
