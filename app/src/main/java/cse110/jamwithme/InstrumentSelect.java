@@ -39,6 +39,7 @@ public class InstrumentSelect extends AppCompatActivity {
         setContentView(R.layout.activity_instrument_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        
         instr_view = (ListView)findViewById(R.id.Instr_List);
         instr_selected = new Intent(this,experience.class);
         items_list.add("Keyboard");

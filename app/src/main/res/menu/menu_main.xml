@@ -7,4 +7,22 @@
         android:orderInCategory="100"
         android:title="Setting"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/log_out"
+        android:title="Log out"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/navi_disprofile"
+        android:title="user profile"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
+    <item
+        android:id="@+id/navi_message"
+        android:title="message"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
 </menu>

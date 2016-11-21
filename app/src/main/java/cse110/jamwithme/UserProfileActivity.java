@@ -1,13 +1,21 @@
 package cse110.jamwithme;
 
+import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Gallery;
 import android.widget.TextView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
@@ -69,7 +77,33 @@ public class UserProfileActivity extends AppCompatActivity {
         });
 
     }
+    //try to create menu
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
 
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.log_out:
+                mAuth.signOut();
+                startActivity(new Intent(this,logina_ctivity.class));
+                break;
+            case R.id.action_settings:
+                break;
+            case R.id.navi_disprofile:
+                startActivity(new Intent(this,ProfileDisplay.class));
+                break;
+            case R.id.navi_message:
+                startActivity(new Intent(this,messagerAct.class));
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
     // Give 'add_jams' button functionality
     public void init() {
         add_jams = (Button)findViewById(R.id.add_my_jams);
