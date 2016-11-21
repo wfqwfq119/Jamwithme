@@ -42,7 +42,6 @@ public class UsingCamera {
         this.prev_activ = prev;
     }
 
-
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/
     public void cameraButton(ImageButton camButton) {
         //imageView = (ImageView) findViewById(R.id.ivProfile);
