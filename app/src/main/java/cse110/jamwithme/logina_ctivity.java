@@ -60,8 +60,6 @@ public class logina_ctivity extends AppCompatActivity {
                 startSignIn();
             }
         });
-
-
     }
 
     @Override
