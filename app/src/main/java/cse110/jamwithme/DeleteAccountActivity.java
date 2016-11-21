@@ -68,6 +68,7 @@ public class DeleteAccountActivity extends AppCompatActivity {
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
+                                DatabaseWatcher d = new DatabaseWatcher(this);
                                 user.delete()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
