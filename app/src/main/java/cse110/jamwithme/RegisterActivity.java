@@ -79,6 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
         //Create user object and places into database
         User newUser = new User();
         newUser.setName(username);
+        newUser.setUid(user.getUid());
         UserLocation ul = new UserLocation(this, fAuth, mDatabase);
         newUser.setLocation(ul.getLongLat());
 

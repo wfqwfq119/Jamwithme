@@ -79,6 +79,27 @@ public class DatabaseWatcher {
         }
     }
 
+    public void updateOtherUserData(String userid, String[] keys, final int[] r_id) {
+        CharSequence error_msg = "Error: not enough data to " +
+                "update or not enough matching section for data.";
+        //FirebaseUser user = mAuth.getCurrentUser();
+
+        //badUser(user);
+
+        //Get key to the user node in database
+        String key = "users/" + userid;
+
+        //quick error check that provided keys have matching r_id
+        if(keys.length != r_id.length) {
+            Toast.makeText(mContext, error_msg, Toast.LENGTH_LONG).show();
+        }
+
+        //for each provided thing, update
+        for(int i = 0; i < keys.length; i++) {
+            updateTextDataBy(key+"/"+keys[i], r_id[i]);
+        }
+    }
+
     public void updateRating(final int r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
