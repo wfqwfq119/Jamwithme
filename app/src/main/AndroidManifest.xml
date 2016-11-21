@@ -26,6 +26,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".RegisterActivity" />
+        <activity android:name=".DeleteAccountActivity" />
         <activity android:name=".UserProfileActivity" />
         <activity android:name=".Splash">
             <intent-filter>

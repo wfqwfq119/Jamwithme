@@ -25,4 +25,6 @@
     <string name="title_activity_navigation_bar">NavigationBar</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="delete">Delete Account</string>
+    <string name="verify">Verify user info to delete your account</string>
 </resources>
