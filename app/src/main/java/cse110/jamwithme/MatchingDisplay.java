@@ -19,21 +19,84 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
+import com.firebase.geofire.GeoQuery;
+import com.firebase.geofire.GeoQueryEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
 public class MatchingDisplay extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListener;
+    private StorageReference storage;
+    private FirebaseDatabase database;
+    private DatabaseReference myRef;
+
     /*ListView matches;
     Intent instr_selected;
     ArrayAdapter<String> instr_adapter;
-    ArrayList<String> items_list = new ArrayList<String>();
     ArrayList<String> select_list = new ArrayList<String>();
     int count = 0;*/
+    ArrayList<String> userlist = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_matches);
+
+        mAuth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
+        myRef = database.getReference();
+
+        //Get current user location
+        UserLocation ul = new UserLocation(this, mAuth, myRef);
+
+        double rad = 5;    //kilometers
+
+        GeoFire findUsers = new GeoFire(myRef);
+
+        //Start query
+        GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
+        query.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String newuserkey, GeoLocation location) {
+                userlist.add(newuserkey);
+                // additional code, like displaying a pin on the map
+                // and adding Firebase listeners for this user
+            }
+
+            @Override
+            public void onKeyExited(String newuserkey) {
+                userlist.remove(newuserkey);
+                // additional code, like removing a pin from the map
+                // and removing any Firebase listener for this user
+            }
+
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT)
+                        .show();
+            }
+        });
+
+
         /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 

@@ -20,6 +20,12 @@
         android:orderInCategory="100"
         />
     <item
+        android:id="@+id/matching"
+        android:title="Matching"
+        app:showAsAction="never"
+        android:orderInCategory="100"
+        />
+    <item
         android:id="@+id/log_out"
         android:title="Log out"
         app:showAsAction="never"
