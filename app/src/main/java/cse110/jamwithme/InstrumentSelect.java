@@ -86,7 +86,7 @@ public class InstrumentSelect extends AppCompatActivity {
                         instr_selected.putExtra("instrs",select_list.toString());
                         count = 0;
                         mode.finish();
-                        startActivity(instr_selected);
+                        //startActivity(instr_selected);
                         return true;
                     default:
                         return false;
