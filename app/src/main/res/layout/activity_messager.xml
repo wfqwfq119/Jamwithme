@@ -11,24 +11,30 @@
     tools:context="cse110.jamwithme.messagerAct">
 
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
+    <include layout="@layout/content_messager" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Message"
+        android:ems="10"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="11dp">
+        android:layout_gravity = "bottom|left"
+        android:id="@+id/mes_Text" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical" >
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="410dp"
-                android:id="@+id/message_list">
+    <Button
+        android:text="Sent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="13dp"
+        android:layout_marginEnd="13dp"
+        android:id="@+id/mes_sent" />
 
-            </ListView>
-        </LinearLayout>
-    </ScrollView>
+
 </RelativeLayout>
