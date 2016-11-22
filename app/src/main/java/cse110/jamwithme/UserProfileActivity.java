@@ -55,7 +55,6 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton camButton;
     private UsingCamera camObj;
-    private ImageView ivProf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +64,12 @@ public class UserProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
 
-        ivProf= (ImageView)findViewById(R.id.ivProfile);
-
         storage = FirebaseStorage.getInstance().getReference();
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) { Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(ivProf); }
+            public void onSuccess(Uri uri) {
+                Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(imageView);
+            }
         });
 
         init();
@@ -95,8 +94,11 @@ public class UserProfileActivity extends AppCompatActivity {
         /****** CAMERA - Nancy *****/
         camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
+        camButton = (ImageButton) findViewById(R.id.camButton);
+
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
+        //camObj.dialogBox();
     }
 
     /*@Override
