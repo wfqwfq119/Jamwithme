@@ -14,8 +14,8 @@
         android:orderInCategory="100"
         />
     <item
-        android:id="@+id/navi_message"
-        android:title="Message"
+        android:id="@+id/navi_friend"
+        android:title="Friend"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
