@@ -104,8 +104,8 @@ public class DisplayOtherUserActivity extends AppCompatActivity {
             case R.id.navi_disprofile:
                 startActivity(new Intent(this,ProfileDisplay.class));
                 break;
-            case R.id.navi_message:
-                startActivity(new Intent(this,messagerAct.class));
+            case R.id.navi_friend:
+                startActivity(new Intent(this,friend_list.class));
                 break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)

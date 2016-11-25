@@ -44,8 +44,6 @@ public class UsingCamera {
 
     /** GIVE CAMERA BUTTON FUNCTIONALITY **/
     public void cameraButton(ImageButton camButton) {
-        //imageView = (ImageView) findViewById(R.id.ivProfile);
-        camButton = (ImageButton) activity.findViewById(R.id.camButton);
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -55,6 +53,7 @@ public class UsingCamera {
                 activity.startActivity(image);
             }
         });
+        dialogBox();
     }
 
     /** CREATE DIALOG BOX **/

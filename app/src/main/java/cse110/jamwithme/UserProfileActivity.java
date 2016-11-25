@@ -55,22 +55,25 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton camButton;
     private UsingCamera camObj;
-    private ImageView ivProf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        //float x_size = imageView.getScaleX();
+        //System.out.print(x_size);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
 
-        ivProf= (ImageView)findViewById(R.id.ivProfile);
-
         storage = FirebaseStorage.getInstance().getReference();
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) { Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(ivProf); }
+            public void onSuccess(Uri uri) {
+                Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(imageView);
+            }
         });
 
         init();
@@ -95,8 +98,11 @@ public class UserProfileActivity extends AppCompatActivity {
         /****** CAMERA - Nancy *****/
         camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
+        camButton = (ImageButton) findViewById(R.id.camButton);
+
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
+        //camObj.dialogBox();
     }
 
     /*@Override
@@ -131,8 +137,8 @@ public class UserProfileActivity extends AppCompatActivity {
             case R.id.navi_disprofile:
                 startActivity(new Intent(this,ProfileDisplay.class));
                 break;
-            case R.id.navi_message:
-                startActivity(new Intent(this,messagerAct.class));
+            case R.id.navi_friend:
+                startActivity(new Intent(this,friend_list.class));
                 break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)

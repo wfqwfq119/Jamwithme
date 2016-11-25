@@ -58,10 +58,11 @@ public class SetUpPicture extends AppCompatActivity {
         });
 
         imageView = (ImageView) findViewById(R.id.ivProfile);
+        camButton = (ImageButton) findViewById(R.id.camButton);
         camObj = new UsingCamera(this, prev_activ);
 
         camObj.cameraButton(camButton);
-        camObj.dialogBox();
+        //camObj.dialogBox(); //TODO remove later
         nextPage();
 
     }
@@ -102,8 +103,9 @@ public class SetUpPicture extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        img_uri = data.getData();
-
+        if (data != null) {
+            img_uri = data.getData();
+        }
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
             camObj.usingCamera(data, imageView);
         }

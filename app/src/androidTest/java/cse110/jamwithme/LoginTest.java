@@ -23,58 +23,51 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class RegisterUserTest {
+public class LoginTest {
 
     @Rule
     public ActivityTestRule<Splash> mActivityTestRule = new ActivityTestRule<>(Splash.class);
 
     @Test
-    public void registerUserTest() {
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.Login_tv), withText("Register Here"),
+    public void loginTest() {
+        ViewInteraction appCompatEditText = onView(
+                allOf(withId(R.id.Login_name),
                         withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatTextView.perform(click());
-
-        ViewInteraction appCompatEditText = onView(
-                allOf(withId(R.id.Re_Username),
-                        withParent(allOf(withId(R.id.activity_register),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText.perform(click());
+        appCompatEditText.perform(replaceText("testin."), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.Re_Username),
-                        withParent(allOf(withId(R.id.activity_register),
+                allOf(withId(R.id.Login_name), withText("testin."),
+                        withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText2.perform(replaceText("sample"), closeSoftKeyboard());
+        appCompatEditText2.perform(click());
 
         ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.Register_Email),
-                        withParent(allOf(withId(R.id.activity_register),
+                allOf(withId(R.id.Login_name), withText("testin."),
+                        withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText3.perform(replaceText("sample@yahoo.com"), closeSoftKeyboard());
+        appCompatEditText3.perform(replaceText("testing@ex.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText4 = onView(
-                allOf(withId(R.id.Register_password),
-                        withParent(allOf(withId(R.id.activity_register),
+                allOf(withId(R.id.Login_pass),
+                        withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("sample123"), closeSoftKeyboard());
+        appCompatEditText4.perform(replaceText("testing12"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText5 = onView(
-                allOf(withId(R.id.Register_password), withText("sample123"),
-                        withParent(allOf(withId(R.id.activity_register),
+                allOf(withId(R.id.Login_pass), withText("testing12"),
+                        withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
         appCompatEditText5.perform(pressImeActionButton());
 
         ViewInteraction appCompatButton = onView(
-                allOf(withId(R.id.Re_button), withText("Sign Up"),
-                        withParent(allOf(withId(R.id.activity_register),
+                allOf(withId(R.id.Login_botton), withText("Login"),
+                        withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
         appCompatButton.perform(click());
