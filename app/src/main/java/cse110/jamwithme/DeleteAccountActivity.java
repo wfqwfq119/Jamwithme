@@ -54,16 +54,8 @@ public class DeleteAccountActivity extends AppCompatActivity {
                 }
                 final FirebaseUser user = mAuth.getCurrentUser();
 
-                System.out.println("Reauth");
-                Toast.makeText(DeleteAccountActivity.this, "Reauthenticate!", Toast.LENGTH_LONG).show();
-
                 //re-authenticate credential
                 AuthCredential credential = EmailAuthProvider.getCredential(ue, up);
-
-                if(credential != null) {
-                    Toast.makeText(DeleteAccountActivity.this, credential.toString(), Toast.LENGTH_LONG)
-                            .show();
-                }
 
                 // check credentials and then delete
                 user.reauthenticate(credential)
@@ -84,8 +76,8 @@ public class DeleteAccountActivity extends AppCompatActivity {
                                                             .this, logina_ctivity.class));
                                                 }
                                                 else {
-                                                    Toast.makeText(DeleteAccountActivity.this, "what teh " +
-                                                            "fck!", Toast
+                                                    Toast.makeText(DeleteAccountActivity.this,
+                                                            "Could not delete user!", Toast
                                                             .LENGTH_LONG).show();
                                                 }
                                             }

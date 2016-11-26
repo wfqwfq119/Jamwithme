@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -82,21 +85,39 @@ public class ProfileDisplay extends AppCompatActivity {
 
         //String[] elems = {"personalBio", "name"};
         //final int[] info = {R.id.pbio, R.id.name};
-        
+
+        String uname = getIntent().getStringExtra("Name");
+
+        //System.out.println(User_Uid);
+        //my_String = User_Uid.split(",");
+        //my_String = my_String[1].split(" ");
+        //System.out.println(my_String[3]);
+        //User_Uid = my_String[3];
+
+
+
+        String User_Uid = getIntent().getStringExtra("Uid");
+        //System.out.println(User_Uid);
+        my_String = User_Uid.split(",");
+        my_String = my_String[1].split(" ");
+        //System.out.println(my_String[3]);
+        User_Uid = my_String[3];
+
+
+
+
         //TODO update according to database saved
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-        TextView insrt_list = (TextView)findViewById(R.id.tvIntsrlist);
-        //Bundle insrt_Bun = getIntent().getExtras();
-        //String msg = insrt_Bun.getString("instrs");
-        //insrt_list.setText(msg);
         DatabaseWatcher d = new DatabaseWatcher(this);
-        //d.updateData(elems, info);
-
         d.updateUserProfile();
+
+        /*if ( !clause ) {
+            user_see_edit.setVisibility(View.GONE);
+        }*/
     }
 
-    // Give 'save' button functionality
+    // Give 'edit' button functionality
     public void init() {
         edit_button = (ImageButton)findViewById(R.id.editProf);
         edit_button.setOnClickListener(new View.OnClickListener() {
@@ -107,6 +128,47 @@ public class ProfileDisplay extends AppCompatActivity {
                 startActivity(edit_profile);
             }
         });
+    }
+
+    //try to create menu
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.log_out:
+                mAuth.signOut();
+                startActivity(new Intent(this,logina_ctivity.class));
+                break;
+            case R.id.action_settings:
+                break;
+            case R.id.navi_disprofile:
+                startActivity(new Intent(this,ProfileDisplay.class));
+                break;
+            case R.id.navi_friend:
+                startActivity(new Intent(this,friend_list.class));
+                break;
+            case R.id.matching:
+                startActivity(new Intent(this, MatchingDisplay.class));
+                break;
+            case R.id.delete_acct:
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
+                        .show();
+                try{
+                    startActivity(new Intent(this, DeleteAccountActivity.class));
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

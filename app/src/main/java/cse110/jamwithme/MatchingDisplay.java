@@ -4,6 +4,8 @@ package cse110.jamwithme;
  * Created by Storm Quark on 11/21/2016.
  */
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,9 +18,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -26,9 +30,12 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
@@ -41,12 +48,10 @@ public class MatchingDisplay extends AppCompatActivity {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
 
-    /*ListView matches;
-    Intent instr_selected;
-    ArrayAdapter<String> instr_adapter;
-    ArrayList<String> select_list = new ArrayList<String>();
-    int count = 0;*/
+    ListView matches;
     ArrayList<String> userlist = new ArrayList<String>();
+    ArrayList<String> userlistname = new ArrayList<String>();
+    ArrayAdapter<String> userAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,28 +62,81 @@ public class MatchingDisplay extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
+        final Intent userFound = new Intent(this, DisplayOtherUserActivity.class);
+        final DatabaseReference userRef = myRef.child("users");
+        final Context c = this;
+
         //Get current user location
         UserLocation ul = new UserLocation(this, mAuth, myRef);
 
         double rad = 5;    //kilometers
 
-        GeoFire findUsers = new GeoFire(myRef);
+        GeoFire findUsers = new GeoFire(myRef.child("geofire"));
+        matches = (ListView) findViewById(R.id.Matches_List);
+
+        //Set list view
+        userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
+                userlistname);
+        matches.setAdapter(userAdapter);
 
         //Start query
         GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
         query.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String newuserkey, GeoLocation location) {
+                Toast.makeText(c,"user found nearby",Toast.LENGTH_SHORT)
+                        .show();
+                Toast.makeText(c,newuserkey,Toast.LENGTH_SHORT)
+                        .show();
                 userlist.add(newuserkey);
-                // additional code, like displaying a pin on the map
-                // and adding Firebase listeners for this user
+
+                //get username
+                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
+                                                                                                ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()) {
+                            Toast.makeText(c,dataSnapshot.getValue().toString(),Toast.LENGTH_SHORT)
+                                    .show();
+                            userlistname.add(dataSnapshot.getValue().toString());
+                            userAdapter.notifyDataSetChanged();
+                        }
+                        else {
+                            userlistname.add("Failed User");
+                            userAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+                userAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onKeyExited(String newuserkey) {
                 userlist.remove(newuserkey);
-                // additional code, like removing a pin from the map
-                // and removing any Firebase listener for this user
+                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
+                                                                                                ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.exists()) {
+                            userlistname.remove(dataSnapshot.getValue().toString());
+                            userAdapter.notifyDataSetChanged();
+                        }
+                        else {
+                            userlistname.remove("Failed User");
+                            userAdapter.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                userAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -97,71 +155,56 @@ public class MatchingDisplay extends AppCompatActivity {
         });
 
 
-
-        /*Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        instr_view = (ListView)findViewById(R.id.Instr_List);
-        instr_selected = new Intent(this,experience.class);
-        items_list.add("Keyboard");
-
-        instr_adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,items_list);
-        instr_view.setAdapter(instr_adapter);
-        instr_view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
-        instr_view.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+        matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
-                if(select_list.contains(items_list.get(position))){
-                    mode.setTitle("instrument already selected");
-                }
-                else {
-                    count = count + 1;
-                    mode.setTitle(count + " items selected");
-                    select_list.add(items_list.get(position));
-                }
-
-            }
-
-            @Override
-            public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-                MenuInflater inflater = mode.getMenuInflater();
-                inflater.inflate(R.menu.delete_button,menu);
-                return true;
-            }
-
-            @Override
-            public boolean onPrepareActionMode(ActionMode mode, Menu menu) {
-                return false;
-            }
-
-            @Override
-            public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.add_id:
-                        instr_selected.putExtra("instrs",select_list.toString());
-                        count = 0;
-                        mode.finish();
-                        //startActivity(instr_selected);
-                        return true;
-                    default:
-                        return false;
-                }
-                //return false;
-            }
-
-            @Override
-            public void onDestroyActionMode(ActionMode mode) {
-
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String user = userAdapter.getItem(position);
+                userFound.putExtra("name", user);
+                userFound.putExtra("userid", userlist.get(position));
+                startActivity(userFound);
             }
         });
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });*/
+    }
+
+    //try to create menu
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.log_out:
+                mAuth.signOut();
+                startActivity(new Intent(this,logina_ctivity.class));
+                break;
+            case R.id.action_settings:
+                break;
+            case R.id.navi_disprofile:
+                startActivity(new Intent(this,ProfileDisplay.class));
+                break;
+            case R.id.navi_friend:
+                startActivity(new Intent(this,friend_list.class));
+                break;
+            case R.id.matching:
+                startActivity(new Intent(this, MatchingDisplay.class));
+                break;
+            case R.id.delete_acct:
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
+                        .show();
+                try{
+                    startActivity(new Intent(this, DeleteAccountActivity.class));
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

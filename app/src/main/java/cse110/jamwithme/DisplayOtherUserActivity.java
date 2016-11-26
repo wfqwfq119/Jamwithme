@@ -44,6 +44,12 @@ public class DisplayOtherUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
 
+
+        /*Button user_see_edit = (Button)findViewById(R.id.editProf);
+        if ( !clause ) {
+            user_see_edit.setVisibility(View.GONE);
+        }*/
+
         /*mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance().getReference();
@@ -69,10 +75,7 @@ public class DisplayOtherUserActivity extends AppCompatActivity {
             }
         });
 
-        Button admin_see_questions = (Button)findViewById(R.id.admin_new_questions);
-    if ( !clause ) {
-        admin_see_questions.setVisibility(View.GONE);
-    }
+
 
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
@@ -107,15 +110,16 @@ public class DisplayOtherUserActivity extends AppCompatActivity {
             case R.id.navi_friend:
                 startActivity(new Intent(this,friend_list.class));
                 break;
+            case R.id.matching:
+                startActivity(new Intent(this, MatchingDisplay.class));
+                break;
             case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT).show();
                 try{
                     startActivity(new Intent(this, DeleteAccountActivity.class));
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
         }
         return super.onOptionsItemSelected(item);

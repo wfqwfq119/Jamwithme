@@ -66,8 +66,10 @@ public class DatabaseWatcher {
 
         badUser(user);
 
+        updateOtherUserData(user.getUid(), keys, r_id);
+
         //Get key to the user node in database
-        String key = "users/" + user.getUid();
+        /*String key = "users/" + user.getUid();
 
         //quick error check that provided keys have matching r_id
         if(keys.length != r_id.length) {
@@ -77,7 +79,7 @@ public class DatabaseWatcher {
         //for each provided thing, update
         for(int i = 0; i < keys.length; i++) {
             updateTextDataBy(key+"/"+keys[i], r_id[i]);
-        }
+        }*/
     }
 
     public void updateOtherUserData(String userid, String[] keys, final int[] r_id) {
