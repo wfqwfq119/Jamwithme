@@ -197,9 +197,9 @@ public class UserLocation implements LocationListener {
 
     @Override
     public void onStatusChanged(String s, int i, Bundle b) {
-        Toast.makeText(mContext, "Status Changed", Toast.LENGTH_LONG).show(); //DEBUG
+        //Toast.makeText(mContext, "Status Changed", Toast.LENGTH_LONG).show(); //DEBUG
         getLocation();
-        Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
-        Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
+        //Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
     }
 }

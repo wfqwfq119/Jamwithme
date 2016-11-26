@@ -58,10 +58,6 @@ public class UserProfileActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        //float x_size = imageView.getScaleX();
-        //System.out.print(x_size);
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
 
@@ -140,6 +136,9 @@ public class UserProfileActivity extends AppCompatActivity {
             case R.id.navi_friend:
                 startActivity(new Intent(this,friend_list.class));
                 break;
+            case R.id.matching:
+                startActivity(new Intent(this, MatchingDisplay.class));
+                break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
                         .show();
@@ -177,7 +176,10 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 d.saveData();
                 try {
-                    startActivity(new Intent(UserProfileActivity.this, ProfileDisplay.class));
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Intent displayProf = new Intent(UserProfileActivity.this, ProfileDisplay.class);
+                    displayProf.putExtra("userid", user.getUid());
+                    startActivity(displayProf);
                 }
                 catch(Exception e) {
                     e.printStackTrace();

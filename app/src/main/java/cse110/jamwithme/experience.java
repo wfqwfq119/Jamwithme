@@ -25,9 +25,7 @@ public class experience extends AppCompatActivity {
         bNext4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RatingBar currRat = (RatingBar) findViewById(R.id.ratingBar2);
-                float cR = currRat.getRating();
-                d.saveRating("rating", cR);
+                d.saveRating(R.id.ratingBar2);
 
                 startActivity(new Intent(experience.this, Biography.class));
             }

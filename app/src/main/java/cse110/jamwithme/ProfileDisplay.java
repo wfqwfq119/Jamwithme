@@ -9,6 +9,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -39,7 +42,6 @@ import java.io.IOException;
 public class ProfileDisplay extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private StorageReference storage;
@@ -47,6 +49,7 @@ public class ProfileDisplay extends AppCompatActivity {
     private ImageView prof_pic;
     private ImageButton edit_button;
     private Button play_myjam;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +60,16 @@ public class ProfileDisplay extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance().getReference();
 
+        if(getIntent().hasExtra("userid")) {
+            userID = getIntent().getStringExtra("userid");
+        }
+        else
+            userID = user.getUid();
+
+        final String key = "users/" + userID;
+
         prof_pic = (ImageView)findViewById(R.id.profile_pic);
-        final String key = "users/" + user.getUid();
+
         storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
@@ -80,33 +91,72 @@ public class ProfileDisplay extends AppCompatActivity {
 
         init();
 
-        //String[] elems = {"personalBio", "name"};
-        //final int[] info = {R.id.pbio, R.id.name};
-        
         //TODO update according to database saved
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
-        TextView insrt_list = (TextView)findViewById(R.id.tvIntsrlist);
-        //Bundle insrt_Bun = getIntent().getExtras();
-        //String msg = insrt_Bun.getString("instrs");
-        //insrt_list.setText(msg);
         DatabaseWatcher d = new DatabaseWatcher(this);
-        //d.updateData(elems, info);
-
-        d.updateUserProfile();
+        d.updateUserProfile(userID);
     }
 
-    // Give 'save' button functionality
+    // Give 'edit' button functionality
     public void init() {
+        FirebaseUser currU = mAuth.getCurrentUser();
+
         edit_button = (ImageButton)findViewById(R.id.editProf);
-        edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent edit_profile = new Intent(ProfileDisplay.this,
-                        UserProfileActivity.class);
-                startActivity(edit_profile);
-            }
-        });
+        if(userID.equals(currU.getUid())) {
+            edit_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent edit_profile = new Intent(ProfileDisplay.this,
+                            UserProfileActivity.class);
+                    startActivity(edit_profile);
+                }
+            });
+        }
+        else {
+            edit_button.setVisibility(View.GONE);
+        }
+    }
+
+    //try to create menu
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
+            case R.id.log_out:
+                mAuth.signOut();
+                startActivity(new Intent(this,logina_ctivity.class));
+                break;
+            case R.id.action_settings:
+                break;
+            case R.id.navi_disprofile:
+                startActivity(new Intent(this,ProfileDisplay.class));
+                break;
+            case R.id.navi_friend:
+                startActivity(new Intent(this,friend_list.class));
+                break;
+            case R.id.matching:
+                startActivity(new Intent(this, MatchingDisplay.class));
+                break;
+            case R.id.delete_acct:
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
+                        .show();
+                try{
+                    startActivity(new Intent(this, DeleteAccountActivity.class));
+                }catch(Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

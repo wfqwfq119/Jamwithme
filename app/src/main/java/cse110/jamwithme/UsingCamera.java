@@ -47,13 +47,15 @@ public class UsingCamera {
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent image = new Intent(activity,
+                dialogBox();    //This was PQ
+                /*Intent image = new Intent(activity,
                         SetUpPicture.class);
                 image.putExtra("activity", prev_activ);
-                activity.startActivity(image);
+                dialogBox();
+                activity.startActivity(image);*/
             }
         });
-        dialogBox();
+
     }
 
     /** CREATE DIALOG BOX **/
