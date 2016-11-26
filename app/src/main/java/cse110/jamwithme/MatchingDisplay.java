@@ -62,7 +62,7 @@ public class MatchingDisplay extends AppCompatActivity {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        final Intent userFound = new Intent(this, DisplayOtherUserActivity.class);
+        final Intent userFound = new Intent(this, ProfileDisplay.class);
         final DatabaseReference userRef = myRef.child("users");
         final Context c = this;
 
@@ -84,10 +84,6 @@ public class MatchingDisplay extends AppCompatActivity {
         query.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String newuserkey, GeoLocation location) {
-                Toast.makeText(c,"user found nearby",Toast.LENGTH_SHORT)
-                        .show();
-                Toast.makeText(c,newuserkey,Toast.LENGTH_SHORT)
-                        .show();
                 userlist.add(newuserkey);
 
                 //get username
@@ -96,8 +92,6 @@ public class MatchingDisplay extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()) {
-                            Toast.makeText(c,dataSnapshot.getValue().toString(),Toast.LENGTH_SHORT)
-                                    .show();
                             userlistname.add(dataSnapshot.getValue().toString());
                             userAdapter.notifyDataSetChanged();
                         }
@@ -158,8 +152,6 @@ public class MatchingDisplay extends AppCompatActivity {
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String user = userAdapter.getItem(position);
-                userFound.putExtra("name", user);
                 userFound.putExtra("userid", userlist.get(position));
                 startActivity(userFound);
             }

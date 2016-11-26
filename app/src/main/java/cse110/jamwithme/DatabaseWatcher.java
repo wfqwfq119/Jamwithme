@@ -39,7 +39,6 @@ public class DatabaseWatcher {
      * on the layout to put the new data to.
      */
     private void updateTextDataBy(String key, final int tview) {
-
         myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -59,35 +58,18 @@ public class DatabaseWatcher {
         });
     }
 
-    public void updateData(String[] keys, final int[] r_id) {
-        CharSequence error_msg = "Error: not enough data to " +
-                "update or not enough matching section for data.";
-        FirebaseUser user = mAuth.getCurrentUser();
 
+    public void updateData(String[] keys, final int[] r_id) {
+        FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
 
         updateOtherUserData(user.getUid(), keys, r_id);
-
-        //Get key to the user node in database
-        /*String key = "users/" + user.getUid();
-
-        //quick error check that provided keys have matching r_id
-        if(keys.length != r_id.length) {
-            Toast.makeText(mContext, error_msg, Toast.LENGTH_LONG).show();
-        }
-
-        //for each provided thing, update
-        for(int i = 0; i < keys.length; i++) {
-            updateTextDataBy(key+"/"+keys[i], r_id[i]);
-        }*/
     }
 
+    /** Update other users' text data according to userid */
     public void updateOtherUserData(String userid, String[] keys, final int[] r_id) {
         CharSequence error_msg = "Error: not enough data to " +
                 "update or not enough matching section for data.";
-        //FirebaseUser user = mAuth.getCurrentUser();
-
-        //badUser(user);
 
         //Get key to the user node in database
         String key = "users/" + userid;
@@ -107,9 +89,12 @@ public class DatabaseWatcher {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
 
+        updateRating(user.getUid(), r_id);
+    }
 
+    public void updateRating(String uid, final int r_id) {
         //Get key to the user node in database
-        String key = "users/" + user.getUid() + "/rating";
+        String key = "users/" + uid + "/rating";
 
         myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -130,6 +115,7 @@ public class DatabaseWatcher {
         });
     }
 
+    /** Update profile to reflect database info */
     public void updateUserProfile() {
         UserLocation ul = new UserLocation(mContext, mAuth, myRef);
 
@@ -141,6 +127,15 @@ public class DatabaseWatcher {
         saveDataBy("location", ul.getLongLat());
     }
 
+    /** Update profile to reflect database info */
+    public void updateUserProfile(String uid) {
+        String[] elems = {"personalBio", "name"};
+        final int[] info = {R.id.eTBiography, R.id.eTName};
+
+        updateOtherUserData(uid, elems, info);
+        updateRating(uid, R.id.ratingBar);
+    }
+
     /** Save data by giving in the "key" (where to find user info in database) and which view
      * on the layout to pull the new data from.
      */
@@ -150,7 +145,6 @@ public class DatabaseWatcher {
         String newInput = viewval.getText().toString();
 
         myRef.child(key).setValue(newInput);
-        /*myRef.child("users").child(uid).child("username").setValue(findViewById(R.id.Profile_Username));*/
     }
 
     public void saveDataBy(String key, Object newval) {
@@ -158,11 +152,21 @@ public class DatabaseWatcher {
         myRef.child(key).setValue(newval);
     }
 
-    public void saveRating(String key, float newval) {
-        key = "users/" + mAuth.getCurrentUser().getUid() + "/" + key;
-        myRef.child(key).setValue(newval);
+    public void saveRating(int r_id) {
+        FirebaseUser u = mAuth.getCurrentUser();
+        saveRating(u.getUid(), r_id);
     }
 
+    public void saveRating(String user, final int r_id) {
+        String key = "users/" + user + "/rating";
+
+        Activity a = (Activity)mContext;
+        RatingBar currRat = (RatingBar) a.findViewById(r_id);
+        float cR = currRat.getRating();
+        myRef.child(key).setValue(cR);
+    }
+
+    /** Save data for current user */
     public void saveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         badUser(user);
@@ -170,22 +174,18 @@ public class DatabaseWatcher {
         //Get key to the user node in database
         String key = "users/" + user.getUid();
 
-        //update current view of user to database
-        saveDataBy(key+"/name", R.id.eTName);
-        saveDataBy(key+"/personalBio", R.id.eTBiography);
+        String[] k = {"name", "personalBio"};
+        int[] r_id = {R.id.eTName, R.id.eTBiography};
 
-        Activity a = (Activity)mContext;
-        RatingBar currRat = (RatingBar) a.findViewById(R.id.ratingBar);
-        float cR = currRat.getRating();
-        saveRating("rating", cR);
+        //update current view of user to database
+        saveData(user.getUid(), k, r_id);
+        saveRating(user.getUid(), R.id.ratingBar);
     }
 
-    public void saveData(String[] keys, final int[] r_id) {
-        FirebaseUser user = mAuth.getCurrentUser();
-        badUser(user);
-
+    /** Save Data depending on input userid */
+    public void saveData(String u, String[] keys, final int[] r_id) {
         //Get key to the user node in database
-        String key = "users/" + user.getUid();
+        String key = "users/" + u;
 
         //quick error check that provided keys have matching r_id
         if (keys.length != r_id.length) {
@@ -198,19 +198,29 @@ public class DatabaseWatcher {
         }
     }
 
+    /** Save Data depending on input userid */
+    public void saveData(String[] keys, final int[] r_id) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        badUser(user);
+
+        saveData(user.getUid(), keys, r_id);
+    }
+
+    /** Checks if user exists */
     private void badUser(FirebaseUser user) {
         //if no user is logged in, go to login page
         if (user == null) {
-            System.out.println("USER IS NULL!!!!\n");
-            mContext.startActivity(new Intent(mContext, logina_ctivity.class));
+            badData();
         }
     }
 
+    /** if there is bad data, start at login activity */
     private void badData() {
         System.out.println("USER IS NULL!!!!\n");
         mContext.startActivity(new Intent(mContext, logina_ctivity.class));
     }
 
+    /** Delete user by clearing user's node from users as well as location references */
     public void deleteUserFromDatabase() {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
@@ -221,19 +231,4 @@ public class DatabaseWatcher {
         myRef.child("geofire/" + userstring).removeValue();
         myRef.child(userstring + "location").removeValue();
     }
-
-    /*public boolean failedDatabase(String key) {
-        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("") )
-                    return False;
-                return True;
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-    }*/
 }

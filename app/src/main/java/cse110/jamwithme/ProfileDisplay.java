@@ -42,7 +42,6 @@ import java.io.IOException;
 public class ProfileDisplay extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private StorageReference storage;
@@ -50,6 +49,7 @@ public class ProfileDisplay extends AppCompatActivity {
     private ImageView prof_pic;
     private ImageButton edit_button;
     private Button play_myjam;
+    private String userID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +60,16 @@ public class ProfileDisplay extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance().getReference();
 
+        if(getIntent().hasExtra("userid")) {
+            userID = getIntent().getStringExtra("userid");
+        }
+        else
+            userID = user.getUid();
+
+        final String key = "users/" + userID;
+
         prof_pic = (ImageView)findViewById(R.id.profile_pic);
-        final String key = "users/" + user.getUid();
+
         storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
@@ -83,51 +91,31 @@ public class ProfileDisplay extends AppCompatActivity {
 
         init();
 
-        //String[] elems = {"personalBio", "name"};
-        //final int[] info = {R.id.pbio, R.id.name};
-
-        String uname = getIntent().getStringExtra("Name");
-
-        //System.out.println(User_Uid);
-        //my_String = User_Uid.split(",");
-        //my_String = my_String[1].split(" ");
-        //System.out.println(my_String[3]);
-        //User_Uid = my_String[3];
-
-
-
-        String User_Uid = getIntent().getStringExtra("Uid");
-        //System.out.println(User_Uid);
-        my_String = User_Uid.split(",");
-        my_String = my_String[1].split(" ");
-        //System.out.println(my_String[3]);
-        User_Uid = my_String[3];
-
-
-
-
         //TODO update according to database saved
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
         DatabaseWatcher d = new DatabaseWatcher(this);
-        d.updateUserProfile();
-
-        /*if ( !clause ) {
-            user_see_edit.setVisibility(View.GONE);
-        }*/
+        d.updateUserProfile(userID);
     }
 
     // Give 'edit' button functionality
     public void init() {
+        FirebaseUser currU = mAuth.getCurrentUser();
+
         edit_button = (ImageButton)findViewById(R.id.editProf);
-        edit_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent edit_profile = new Intent(ProfileDisplay.this,
-                        UserProfileActivity.class);
-                startActivity(edit_profile);
-            }
-        });
+        if(userID.equals(currU.getUid())) {
+            edit_button.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent edit_profile = new Intent(ProfileDisplay.this,
+                            UserProfileActivity.class);
+                    startActivity(edit_profile);
+                }
+            });
+        }
+        else {
+            edit_button.setVisibility(View.GONE);
+        }
     }
 
     //try to create menu

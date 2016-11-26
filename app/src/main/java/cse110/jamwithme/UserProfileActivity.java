@@ -176,7 +176,10 @@ public class UserProfileActivity extends AppCompatActivity {
             public void onClick(View v) {
                 d.saveData();
                 try {
-                    startActivity(new Intent(UserProfileActivity.this, ProfileDisplay.class));
+                    FirebaseUser user = mAuth.getCurrentUser();
+                    Intent displayProf = new Intent(UserProfileActivity.this, ProfileDisplay.class);
+                    displayProf.putExtra("userid", user.getUid());
+                    startActivity(displayProf);
                 }
                 catch(Exception e) {
                     e.printStackTrace();
