@@ -27,6 +27,8 @@ public class friend_list extends AppCompatActivity {
     private ListView friend_list;
     static ArrayList<friend_obj> friend_Array = new ArrayList<friend_obj>();;
     private ArrayAdapter<friend_obj> friend_ArrayAdp;
+    private ArrayList<String> friend_Array_show;
+    private ArrayAdapter<String> friend_showAdp;
     private DatabaseReference friend_ref;
     String User_Uid;
     String User_name;
@@ -43,8 +45,16 @@ public class friend_list extends AppCompatActivity {
 
         friend_ref = FirebaseDatabase.getInstance().getReference().child("users");
 
+        //object array to contain user UID and user name
+        friend_Array =  new ArrayList<friend_obj>();
         friend_ArrayAdp = new ArrayAdapter<friend_obj>(this,android.R.layout.simple_list_item_1,friend_Array);
-        friend_list.setAdapter(friend_ArrayAdp);
+
+        //String array to show user name
+        friend_Array_show = new ArrayList<String>();
+        friend_showAdp = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,friend_Array_show);
+
+
+        friend_list.setAdapter(friend_showAdp);
 
         friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -61,9 +71,11 @@ public class friend_list extends AppCompatActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User_Uid = dataSnapshot.child("userId").toString();
-                User_name = dataSnapshot.child("name").toString();
+                User_name = dataSnapshot.child("name").getValue().toString();
+                //System.out.println(User_name);
+                friend_Array_show.add(User_name);
                 friend_Array.add(new friend_obj(User_Uid,User_name));
-                friend_ArrayAdp.notifyDataSetChanged();
+                friend_showAdp.notifyDataSetChanged();
             }
 
             @Override

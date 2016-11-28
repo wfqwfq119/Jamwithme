@@ -57,16 +57,18 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton camButton;
     private UsingCamera camObj;
+    private static int picWidth = 50;
+    private static int picHeight = 50;
 
     private TextView displayInstruments;
-    private InstrumentSelect instrumentSelect;
-    private Intent intent;
     private String instruments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        displayInstruments = (TextView)findViewById(R.id.tvInstruments);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -75,14 +77,15 @@ public class UserProfileActivity extends AppCompatActivity {
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(imageView);
+                Picasso.with(UserProfileActivity.this).load(uri).resize(picWidth, picHeight).into(imageView);
             }
         });
 
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                camObj.setDefaultPhoto(imageView);
+
+                camObj.setDefaultPhoto(imageView, picWidth, picHeight);
             }
         });
 
@@ -121,10 +124,55 @@ public class UserProfileActivity extends AppCompatActivity {
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
 
+
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
+
+
+
+        myRef.child("users/" + user.getUid() + "/Instruments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() == null) {
+                    displayInstruments.setText("No Istruments selected");
+                    return;
+                }
+                String my_list = dataSnapshot.getValue().toString();
+                String[] new_list = my_list.split(",");
+                for(String s : new_list){
+                    if(s == null)
+                        break;
+                    String[] check_list = s.split("=");
+                    if(s.equals(new_list[0]))
+                    {
+                        instruments = check_list[1];
+                        instruments += ",";
+                    }
+                    else if(s.equals(new_list[new_list.length-1]))
+                    {
+                        instruments += check_list[1];
+                    }
+                    else {
+                        instruments += check_list[1];
+                        instruments += ",";
+                    }
+                }
+                //System.out.println(instruments);
+                displayInstruments.setText(instruments);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //InstrList(user, instruments);
+        //System.out.println(instruments);
+
         //camObj.dialogBox();
     }
+
+
 
 
     //try to create menu
