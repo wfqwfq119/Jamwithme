@@ -89,7 +89,7 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-                init();
+        init();
         initSaveButton();
 
         //TODO update according to database saved

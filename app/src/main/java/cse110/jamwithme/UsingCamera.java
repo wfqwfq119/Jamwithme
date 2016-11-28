@@ -1,6 +1,7 @@
 package cse110.jamwithme;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.Button;
@@ -19,7 +21,13 @@ import android.widget.ImageView;
 import android.widget.RemoteViews;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
@@ -36,6 +44,7 @@ public class UsingCamera {
     private static final int REQUEST_CAMERA = 2;
     String userChoosenTask;
     private StorageReference imgStorage;
+
 
     /* Constructor: when you want to use camera you have to pass in the activity you want to use it
                     in
@@ -101,6 +110,34 @@ public class UsingCamera {
             }
         });
         builder.show();
+    }
+    /** Upload audio file to FireBase Storage w/authentication and handle results **/
+    public void upload_img(Uri toUpload, StorageReference storage, final ProgressDialog upl_progress) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = "users/" + user.getUid() + "/myimg";
+
+        final UploadTask upl_task = storage.child(key).putFile(toUpload);
+        upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(activity, "Upload Successful!", Toast.LENGTH_LONG).show();
+                        upl_progress.dismiss();
+                        // next_activ()
+                    }
+                });
+                upl_task.addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(activity, "Upload Failed!", Toast.LENGTH_LONG).show();
+                        upl_progress.dismiss();
+                    }
+                    // next_activ()
+                });
+            }
+        });
     }
 
     /*--------------------------------------GALLERY-----------------------------------------------*/

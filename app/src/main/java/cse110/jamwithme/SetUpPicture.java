@@ -67,34 +67,7 @@ public class SetUpPicture extends AppCompatActivity {
 
     }
 
-    /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    private void upload_img(Uri toUpload) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String key = "users/" + user.getUid() + "/myimg";
 
-        final UploadTask upl_task = storage.child(key).putFile(toUpload);
-        upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(SetUpPicture.this, "Upload Successful!", Toast.LENGTH_LONG).show();
-                        upl_progress.dismiss();
-                        next_activ();
-                    }
-                });
-                upl_task.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(SetUpPicture.this, "Upload Failed!", Toast.LENGTH_LONG).show();
-                        upl_progress.dismiss();
-                        next_activ();
-                    }
-                });
-            }
-        });
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -130,7 +103,9 @@ public class SetUpPicture extends AppCompatActivity {
                 if (img_uri != null) {
                     upl_progress.setMessage("Uploading profile picture...");
                     upl_progress.show();
-                    upload_img(img_uri);
+                    camObj.upload_img(img_uri,storage, upl_progress);
+                            //(img_uri, storage, upl_progress);
+                    next_activ();
                 }
                 else { next_activ(); }
             }
