@@ -116,9 +116,15 @@ public class ProfileDisplay extends AppCompatActivity {
         myRef.child("users/" + user.getUid() + "/Instruments").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue() == null) {
+                    displayInstruments.setText("No Istruments selected");
+                    return;
+                }
                 String my_list = dataSnapshot.getValue().toString();
                 String[] new_list = my_list.split(",");
                 for(String s : new_list){
+                    if(s == null)
+                        break;
                     String[] check_list = s.split("=");
                     if(s.equals(new_list[0]))
                     {
