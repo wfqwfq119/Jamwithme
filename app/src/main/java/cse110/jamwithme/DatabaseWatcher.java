@@ -174,6 +174,7 @@ public class DatabaseWatcher {
         //Get key to the user node in database
         String key = "users/" + user.getUid();
 
+        // added instruments
         String[] k = {"name", "personalBio"};
         int[] r_id = {R.id.eTName, R.id.eTBiography};
 

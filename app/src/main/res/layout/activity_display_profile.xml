@@ -11,42 +11,6 @@
                 android:paddingTop="@dimen/activity_vertical_margin"
                 tools:context="cse110.jamwithme.ProfileDisplay">
 
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:layout_below="@+id/eTName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:isIndicator="true" />
-
-    <Button
-        android:text="@string/instruments"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvIntsrlist"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_marginTop="19dp"
-        android:layout_below="@+id/ratingBar"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
-    <Button
-        android:text="@string/prof_jam"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/my_jams"
-        android:background="?attr/actionModeSplitBackground"
-        android:textColor="@android:color/white"
-        android:layout_alignBaseline="@+id/tvIntsrlist"
-        android:layout_alignBottom="@+id/tvIntsrlist"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toRightOf="@+id/eTBiography"
-        android:layout_toEndOf="@+id/eTBiography"
-        android:elevation="20dp" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,23 +19,10 @@
         android:id="@+id/eTBiography"
         android:text="@string/bio"
         android:maxLength="500"
-        android:layout_below="@+id/tvIntsrlist"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
-        />
-
-    <TextView
-        android:text="@string/exp_lvl"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/exp"
-        android:textSize="18sp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_above="@+id/tvIntsrlist"
-        android:layout_toLeftOf="@+id/ratingBar"
-        android:layout_toStartOf="@+id/ratingBar"/>
+        android:layout_marginBottom="15dp" />
 
     <ImageView
         android:scaleX="5"
@@ -80,29 +31,75 @@
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/alert_light_frame"
         android:id="@+id/profile_pic"
-        android:layout_marginBottom="43dp"
-        android:layout_above="@+id/eTName"
-        android:layout_centerHorizontal="true"/>
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="91dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:textSize="24sp"
+        android:id="@+id/eTName"
+        android:text="@string/uname"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/editProf"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:text="Years of Experience"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/exp"
+        android:textSize="18sp"
+        android:layout_alignTop="@+id/ratingBar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/my_jams"
+        android:layout_alignEnd="@+id/my_jams" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:isIndicator="true"
+        android:layout_marginTop="33dp"
+        android:layout_below="@+id/eTName"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:text="@string/prof_jam"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/my_jams"
+        android:background="?attr/actionModeSplitBackground"
+        android:textColor="@android:color/white"
+        android:elevation="20dp"
+        android:layout_above="@+id/eTBiography"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="17dp" />
+
+    <TextView
+        android:text="Instruments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvInstruments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ratingBar"
+        android:textSize="18sp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/ic_menu_edit"
         android:id="@+id/editProf"
+        android:layout_marginTop="16dp"
         android:layout_alignTop="@+id/profile_pic"
-        android:layout_alignRight="@+id/eTName"
-        android:layout_alignEnd="@+id/eTName"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:textSize="20sp"
-        android:id="@+id/eTName"
-        android:text="@string/uname"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
+        android:layout_alignRight="@+id/eTBiography"
+        android:layout_alignEnd="@+id/eTBiography" />
 
 </RelativeLayout>

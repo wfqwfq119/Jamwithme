@@ -45,7 +45,6 @@
         <activity android:name=".ProfileDisplay" />
         <activity android:name=".experience" />
         <activity android:name=".Biography" />
-        <activity android:name=".DisplayUserproActivity" />
         <activity
             android:name=".messagerAct"
             android:label="messagerAct" />

@@ -50,6 +50,8 @@ public class ProfileDisplay extends AppCompatActivity {
     private ImageButton edit_button;
     private Button play_myjam;
     private String userID;
+    private TextView displayInstruments; // Nancy
+    private InstrumentSelect instrumentSelect;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +72,12 @@ public class ProfileDisplay extends AppCompatActivity {
 
         prof_pic = (ImageView)findViewById(R.id.profile_pic);
 
-        storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        /////////////////////////////////////////////////////////////////////////////////////
+        //displayInstruments = (TextView) findViewById(R.id.tvInstruments); // Nancy
+        //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
+
+
+                storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
         });

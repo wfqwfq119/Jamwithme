@@ -56,6 +56,11 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageButton camButton;
     private UsingCamera camObj;
 
+    private TextView displayInstruments;
+    private InstrumentSelect instrumentSelect;
+    private Intent intent;
+    private String instruments;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,6 +100,15 @@ public class UserProfileActivity extends AppCompatActivity {
         camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camButton = (ImageButton) findViewById(R.id.camButton);
+
+        /*
+        intent = getIntent();
+        instruments = intent.getStringExtra("instrs");
+        displayInstruments = (TextView) findViewById(R.id.tvInstruments);
+        displayInstruments.setText(instruments);
+        */
+        //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
+
 
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);

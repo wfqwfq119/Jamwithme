@@ -23,47 +23,33 @@ import static org.hamcrest.Matchers.allOf;
 
 @LargeTest
 @RunWith(AndroidJUnit4.class)
-public class LoginTest {
+public class LoginWithValidAccount {
 
     @Rule
     public ActivityTestRule<Splash> mActivityTestRule = new ActivityTestRule<>(Splash.class);
 
     @Test
-    public void loginTest() {
+    public void loginWithValidAccount() {
         ViewInteraction appCompatEditText = onView(
                 allOf(withId(R.id.Login_name),
                         withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText.perform(replaceText("testing"), closeSoftKeyboard());
+        appCompatEditText.perform(replaceText("testing@ex.com"), closeSoftKeyboard());
 
         ViewInteraction appCompatEditText2 = onView(
-                allOf(withId(R.id.Login_name), withText("testing"),
-                        withParent(allOf(withId(R.id.activity_logina_ctivity),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText2.perform(click());
-
-        ViewInteraction appCompatEditText3 = onView(
-                allOf(withId(R.id.Login_name), withText("testing"),
-                        withParent(allOf(withId(R.id.activity_logina_ctivity),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText3.perform(replaceText("testing@ex.com"), closeSoftKeyboard());
-
-        ViewInteraction appCompatEditText4 = onView(
                 allOf(withId(R.id.Login_pass),
                         withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText4.perform(replaceText("testing12"), closeSoftKeyboard());
+        appCompatEditText2.perform(replaceText("testing12"), closeSoftKeyboard());
 
-        ViewInteraction appCompatEditText5 = onView(
+        ViewInteraction appCompatEditText3 = onView(
                 allOf(withId(R.id.Login_pass), withText("testing12"),
                         withParent(allOf(withId(R.id.activity_logina_ctivity),
                                 withParent(withId(android.R.id.content)))),
                         isDisplayed()));
-        appCompatEditText5.perform(pressImeActionButton());
+        appCompatEditText3.perform(pressImeActionButton());
 
         ViewInteraction appCompatButton = onView(
                 allOf(withId(R.id.Login_botton), withText("Login"),

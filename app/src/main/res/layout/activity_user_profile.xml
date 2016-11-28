@@ -12,28 +12,8 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cse110.jamwithme.UserProfileActivity">
 
-    <ImageView
-        android:scaleX="5"
-        android:scaleY="5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/alert_light_frame"
-        android:id="@+id/ivProfile"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="96dp"
-        />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/ratingBar"
-        android:layout_below="@+id/eTName"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <TextView
-        android:text="Experience Level"
+        android:text="Years of Experience"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tVExperience"
@@ -58,43 +38,6 @@
         android:layout_toRightOf="@+id/eTBiography"
         android:layout_toEndOf="@+id/eTBiography" />
 
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textMultiLine|textPersonName"
-        android:ems="10"
-        android:id="@+id/eTBiography"
-        android:hint="@string/bio"
-        android:layout_below="@+id/Profile_add_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="21dp"
-        android:maxLength="500"
-        />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@android:drawable/ic_menu_camera"
-        android:layout_marginTop="24dp"
-        android:id="@+id/camButton"
-        android:layout_alignTop="@+id/ivProfile"
-        android:layout_alignLeft="@+id/ivProfile"
-        android:layout_alignStart="@+id/ivProfile"
-        android:layout_marginLeft="34dp"
-        android:layout_marginStart="34dp" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:ems="10"
-        android:id="@+id/eTName"
-        android:hint="Username"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <Button
         android:text="@string/addI"
         android:layout_width="wrap_content"
@@ -117,5 +60,76 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"/>
+
+    <ImageView
+        android:scaleX="5"
+        android:scaleY="5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/alert_light_frame"
+        android:id="@+id/ivProfile"
+        android:layout_marginTop="82dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:id="@+id/camButton"
+        android:layout_alignTop="@+id/ivProfile"
+        android:layout_toLeftOf="@+id/save_button"
+        android:layout_toStartOf="@+id/save_button"
+        android:layout_marginRight="28dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginTop="21dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:ems="10"
+        android:id="@+id/eTName"
+        android:hint="Username"
+        android:layout_marginTop="42dp"
+        android:layout_below="@+id/ivProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ratingBar"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:text="Instruments"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/Profile_add_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="35dp"
+        android:id="@+id/tvInstruments"
+        android:textSize="18sp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine|textPersonName"
+        android:ems="10"
+        android:id="@+id/eTBiography"
+        android:hint="@string/bio"
+        android:maxLength="500"
+        android:layout_below="@+id/tvInstruments"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="17dp"
+        android:layout_alignRight="@+id/camButton"
+        android:layout_alignEnd="@+id/camButton" />
 
 </RelativeLayout>

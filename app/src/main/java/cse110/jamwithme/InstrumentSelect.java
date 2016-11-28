@@ -27,9 +27,10 @@ public class InstrumentSelect extends AppCompatActivity {
     ListView instr_view;
     Intent instr_selected;
     ArrayAdapter<String> instr_adapter;
-    ArrayList<String> items_list = new ArrayList<String>();
-    ArrayList<String> select_list = new ArrayList<String>();
+    ArrayList<String> items_list = new ArrayList<String>(); // available instruments
+    ArrayList<String> select_list = new ArrayList<String>(); // instruments selected by user
     int count = 0;
+
 
     Button bNext3; // MAYA AND NANCY
 
