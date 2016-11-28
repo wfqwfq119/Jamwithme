@@ -3,7 +3,11 @@ package cse110.jamwithme;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +25,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class SetUpPicture extends AppCompatActivity {
     private Intent prev_intent;
@@ -62,6 +67,12 @@ public class SetUpPicture extends AppCompatActivity {
         camObj = new UsingCamera(this, prev_activ);
 
         camObj.cameraButton(camButton);
+
+        /***** set Default picture *****/
+        //Drawable defaultPic = getResources().getDrawable(R.drawable.default_pic);
+        //imageView.setImageDrawable(defaultPic);
+        camObj.setDefaultPhoto(imageView);
+
         //camObj.dialogBox(); //TODO remove later
         nextPage();
 

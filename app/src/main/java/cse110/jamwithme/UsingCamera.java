@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -56,6 +58,15 @@ public class UsingCamera {
             }
         });
 
+    }
+    /** default profile picture **/
+    public void setDefaultPhoto(ImageView imageView) {
+        Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.default_pic);
+        // show image to user
+        imageView.setImageBitmap(bm);
+        String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
+                "Your image", null);
+        Picasso.with(activity).load(path).resize(100 , 100).into(imageView); // width/height
     }
 
     /** CREATE DIALOG BOX **/

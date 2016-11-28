@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,6 +21,7 @@ import android.support.v4.widget.DrawerLayout;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -77,7 +79,14 @@ public class UserProfileActivity extends AppCompatActivity {
             }
         });
 
-        init();
+        storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                camObj.setDefaultPhoto(imageView);
+            }
+        });
+
+                init();
         initSaveButton();
 
         //TODO update according to database saved
