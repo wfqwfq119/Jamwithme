@@ -103,7 +103,6 @@ public class SetUpPicture extends AppCompatActivity {
         if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
             img_uri = camObj.selectFromGallery(data, imageView);
         }
-
     }
 
     /** Set up next activity page **/

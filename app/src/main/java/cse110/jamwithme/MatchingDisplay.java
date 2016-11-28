@@ -49,10 +49,12 @@ public class MatchingDisplay extends AppCompatActivity {
     private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
+    private Intent prev_intent;
+    private String updated;
 
     ListView matches;
-    ArrayList<String> userlist = new ArrayList<String>();
-    ArrayList<String> userlistname = new ArrayList<String>();
+    static ArrayList<String> userlist = new ArrayList<String>();
+    static ArrayList<String> userlistname = new ArrayList<String>();
     ArrayAdapter<String> userAdapter;
 
     @Override
@@ -63,6 +65,10 @@ public class MatchingDisplay extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
+
+        prev_intent = getIntent();
+        updated = prev_intent.getStringExtra("updated");
+        System.out.println("updated: " + updated + "\n");
 
         final Intent userFound = new Intent(this, ProfileDisplay.class);
         final DatabaseReference userRef = myRef.child("users");
@@ -77,92 +83,90 @@ public class MatchingDisplay extends AppCompatActivity {
         matches = (ListView) findViewById(R.id.Matches_List);
 
         //Set list view
-        userAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,
+        userAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,
                 userlistname);
         matches.setAdapter(userAdapter);
 
-        //Start query
-        GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
-        query.addGeoQueryEventListener(new GeoQueryEventListener() {
-            @Override
-            public void onKeyEntered(String newuserkey, GeoLocation location) {
-                user = mAuth.getCurrentUser();
-                String userUID = user.getUid();
 
-                // Prevent users from adding themselves to their matches
-                if (userUID.equals(newuserkey)) { return; }
+        if (updated.equals("false")) {
+            //Start query
+            GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
+            query.addGeoQueryEventListener(new GeoQueryEventListener() {
+                @Override
+                public void onKeyEntered(String newuserkey, GeoLocation location) {
+                    user = mAuth.getCurrentUser();
+                    String userUID = user.getUid();
 
-                userlist.add(newuserkey);
-
-                //get username
-                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()) {
-                            userlistname.add(dataSnapshot.getValue().toString());
-                            userAdapter.notifyDataSetChanged();
-                        }
-                        else {
-                            //userlistname.add("Failed User");
-                            userAdapter.notifyDataSetChanged();
-                        }
+                    // Prevent users from adding themselves to their matches
+                    if (userUID.equals(newuserkey)) {
+                        return;
                     }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
+                    userlist.add(newuserkey);
 
-                userAdapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onKeyExited(String newuserkey) {
-                userlist.remove(newuserkey);
-                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
-                                                                                                ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if(dataSnapshot.exists()) {
-                            userlistname.remove(dataSnapshot.getValue().toString());
-                            userAdapter.notifyDataSetChanged();
+                    //get username
+                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                userlistname.add(dataSnapshot.getValue().toString());
+                                userAdapter.notifyDataSetChanged();
+                            } else {
+                                //userlistname.add("Failed User");
+                                userAdapter.notifyDataSetChanged();
+                            }
                         }
-                        else {
-                            userlistname.remove("Failed User");
-                            userAdapter.notifyDataSetChanged();
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
                         }
-                    }
+                    });
+                    userAdapter.notifyDataSetChanged();
+                }
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-                userAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onKeyExited(String newuserkey) {
+                    userlist.remove(newuserkey);
+                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                userlistname.remove(dataSnapshot.getValue().toString());
+                                userAdapter.notifyDataSetChanged();
+                            } else {
+                                userlistname.remove("Failed User");
+                                userAdapter.notifyDataSetChanged();
+                            }
+                        }
 
-            @Override
-            public void onKeyMoved(String key, GeoLocation location) {
-            }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    userAdapter.notifyDataSetChanged();
+                }
 
-            @Override
-            public void onGeoQueryReady() {
-            }
+                @Override
+                public void onKeyMoved(String key, GeoLocation location) {
+                }
 
-            @Override
-            public void onGeoQueryError(DatabaseError error) {
-                Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT)
-                        .show();
-            }
-        });
+                @Override
+                public void onGeoQueryReady() {
+                }
 
-
+                @Override
+                public void onGeoQueryError(DatabaseError error) {
+                    Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MatchQuery test = new MatchQuery(userlist);
-                //test.list_matches();
-                userFound.putExtra("userid", userlist.get(position));
-                startActivity(userFound);
+                Intent query = new Intent(MatchingDisplay.this, MatchQuery.class);
+                String pos = Integer.toString(position);
+                query.putExtra("position", pos);
+                startActivity(query);
             }
         });
     }
@@ -192,8 +196,9 @@ public class MatchingDisplay extends AppCompatActivity {
                 startActivity(new Intent(this,friend_list.class));
                 break;
             case R.id.matching:
-                startActivity(new Intent(this, MatchingDisplay.class));
-                break;
+                Intent match = new Intent(this, MatchingDisplay.class);
+                match.putExtra("updated", "false");
+                startActivity(match);
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
                         .show();

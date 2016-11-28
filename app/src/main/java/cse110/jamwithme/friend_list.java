@@ -25,7 +25,7 @@ public class friend_list extends AppCompatActivity {
 
     private ListView recent_find;
     private ListView friend_list;
-    private ArrayList<friend_obj> friend_Array;
+    static ArrayList<friend_obj> friend_Array = new ArrayList<friend_obj>();;
     private ArrayAdapter<friend_obj> friend_ArrayAdp;
     private DatabaseReference friend_ref;
     String User_Uid;
@@ -43,7 +43,6 @@ public class friend_list extends AppCompatActivity {
 
         friend_ref = FirebaseDatabase.getInstance().getReference().child("users");
 
-        friend_Array =  new ArrayList<friend_obj>();
         friend_ArrayAdp = new ArrayAdapter<friend_obj>(this,android.R.layout.simple_list_item_1,friend_Array);
         friend_list.setAdapter(friend_ArrayAdp);
 

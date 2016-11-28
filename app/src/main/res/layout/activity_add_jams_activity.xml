@@ -75,16 +75,6 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/bNext2"
-        android:background="?android:attr/statusBarColor"
-        android:textColor="@android:color/white"
-        android:layout_alignParentBottom="true"
-        android:layout_toEndOf="@+id/curr_jam" />
-
-    <Button
         android:text="Delete Jam"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
@@ -107,6 +97,17 @@
         android:textColor="@android:color/black"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <Button
+        android:text="Next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bNext2"
+        android:background="?android:attr/statusBarColor"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/bdelete"
+        android:layout_toEndOf="@+id/bdelete" />
 
 
 </RelativeLayout>

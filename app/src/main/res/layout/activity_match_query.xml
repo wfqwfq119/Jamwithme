@@ -11,22 +11,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cse110.jamwithme.MatchQuery">
 
-    <TextView
-        android:text="@string/name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvName"
-        android:textAppearance="@android:style/TextAppearance.Material.Medium"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/exp_rating_bar"
         android:layout_marginTop="12dp"
         android:layout_below="@+id/tvName"
+        android:isIndicator="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
@@ -83,15 +74,26 @@
         android:layout_alignParentEnd="true" />
 
     <ImageView
-        android:scaleX="6"
-        android:scaleY="6"
+        android:scaleX="4"
+        android:scaleY="4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@android:drawable/alert_light_frame"
         android:id="@+id/ivProfile"
-        android:layout_marginBottom="75dp"
-        android:layout_above="@+id/tvName"
+        android:layout_marginTop="81dp"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:text="@string/name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvName"
+        android:textAppearance="@android:style/TextAppearance.Material.Medium"
+        android:layout_marginTop="77dp"
+        android:layout_below="@+id/ivProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>

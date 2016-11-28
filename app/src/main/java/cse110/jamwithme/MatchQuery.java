@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.support.v7.app.AppCompatActivity;
@@ -9,6 +10,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,12 +31,12 @@ import java.util.ArrayList;
 
 public class MatchQuery extends AppCompatActivity {
 
-    private ArrayList<friend_obj> friend_Array;
-    private ArrayList<String> matches;
     private FirebaseDatabase database;
     private DatabaseReference db_ref;
-    private FirebaseAuth mAuth;
-    private FirebaseUser user;
+    private Intent prev_intent;
+    private String str_idx;
+    private String m_name;
+    private int idx;
     private StorageReference storage;
 
     private ImageView prof_pic;
@@ -46,15 +48,17 @@ public class MatchQuery extends AppCompatActivity {
     private TextView usr_name;
     private TextView instruments;
 
-    public MatchQuery(ArrayList<String> next_matches) { matches = next_matches; }
+    //public MatchQuery(ArrayList<String> next_matches) { matches = next_matches; }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_match_query);
+        mp = null;
+        prev_intent = getIntent();
+        str_idx = prev_intent.getStringExtra("position");
+        idx = Integer.parseInt(str_idx);
 
-        friend_Array =  new ArrayList<friend_obj>();
-        mAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
         db_ref = database.getReference();
@@ -67,7 +71,7 @@ public class MatchQuery extends AppCompatActivity {
         usr_name = (TextView)findViewById(R.id.tvName);
         instruments = (TextView)findViewById(R.id.tvInstr);
 
-        determ_matches();
+        determ_match();
     }
 
     public void displayMatch(String next_match) {
@@ -90,8 +94,8 @@ public class MatchQuery extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    String newval = (String) dataSnapshot.getValue();
-                    usr_name.setText(newval);
+                    m_name = (String) dataSnapshot.getValue();
+                    usr_name.setText(m_name);
                 }
             }
 
@@ -127,32 +131,43 @@ public class MatchQuery extends AppCompatActivity {
         }
     }
 
-    public void determ_matches() {
-        for (int i = 0; i < matches.size(); i++) {
-            // Display matched users' profile info
-            displayMatch(matches.get(i));
+    public void determ_match() {
+        displayMatch(MatchingDisplay.userlist.get(idx));
+        final Intent back = new Intent(MatchQuery.this, MatchingDisplay.class);
+        back.putExtra("updated", "true");
 
 
-            // Suspend mp if playing, then do nothing else
-            Bdecline.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { suspend_mp(); }
-            });
+        // Suspend mp if playing, then do nothing else
+        Bdecline.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                suspend_mp();
+                MatchingDisplay.userlist.remove(idx);
+                MatchingDisplay.userlistname.remove(idx);
+                startActivity(back);
+            }
+        });
 
-            // Play matched users' profile jam
-            Bplay_mp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) { mp.start(); }
-            });
+        // Play matched users' profile jam
+        Bplay_mp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mp != null) { mp.start(); }
+                else { Toast.makeText(MatchQuery.this, "Nothing to play!", Toast.LENGTH_LONG); }
+            }
+        });
 
-            // Suspend mp if playing, then add matched user to curr_user's friends list
-            Baccept.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    suspend_mp();
-                    //friend_obj next_fr = new friend_obj()
-                }
-            });
-        }
+        // Suspend mp if playing, then add matched user to curr_user's friends list
+        Baccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                suspend_mp();
+                friend_obj next_fr = new friend_obj(MatchingDisplay.userlist.get(idx), m_name);
+                friend_list.friend_Array.add(next_fr);
+                MatchingDisplay.userlist.remove(idx);
+                MatchingDisplay.userlistname.remove(idx);
+                startActivity(back);
+            }
+        });
     }
 }

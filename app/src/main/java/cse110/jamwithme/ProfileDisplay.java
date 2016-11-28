@@ -148,7 +148,9 @@ public class ProfileDisplay extends AppCompatActivity {
                 startActivity(new Intent(this,friend_list.class));
                 break;
             case R.id.matching:
-                startActivity(new Intent(this, MatchingDisplay.class));
+                Intent match = new Intent(this, MatchingDisplay.class);
+                match.putExtra("updated", "false");
+                startActivity(match);
                 break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
