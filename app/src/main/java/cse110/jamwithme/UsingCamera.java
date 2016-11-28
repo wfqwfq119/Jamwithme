@@ -51,10 +51,10 @@ public class UsingCamera {
             @Override
             public void onClick(View v) {
                 dialogBox();    //This was PQ
-                Intent image = new Intent(activity,
-                        SetUpPicture.class);
-                image.putExtra("activity", prev_activ);
-                activity.startActivity(image);
+                //Intent image = new Intent(activity,
+                //        SetUpPicture.class);
+                //image.putExtra("activity", prev_activ);
+                //activity.startActivity(image);
             }
         });
 

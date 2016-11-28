@@ -53,8 +53,8 @@ public class MatchingDisplay extends AppCompatActivity {
     private String updated;
 
     ListView matches;
-    static ArrayList<String> userlist = new ArrayList<String>();
-    static ArrayList<String> userlistname = new ArrayList<String>();
+    static ArrayList<String> userlist;
+    static ArrayList<String> userlistname;
     ArrayAdapter<String> userAdapter;
 
     @Override
@@ -69,6 +69,9 @@ public class MatchingDisplay extends AppCompatActivity {
         prev_intent = getIntent();
         updated = prev_intent.getStringExtra("updated");
         System.out.println("updated: " + updated + "\n");
+
+        userlist = new ArrayList<String>();
+        userlistname = new ArrayList<String>();
 
         final Intent userFound = new Intent(this, ProfileDisplay.class);
         final DatabaseReference userRef = myRef.child("users");
@@ -87,7 +90,6 @@ public class MatchingDisplay extends AppCompatActivity {
                 userlistname);
         matches.setAdapter(userAdapter);
 
-
         if (updated.equals("false")) {
             //Start query
             GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
@@ -99,29 +101,29 @@ public class MatchingDisplay extends AppCompatActivity {
 
                     // Prevent users from adding themselves to their matches
                     if (userUID.equals(newuserkey)) {
-                        return;
                     }
+                    else {
+                        userlist.add(newuserkey);
 
-                    userlist.add(newuserkey);
-
-                    //get username
-                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                userlistname.add(dataSnapshot.getValue().toString());
-                                userAdapter.notifyDataSetChanged();
-                            } else {
-                                //userlistname.add("Failed User");
-                                userAdapter.notifyDataSetChanged();
+                        //get username
+                        userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                if (dataSnapshot.exists()) {
+                                    userlistname.add(dataSnapshot.getValue().toString());
+                                    userAdapter.notifyDataSetChanged();
+                                } else {
+                                    //userlistname.add("Failed User");
+                                    userAdapter.notifyDataSetChanged();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-                    userAdapter.notifyDataSetChanged();
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                        userAdapter.notifyDataSetChanged();
+                    }
                 }
 
                 @Override
@@ -199,6 +201,7 @@ public class MatchingDisplay extends AppCompatActivity {
                 Intent match = new Intent(this, MatchingDisplay.class);
                 match.putExtra("updated", "false");
                 startActivity(match);
+                break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
                         .show();
