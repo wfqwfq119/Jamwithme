@@ -5,6 +5,7 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -130,35 +131,79 @@ public class UserProfileActivity extends AppCompatActivity {
 
 
 
-        myRef.child("users/" + user.getUid() + "/Instruments").addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 if(dataSnapshot.getValue() == null) {
-                    displayInstruments.setText("No Istruments selected");
+                    displayInstruments.setText("No Instruments selected");
                     return;
                 }
                 String my_list = dataSnapshot.getValue().toString();
+                //System.out.println(my_list);
                 String[] new_list = my_list.split(",");
-                for(String s : new_list){
-                    if(s == null)
+                //System.out.println(new_list);
+                for(String si : new_list){
+                    if(si == null)
                         break;
-                    String[] check_list = s.split("=");
-                    if(s.equals(new_list[0]))
-                    {
-                        instruments = check_list[1];
-                        instruments += ",";
+                    //String[] check_list = si.split("=");
+                    //System.out.println(check_list[0]);
+
+                    if(instruments == null){
+                        instruments = si;
+                        instruments += ", ";
                     }
-                    else if(s.equals(new_list[new_list.length-1]))
-                    {
-                        instruments += check_list[1];
+                    else if(instruments.toCharArray().length == new_list.length){
+                        instruments += si;
                     }
                     else {
-                        instruments += check_list[1];
-                        instruments += ",";
+                        instruments += si;
+                        instruments += ", ";
                     }
                 }
                 //System.out.println(instruments);
                 displayInstruments.setText(instruments);
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+                /*if(dataSnapshot.getValue() == null) {
+                    displayInstruments.setText("No Instruments selected");
+                    return;
+                }
+                String my_list = dataSnapshot.getValue().toString();
+                //System.out.println(my_list);
+                String[] new_list = my_list.split(",");
+                System.out.println(new_list);
+                for(String si : new_list){
+                    if(si == null)
+                        break;
+                    //String[] check_list = si.split("=");
+                    //System.out.println(check_list[0]);
+
+                    if(instruments == null){
+                        instruments = si;
+                        instruments += ", ";
+                    }
+                    else if(instruments.toCharArray().length == new_list.length){
+                        instruments += si;
+                    }
+                    else {
+                        instruments += si;
+                        instruments += ", ";
+                    }
+                }
+                //System.out.println(instruments);
+                displayInstruments.setText(instruments);*/
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
             }
 
             @Override

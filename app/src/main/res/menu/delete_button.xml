@@ -12,4 +12,10 @@
         android:id="@+id/add_id"
         android:icon="@drawable/ic_playlist_add_white_24dp"
         />
+    <item
+        android:title="remove"
+        app:showAsAction="ifRoom"
+        android:id="@+id/remove_id"
+        android:icon="@drawable/ic_delete_black_24dp"
+        />
 </menu>

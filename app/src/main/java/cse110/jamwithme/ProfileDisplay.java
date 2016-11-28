@@ -124,7 +124,7 @@ public class ProfileDisplay extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue() == null) {
-                    displayInstruments.setText("No Istruments selected");
+                    displayInstruments.setText("No Instruments selected");
                     return;
                 }
                 String my_list = dataSnapshot.getValue().toString();

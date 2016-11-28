@@ -17,10 +17,15 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -103,6 +108,32 @@ public class InstrumentSelect extends AppCompatActivity {
                         count = 0;
                         mode.finish();
                         //startActivity(instr_selected);
+                        return true;
+                    case R.id.remove_id:
+                        User_Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        mChildRef = FirebaseDatabase.getInstance().getReference("/users/"+User_Uid + "/Instruments");
+                        for(int i = 0; i < select_list.size(); i++){
+                            final String words = select_list.get(i);
+                            Query delete_Query = mChildRef.orderByValue().equalTo(words);
+                            delete_Query.addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for(DataSnapshot my_Snapshot: dataSnapshot.getChildren()){
+                                        if(my_Snapshot.getValue().equals(words)){
+                                            my_Snapshot.getRef().removeValue();
+                                            Toast.makeText(InstrumentSelect.this,words+" removed!",Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        }
+                        count = 0;
+                        mode.finish();
                         return true;
                     default:
                         return false;
