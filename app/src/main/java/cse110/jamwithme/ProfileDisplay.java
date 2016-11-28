@@ -8,6 +8,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,12 +49,13 @@ public class ProfileDisplay extends AppCompatActivity {
     private StorageReference storage;
 
     private MediaPlayer mp;
-    private ImageView prof_pic;
+    private ImageView imageView;
     private ImageButton edit_button;
     private Button play_myjam;
     private String userID;
     private TextView displayInstruments; // Nancy
     private InstrumentSelect instrumentSelect;
+    private UsingCamera camObj;
 
 
     @Override
@@ -73,11 +76,18 @@ public class ProfileDisplay extends AppCompatActivity {
         final String key = "users/" + userID;
 
         //Set up profile picture
-        prof_pic = (ImageView)findViewById(R.id.profile_pic);
+        imageView = (ImageView)findViewById(R.id.profile_pic);
         storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
+            public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(imageView); }
         });
+
+        /*storage.child(key + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                camObj.setDefaultPhoto(imageView);
+            }
+        });*/
 
         //Set up profile jam
         play_myjam = (Button)findViewById(R.id.my_jams);
