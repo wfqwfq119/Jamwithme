@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.v7.app.AlertDialog;
@@ -50,11 +51,10 @@ public class UsingCamera {
             @Override
             public void onClick(View v) {
                 dialogBox();    //This was PQ
-                /*Intent image = new Intent(activity,
+                Intent image = new Intent(activity,
                         SetUpPicture.class);
                 image.putExtra("activity", prev_activ);
-                dialogBox();
-                activity.startActivity(image);*/
+                activity.startActivity(image);
             }
         });
 
@@ -109,8 +109,9 @@ public class UsingCamera {
 
     /** GET IMAGE FROM GALLERY **/
     @SuppressWarnings("deprecation")
-    public void selectFromGallery(Intent data, ImageView imageView) {
+    public Uri selectFromGallery(Intent data, ImageView imageView) {
         Bitmap bm = null;
+        String path = null;
         if(data != null) {
             try {
                 bm = MediaStore.Images.Media.getBitmap(activity.getApplicationContext().getContentResolver(),
@@ -119,7 +120,7 @@ public class UsingCamera {
                 // show image to user
                 imageView.setImageBitmap(bm);
 
-                String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
+                path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                         "Your image", null);
                 Picasso.with(activity).load(path).resize(100, 100).into(imageView);
                 Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
@@ -129,6 +130,8 @@ public class UsingCamera {
                 Toast.makeText(activity, "Unable to open image", Toast.LENGTH_SHORT).show();
             }
         }
+        if(path != null) { return Uri.parse(path); }
+        return null;
 
     }
     /*----------------------------------------CAMERA----------------------------------------------*/
@@ -142,7 +145,7 @@ public class UsingCamera {
     /*
        TAKE A PHOTO USING CAMERA
     */
-    public void usingCamera(Intent data, ImageView imageView) {
+    public Uri usingCamera(Intent data, ImageView imageView) {
         Bundle bundle = new Bundle();
         bundle = data.getExtras();
         Bitmap bitMap = (Bitmap) bundle.get("data");
@@ -151,6 +154,7 @@ public class UsingCamera {
                 "Your image", null);
         Picasso.with(activity).load(path).resize(100, 100).into(imageView);
         Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
+        return Uri.parse(path);
     }
 
 

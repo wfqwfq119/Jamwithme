@@ -101,7 +101,9 @@ public class UserProfileActivity extends AppCompatActivity {
         add_Instr.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(UserProfileActivity.this,InstrumentSelect.class));
+                Intent next = new Intent(UserProfileActivity.this, InstrumentSelect.class);
+                next.putExtra("activity", "UserProfileActivity");
+                startActivity(next);
             }
         });
 
@@ -124,16 +126,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //camObj.dialogBox();
     }
 
-    /*@Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CAMERA && resultCode == RESULT_OK) {
-            camObj.usingCamera(data, imageView);
-        }
-        if (requestCode == REQUEST_GALLERY && resultCode == RESULT_OK) {
-            camObj.selectFromGallery(data, imageView);
-        }
-    }*/
 
     //try to create menu
     public boolean onCreateOptionsMenu(Menu menu)

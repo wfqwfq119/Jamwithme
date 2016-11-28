@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
@@ -25,7 +24,6 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -47,7 +45,6 @@ public class add_jams_activity extends AppCompatActivity {
     private ImageButton play_mp;
     private ImageButton stop_mp;
     private Button select_aud;
-    private Button upl_aud;
     private Button delete_aud;
     private Button bNext2;
     private TextView filename_TV;
@@ -75,15 +72,15 @@ public class add_jams_activity extends AppCompatActivity {
 
 
         // 'SELECT JAM' button is on --> Single audio file can be selected from device
-        select_aud = (Button)findViewById(R.id.select_amj) ;
+        select_aud = (Button)findViewById(R.id.bselect) ;
         select_aud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 sel_sound = new Intent(Intent.ACTION_GET_CONTENT);
                 sel_sound.setType("audio/*");
                 // Prompt runtime permissions page iff SDK is compatible
-                if (Build.VERSION.SDK_INT < 23 && (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                        != PackageManager.PERMISSION_GRANTED)) {
+                if (Build.VERSION.SDK_INT < 23 && (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.READ_EXTERNAL_STORAGE))
+                        != PackageManager.PERMISSION_GRANTED) {
                     Toast.makeText(getApplicationContext(), "Setting > Apps > Jam With Me > Permissions > Storage", Toast.LENGTH_LONG).show();
                 }
                 else {
@@ -100,18 +97,8 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
-        upl_aud = (Button)findViewById(R.id.bUpload);
-        upl_aud.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (aud_uri != null) {
-                    upload_aud(AUDIO_INTENT, RESULT_OK, aud_uri);
-                }
-            }
-        });
 
-
-        delete_aud = (Button)findViewById(R.id.delet_amj);
+        delete_aud = (Button)findViewById(R.id.bdelete);
         delete_aud.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,6 +109,7 @@ public class add_jams_activity extends AppCompatActivity {
                 aud_uri = null;
                 filename_TV = (TextView)findViewById(R.id.curr_jam);
                 filename_TV.setText(R.string.def);
+                Toast.makeText(add_jams_activity.this, "SELECT JAM or NEXT", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -137,50 +125,50 @@ public class add_jams_activity extends AppCompatActivity {
                     }
                 }
 
-                if (prev_activ.equals("UserProfileActivity")) {
-                    startActivity(new Intent(add_jams_activity.this, UserProfileActivity.class));
+                if (aud_uri != null) {
+                    upl_progress.setMessage("Uploading profile jam...");
+                    upl_progress.show();
+                    upload_aud(aud_uri);
                 }
-                else if (prev_activ.equals("SetUpPicture")) {
-                    startActivity(new Intent(add_jams_activity.this, InstrumentSelect.class));
-                }
+                else { nextTask(); }
             }
         });
 
     }
 
-    /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    private void upload_aud(int requestCode, int resultCode, Uri toUpload) {
-        if(requestCode == AUDIO_INTENT && resultCode == RESULT_OK) {
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-
-            //Get key to the user node in database
-            String key = "users/" + user.getUid() + "/myjam";
-
-            final UploadTask upl_task = stor_ref.child(key).putFile(toUpload);
-            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    int progress = (int) ((100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-                    upl_progress.setMessage("Upload is " + progress + "% done");
-                    upl_progress.show();
-
-                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(add_jams_activity.this, "Upload Successful!", Toast.LENGTH_LONG).show();
-                            upl_progress.dismiss();
-                        }
-                    });
-                    upl_task.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(add_jams_activity.this, "Upload Failed!", Toast.LENGTH_LONG).show();
-                            upl_progress.dismiss();
-                        }
-                    });
-                }
-            });
+    /** Set up next activity page **/
+    public void nextTask() {
+        if (prev_activ.equals("UserProfileActivity")) {
+            startActivity(new Intent(add_jams_activity.this, UserProfileActivity.class));
         }
+        else if (prev_activ.equals("SetUpPicture")) {
+            Intent next = new Intent(add_jams_activity.this, InstrumentSelect.class);
+            next.putExtra("activity", "add_jams_activity");
+            startActivity(next);
+        }
+    }
+
+    /** Upload audio file to FireBase Storage w/authentication and handle results **/
+    private void upload_aud(Uri toUpload) {
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String key = "users/" + user.getUid() + "/myjam";
+
+        final UploadTask upl_task = stor_ref.child(key).putFile(toUpload);
+        upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                Toast.makeText(add_jams_activity.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+                nextTask();
+            }
+        });
+
+        upl_task.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(add_jams_activity.this, "Upload Failed!", Toast.LENGTH_LONG).show();
+                nextTask();
+            }
+        });
     }
 
 

@@ -17,13 +17,12 @@ import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RatingBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
-//push it just push it
+
 public class InstrumentSelect extends AppCompatActivity {
+    private Intent prev_intent;
+    private String prev_activ;
     ListView instr_view;
     Intent instr_selected;
     ArrayAdapter<String> instr_adapter;
@@ -37,20 +36,19 @@ public class InstrumentSelect extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        prev_intent = getIntent();
+        prev_activ = prev_intent.getStringExtra("activity");
         setContentView(R.layout.activity_instrument_select);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         
         instr_view = (ListView)findViewById(R.id.Instr_List);
-
-
         instr_selected = new Intent(this,experience.class);
-
 
         items_list.add("Keyboard");
         items_list.add("Piano");
         items_list.add(("Recorder"));
-        items_list.add("Classical guitar");
+        items_list.add("Classical Guitar");
         items_list.add("Drum kit");
         items_list.add("Electric Guitar");
         items_list.add("Violin");
@@ -123,12 +121,19 @@ public class InstrumentSelect extends AppCompatActivity {
     public void nextPage3() {
         bNext3 = (Button) findViewById(R.id.bNext3);
         final DatabaseWatcher d = new DatabaseWatcher(this);
+
+
         bNext3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InstrumentSelect.this, experience.class));
+                if (prev_activ.equals("UserProfileActivity")) {
+                    startActivity(new Intent(InstrumentSelect.this, UserProfileActivity.class));
+                }
+                else if (prev_activ.equals("add_jams_activity")) {
+                    startActivity(new Intent(InstrumentSelect.this, experience.class));
+                }
             }
-        } );
+        });
     }
 
 }

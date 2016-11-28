@@ -46,12 +46,14 @@ public class ProfileDisplay extends AppCompatActivity {
     private DatabaseReference myRef;
     private StorageReference storage;
 
+    private MediaPlayer mp;
     private ImageView prof_pic;
     private ImageButton edit_button;
     private Button play_myjam;
     private String userID;
     private TextView displayInstruments; // Nancy
     private InstrumentSelect instrumentSelect;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,18 +72,14 @@ public class ProfileDisplay extends AppCompatActivity {
 
         final String key = "users/" + userID;
 
+        //Set up profile picture
         prof_pic = (ImageView)findViewById(R.id.profile_pic);
-
-        /////////////////////////////////////////////////////////////////////////////////////
-        //displayInstruments = (TextView) findViewById(R.id.tvInstruments); // Nancy
-        //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
-
-
-                storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(prof_pic); }
         });
 
+        //Set up profile jam
         play_myjam = (Button)findViewById(R.id.my_jams);
         play_myjam.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,7 +87,7 @@ public class ProfileDisplay extends AppCompatActivity {
                 storage.child(key + "/myjam").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
-                        MediaPlayer mp = MediaPlayer.create(ProfileDisplay.this, uri);
+                        mp = MediaPlayer.create(ProfileDisplay.this, uri);
                         mp.start();
                     }
                 });

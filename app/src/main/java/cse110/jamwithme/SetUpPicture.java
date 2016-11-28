@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,7 +34,6 @@ public class SetUpPicture extends AppCompatActivity {
     UsingCamera camObj;
     ImageView imageView;
     ImageButton camButton;
-    Button bConf;
     Button bNext;
     Uri img_uri;
 
@@ -51,17 +49,6 @@ public class SetUpPicture extends AppCompatActivity {
         upl_progress = new ProgressDialog(this);
 
         setContentView(R.layout.activity_set_up_picture);
-
-        bConf = (Button)findViewById(R.id.bUpload);
-        bConf.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (img_uri != null) {
-                    upload_img(img_uri);
-                }
-            }
-        });
-
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camButton = (ImageButton) findViewById(R.id.camButton);
         camObj = new UsingCamera(this, prev_activ);
@@ -81,23 +68,18 @@ public class SetUpPicture extends AppCompatActivity {
     /** Upload audio file to FireBase Storage w/authentication and handle results **/
     private void upload_img(Uri toUpload) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-
-        //Get key to the user node in database
         String key = "users/" + user.getUid() + "/myimg";
 
         final UploadTask upl_task = storage.child(key).putFile(toUpload);
         upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                int progress = (int) ((100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount());
-                upl_progress.setMessage("Upload is " + progress + "% done");
-                upl_progress.show();
-
                 upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Toast.makeText(SetUpPicture.this, "Upload Successful!", Toast.LENGTH_LONG).show();
                         upl_progress.dismiss();
+                        next_activ();
                     }
                 });
                 upl_task.addOnFailureListener(new OnFailureListener() {
@@ -105,6 +87,7 @@ public class SetUpPicture extends AppCompatActivity {
                     public void onFailure(@NonNull Exception e) {
                         Toast.makeText(SetUpPicture.this, "Upload Failed!", Toast.LENGTH_LONG).show();
                         upl_progress.dismiss();
+                        next_activ();
                     }
                 });
             }
@@ -114,32 +97,41 @@ public class SetUpPicture extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (data != null) {
-            img_uri = data.getData();
-        }
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
-            camObj.usingCamera(data, imageView);
+            img_uri = camObj.usingCamera(data, imageView);
         }
         if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
-            camObj.selectFromGallery(data, imageView);
+            img_uri = camObj.selectFromGallery(data, imageView);
         }
 
     }
 
-    /*------------------------------- GO TO NEXT PAGE ---------------------------------------*/
+    /** Set up next activity page **/
+    public void next_activ() {
+        if (prev_activ.equals("RegisterActivity")) {
+            Intent next = new Intent(SetUpPicture.this, add_jams_activity.class);
+            next.putExtra("activity", "SetUpPicture");
+
+            startActivity(next);
+        }
+        else if (prev_activ.equals("UserProfileActivity")) {
+            startActivity(new Intent(SetUpPicture.this, UserProfileActivity.class));
+        }
+    }
+
+    /** Go to next activity page **/
     public void nextPage() {
         bNext = (Button) findViewById(R.id.bNext);
         bNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (prev_activ.equals("RegisterActivity")) {
-                    Intent next = new Intent(SetUpPicture.this, add_jams_activity.class);
-                    next.putExtra("activity", "SetUpPicture");
-                    startActivity(next);
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                if (img_uri != null) {
+                    upl_progress.setMessage("Uploading profile picture...");
+                    upl_progress.show();
+                    upload_img(img_uri);
                 }
-                else if (prev_activ.equals("UserProfileActivity")) {
-                    startActivity(new Intent(SetUpPicture.this, UserProfileActivity.class));
-                }
+                else { next_activ(); }
             }
         });
     }

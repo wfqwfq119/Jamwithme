@@ -30,6 +30,7 @@ import com.firebase.geofire.GeoLocation;
 import com.firebase.geofire.GeoQuery;
 import com.firebase.geofire.GeoQueryEventListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +45,7 @@ public class MatchingDisplay extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
+    private FirebaseUser user;
     private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -84,11 +86,16 @@ public class MatchingDisplay extends AppCompatActivity {
         query.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
             public void onKeyEntered(String newuserkey, GeoLocation location) {
+                user = mAuth.getCurrentUser();
+                String userUID = user.getUid();
+
+                // Prevent users from adding themselves to their matches
+                if (userUID.equals(newuserkey)) { return; }
+
                 userlist.add(newuserkey);
 
                 //get username
-                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
-                                                                                                ValueEventListener() {
+                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if(dataSnapshot.exists()) {
@@ -96,7 +103,7 @@ public class MatchingDisplay extends AppCompatActivity {
                             userAdapter.notifyDataSetChanged();
                         }
                         else {
-                            userlistname.add("Failed User");
+                            //userlistname.add("Failed User");
                             userAdapter.notifyDataSetChanged();
                         }
                     }
@@ -152,6 +159,8 @@ public class MatchingDisplay extends AppCompatActivity {
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                MatchQuery test = new MatchQuery(userlist);
+                //test.list_matches();
                 userFound.putExtra("userid", userlist.get(position));
                 startActivity(userFound);
             }

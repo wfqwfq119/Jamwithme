@@ -57,7 +57,8 @@
             android:value="@integer/google_play_services_version" />
 
         <activity android:name=".SetUpPicture" />
-        <activity android:name=".friend_list"></activity>
+        <activity android:name=".friend_list" />
+        <activity android:name=".MatchQuery"></activity>
     </application>
 
 </manifest>
