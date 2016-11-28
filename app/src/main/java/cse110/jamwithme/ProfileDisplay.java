@@ -54,14 +54,15 @@ public class ProfileDisplay extends AppCompatActivity {
     private Button play_myjam;
     private String userID;
     private TextView displayInstruments; // Nancy
-    private InstrumentSelect instrumentSelect;
-    private UsingCamera camObj;
+    private String instruments;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_display_profile);
+
+        displayInstruments = (TextView)findViewById(R.id.tvInstruments);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -111,6 +112,38 @@ public class ProfileDisplay extends AppCompatActivity {
         myRef = database.getReference();
         DatabaseWatcher d = new DatabaseWatcher(this);
         d.updateUserProfile(userID);
+
+        myRef.child("users/" + user.getUid() + "/Instruments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String my_list = dataSnapshot.getValue().toString();
+                String[] new_list = my_list.split(",");
+                for(String s : new_list){
+                    String[] check_list = s.split("=");
+                    if(s.equals(new_list[0]))
+                    {
+                        instruments = check_list[1];
+                        instruments += ",";
+                    }
+                    else if(s.equals(new_list[new_list.length-1]))
+                    {
+                        instruments += check_list[1];
+                    }
+                    else {
+                        instruments += check_list[1];
+                        instruments += ",";
+                    }
+                }
+                //System.out.println(instruments);
+                displayInstruments.setText(instruments);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     // Give 'edit' button functionality

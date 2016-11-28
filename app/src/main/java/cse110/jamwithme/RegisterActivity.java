@@ -34,6 +34,7 @@ public class RegisterActivity extends AppCompatActivity {
     //private EditText Re_Instr;
     private EditText Re_Name;
     private EditText Re_Pass;
+    private EditText Re_Com_Pass;
     private Button Re_Button;
 
     private ProgressDialog Re_Pro;
@@ -53,6 +54,8 @@ public class RegisterActivity extends AppCompatActivity {
         Re_Email = (EditText)findViewById(R.id.Register_Email);
         Re_Name = (EditText)findViewById(R.id.Re_Username);
         Re_Pass = (EditText)findViewById(R.id.Register_password);
+        Re_Com_Pass = (EditText)findViewById(R.id.Register_password_confirm);
+
         Re_Button = (Button)findViewById(R.id.Re_button);
 
         Re_Button.setOnClickListener(new View.OnClickListener() {
@@ -91,10 +94,15 @@ public class RegisterActivity extends AppCompatActivity {
     private void registerUser(){
         String email = Re_Email.getText().toString().trim();
         String password = Re_Pass.getText().toString().trim();
+        String com_passwaord = Re_Com_Pass.getText().toString().trim();
         username = Re_Name.getText().toString();
 
         if(TextUtils.isEmpty(email)||TextUtils.isEmpty(password)) {
             Toast.makeText(RegisterActivity.this,"Email or password field is empty",Toast.LENGTH_LONG).show();
+            return;
+        }
+        else if(!(TextUtils.equals(password,com_passwaord))) {
+            Toast.makeText(RegisterActivity.this,"Password and comfirm password are different",Toast.LENGTH_LONG).show();
             return;
         }
         Re_Pro.setMessage("Registering User...");

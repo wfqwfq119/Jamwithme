@@ -59,14 +59,14 @@ public class UserProfileActivity extends AppCompatActivity {
     private UsingCamera camObj;
 
     private TextView displayInstruments;
-    private InstrumentSelect instrumentSelect;
-    private Intent intent;
     private String instruments;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_profile);
+
+        displayInstruments = (TextView)findViewById(R.id.tvInstruments);
 
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
@@ -121,10 +121,49 @@ public class UserProfileActivity extends AppCompatActivity {
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
 
+
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
+
+
+
+        myRef.child("users/" + user.getUid() + "/Instruments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                String my_list = dataSnapshot.getValue().toString();
+                String[] new_list = my_list.split(",");
+                for(String s : new_list){
+                    String[] check_list = s.split("=");
+                    if(s.equals(new_list[0]))
+                    {
+                        instruments = check_list[1];
+                        instruments += ",";
+                    }
+                    else if(s.equals(new_list[new_list.length-1]))
+                    {
+                        instruments += check_list[1];
+                    }
+                    else {
+                        instruments += check_list[1];
+                        instruments += ",";
+                    }
+                }
+                //System.out.println(instruments);
+                displayInstruments.setText(instruments);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        //InstrList(user, instruments);
+        //System.out.println(instruments);
+
         //camObj.dialogBox();
     }
+
+
 
 
     //try to create menu

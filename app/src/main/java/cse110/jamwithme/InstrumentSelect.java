@@ -18,6 +18,10 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class InstrumentSelect extends AppCompatActivity {
@@ -29,7 +33,8 @@ public class InstrumentSelect extends AppCompatActivity {
     ArrayList<String> items_list = new ArrayList<String>(); // available instruments
     ArrayList<String> select_list = new ArrayList<String>(); // instruments selected by user
     int count = 0;
-
+    String User_Uid;
+    DatabaseReference mChildRef;
 
     Button bNext3; // MAYA AND NANCY
 
@@ -89,7 +94,12 @@ public class InstrumentSelect extends AppCompatActivity {
             public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.add_id:
-                        instr_selected.putExtra("instrs",select_list.toString());
+                        //instr_selected.putExtra("instrs",select_list.toString());
+                        User_Uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                        mChildRef = FirebaseDatabase.getInstance().getReference("/users/"+User_Uid + "/Instruments");
+                        for(String i : select_list){
+                            mChildRef.push().setValue(i);
+                        }
                         count = 0;
                         mode.finish();
                         //startActivity(instr_selected);
