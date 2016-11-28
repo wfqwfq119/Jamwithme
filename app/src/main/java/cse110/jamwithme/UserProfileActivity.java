@@ -57,6 +57,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private ImageView imageView;
     private ImageButton camButton;
     private UsingCamera camObj;
+    private static int picWidth = 50;
+    private static int picHeight = 50;
 
     private TextView displayInstruments;
     private String instruments;
@@ -75,14 +77,15 @@ public class UserProfileActivity extends AppCompatActivity {
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                Picasso.with(UserProfileActivity.this).load(uri).resize(125, 125).into(imageView);
+                Picasso.with(UserProfileActivity.this).load(uri).resize(picWidth, picHeight).into(imageView);
             }
         });
 
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                camObj.setDefaultPhoto(imageView);
+
+                camObj.setDefaultPhoto(imageView, picWidth, picHeight);
             }
         });
 

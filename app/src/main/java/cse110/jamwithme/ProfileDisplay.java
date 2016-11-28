@@ -55,6 +55,9 @@ public class ProfileDisplay extends AppCompatActivity {
     private String userID;
     private TextView displayInstruments; // Nancy
     private String instruments;
+    private static int width = 50;
+    private static int height = 50;
+    public UsingCamera camObj;
 
 
     @Override
@@ -78,17 +81,21 @@ public class ProfileDisplay extends AppCompatActivity {
 
         //Set up profile picture
         imageView = (ImageView)findViewById(R.id.profile_pic);
+        camObj = new UsingCamera(this, "UserProfileActivity");
         storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onSuccess(Uri uri) { Picasso.with(ProfileDisplay.this).load(uri).fit().into(imageView); }
+            public void onSuccess(Uri uri) {
+                //Picasso.with(ProfileDisplay.this).load(uri).fit().into(imageView);
+                Picasso.with(ProfileDisplay.this).load(uri).resize(width, height).into(imageView);
+                }
         });
 
-        /*storage.child(key + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
+        storage.child(key + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                camObj.setDefaultPhoto(imageView);
+                camObj.setDefaultPhoto(imageView, width, height);
             }
-        });*/
+        });
 
         //Set up profile jam
         play_myjam = (Button)findViewById(R.id.my_jams);

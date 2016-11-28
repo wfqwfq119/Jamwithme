@@ -60,13 +60,18 @@ public class UsingCamera {
 
     }
     /** default profile picture **/
-    public void setDefaultPhoto(ImageView imageView) {
+    public void setDefaultPhoto(ImageView imageView, int width, int height) {
         Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.default_pic);
         // show image to user
         imageView.setImageBitmap(bm);
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                 "Your image", null);
-        Picasso.with(activity).load(path).resize(100 , 100).into(imageView); // width/height
+        Picasso.with(activity).load(path).resize(width ,height).into(imageView); // width/height
+        /*Picasso.with(this.activity)
+               .load(path)
+               .fit()
+               .centerInside()
+               .into(imageView); */
     }
 
     /** CREATE DIALOG BOX **/
@@ -109,7 +114,7 @@ public class UsingCamera {
 
     /** GET IMAGE FROM GALLERY **/
     @SuppressWarnings("deprecation")
-    public Uri selectFromGallery(Intent data, ImageView imageView) {
+    public Uri selectFromGallery(Intent data, ImageView imageView, int width, int height) {
         Bitmap bm = null;
         String path = null;
         if(data != null) {
@@ -122,7 +127,7 @@ public class UsingCamera {
 
                 path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                         "Your image", null);
-                Picasso.with(activity).load(path).resize(100, 100).into(imageView);
+                Picasso.with(activity).load(path).resize(width, height).into(imageView);
                 Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
             }
             catch (IOException e) {
@@ -145,14 +150,14 @@ public class UsingCamera {
     /*
        TAKE A PHOTO USING CAMERA
     */
-    public Uri usingCamera(Intent data, ImageView imageView) {
+    public Uri usingCamera(Intent data, ImageView imageView, int width, int height) {
         Bundle bundle = new Bundle();
         bundle = data.getExtras();
         Bitmap bitMap = (Bitmap) bundle.get("data");
         imageView.setImageBitmap(bitMap);
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bitMap,
                 "Your image", null);
-        Picasso.with(activity).load(path).resize(100, 100).into(imageView);
+        Picasso.with(activity).load(path).resize(width, height).into(imageView);
         Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
         return Uri.parse(path);
     }

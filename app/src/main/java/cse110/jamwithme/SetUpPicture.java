@@ -39,6 +39,8 @@ public class SetUpPicture extends AppCompatActivity {
 
     private static final int REQUEST_GALLERY = 1;
     private static final int REQUEST_CAMERA = 2;
+    private static int picWidth = 55;
+    private static int picHeight = 60;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +60,7 @@ public class SetUpPicture extends AppCompatActivity {
         /***** set Default picture *****/
         //Drawable defaultPic = getResources().getDrawable(R.drawable.default_pic);
         //imageView.setImageDrawable(defaultPic);
-        camObj.setDefaultPhoto(imageView);
+        camObj.setDefaultPhoto(imageView, picWidth, picHeight);
 
         //camObj.dialogBox(); //TODO remove later
         nextPage();
@@ -98,10 +100,10 @@ public class SetUpPicture extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
-            img_uri = camObj.usingCamera(data, imageView);
+            img_uri = camObj.usingCamera(data, imageView, picWidth, picHeight);
         }
         if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
-            img_uri = camObj.selectFromGallery(data, imageView);
+            img_uri = camObj.selectFromGallery(data, imageView, picWidth, picHeight);
         }
 
     }
