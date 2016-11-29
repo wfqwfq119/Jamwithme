@@ -82,15 +82,12 @@ public class MatchingDisplay extends CreateMenu {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    Toast.makeText(c, "top level ds: " + dataSnapshot.getKey().toString(), Toast
-                            .LENGTH_SHORT).show();
                     for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                        Toast.makeText(c, "ds: " + ds.getKey().toString(), Toast.LENGTH_SHORT).show();
                         friends.add(ds.getKey().toString());
                     }
                 }
                 else {
-                    Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -98,16 +95,6 @@ public class MatchingDisplay extends CreateMenu {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
-
-
-        Toast.makeText(this, "FRIENDS", Toast.LENGTH_LONG).show();
-        for(int i = 0; i < friends.size(); i++) {
-            Toast.makeText(this, friends.get(i), Toast.LENGTH_SHORT).show();
-        }
-
-
 
         final DatabaseReference userRef = myRef.child("users");
 

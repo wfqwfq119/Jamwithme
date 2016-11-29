@@ -89,22 +89,18 @@ public class friend_list extends CreateMenu {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()) {
-                    Toast.makeText(c, "top level ds: " + dataSnapshot.getKey().toString(), Toast
-                            .LENGTH_SHORT).show();
                     for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                        Toast.makeText(c, "ds: " + ds.getKey().toString(), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(c, "ds: " + ds.getKey().toString(), Toast.LENGTH_SHORT).show();
                         User_Uid = ds.getKey().toString();
 
                         User_name = ds.getValue().toString();
-                        Toast.makeText(c, "array edits", Toast.LENGTH_SHORT).show();
-                        Toast.makeText(c, "nam" + User_name, Toast.LENGTH_SHORT).show();
                         friend_Array_show.add(User_name);
                         friend_Array.add(new friend_obj(User_Uid, User_name));
                         friend_showAdp.notifyDataSetChanged();
                     }
                 }
                 else {
-                    Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
                 }
             }
 
