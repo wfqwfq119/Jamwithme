@@ -121,6 +121,7 @@ public class MatchingDisplay extends CreateMenu {
 
                 // Prevent users from adding themselves to their matches
                 if (userUID.equals(newuserkey) || friends.contains(newuserkey)) {
+                    return;
                 }
                 else {
                     userlist.add(newuserkey);

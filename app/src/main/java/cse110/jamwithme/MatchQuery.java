@@ -106,8 +106,8 @@ public class MatchQuery extends CreateMenu {
             @Override
             public void onClick(View v) {
                 suspend_mp();
-                //MatchingDisplay.userlist.remove(idx);
-                //MatchingDisplay.userlistname.remove(idx);
+                MatchingDisplay.userlist.remove(idx);
+                MatchingDisplay.userlistname.remove(idx);
                 startActivity(back);
             }
         });
@@ -128,8 +128,8 @@ public class MatchQuery extends CreateMenu {
                 suspend_mp();
                 friend_obj next_fr = new friend_obj(MatchingDisplay.userlist.get(idx), m_name);
                 friend_list.friend_Array.add(next_fr);
-                //MatchingDisplay.userlist.remove(idx);
-                //MatchingDisplay.userlistname.remove(idx);
+                MatchingDisplay.userlist.remove(idx);
+                MatchingDisplay.userlistname.remove(idx);
 
                 String name = d.returnName(next_fr.getUser_Uid());
                 //add friend to database
