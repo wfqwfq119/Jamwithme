@@ -58,7 +58,7 @@ public class messagerAct extends AppCompatActivity {
         User_Uid = my_String[3];
 
         mRootRef = FirebaseDatabase.getInstance().getReference().getRoot();
-       // my_Query = mRootRef.child("users").orderByKey().equalTo(User_Uid);
+       //my_Query = mRootRef.child("users").orderByKey().equalTo(User_Uid);
         mChildRef = FirebaseDatabase.getInstance().getReference("/users/"+User_Uid+"/Message");
 
         mes_senter.setOnClickListener(new View.OnClickListener() {
