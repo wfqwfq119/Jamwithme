@@ -45,6 +45,7 @@ public class UserLocation implements LocationListener {
     private String userkey;
 
     public UserLocation(Context c, FirebaseAuth fa, DatabaseReference userData){
+        //initialize object data
         mContext = c;
         this.lng = 0;
         this.lat = 0;
@@ -56,27 +57,18 @@ public class UserLocation implements LocationListener {
 
         geoFire = new GeoFire(myRef);
 
-        /*LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-                lng = location.getLongitude();
-                lat = location.getLatitude();
-            }
-        };*/
-
-        getLocation();
-        //Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
-        //Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
+        getLocation();  //First-time get user location
     }
 
     public Location getLocation() {
         try {
-           /*Our location manager*/
             locationManager = (LocationManager)mContext.getSystemService(Context.LOCATION_SERVICE);
 
-           /*Booleans to tell us which providers were found*/
+           //know which providers are allowed on phone
             boolean hasGPS = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             boolean hasNetwork = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
+            //Check for correct version and if permissions are allowed; request if needed
             if ( Build.VERSION.SDK_INT >= 23 &&
                     ContextCompat.checkSelfPermission(mContext, android.Manifest.permission
                             .ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED &&
@@ -95,21 +87,21 @@ public class UserLocation implements LocationListener {
                             .ACCESS_COARSE_LOCATION}, 1);
                 }
 
-                int perm = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission
+                /*int perm = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission
                         .ACCESS_FINE_LOCATION );
                 Toast.makeText(mContext, "perm: " + perm, Toast.LENGTH_LONG)
                         .show();
                 int grant = PackageManager.PERMISSION_GRANTED;
-                Toast.makeText(mContext, "granted: " + grant, Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, "granted: " + grant, Toast.LENGTH_LONG).show();*/
                 //return null;
             }
 
-           /*If we can't find a GPS or Network provider, gg LOL*/
+           //If no permissions, inform user that location can't be accessed
             if (!hasGPS && !hasNetwork) {
                 Toast.makeText(mContext, "Can't access location!", Toast.LENGTH_LONG).show();
             }
             else {
-                /*If we found a GPS provider*/
+                //If there is a GPS provider, take location
                 if (hasGPS) {
                     locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
                             1000, this);
@@ -117,14 +109,14 @@ public class UserLocation implements LocationListener {
                     if (locationManager != null) {
                         userLoc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                       /*If we found a location, set lat and long*/
+                       //set lat and lng
                         if (userLoc != null) {
                             lat = userLoc.getLatitude();
                             lng = userLoc.getLongitude();
                         }
                     }
                 }
-               /*If we found a network provider*/
+               //If no GPS, check for network location
                 if (hasNetwork && userLoc == null) {
                     locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
                             MIN_TIME_BW_UPDATES,
@@ -132,7 +124,7 @@ public class UserLocation implements LocationListener {
 
                     if (locationManager != null) {
                         userLoc = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                       /*If we have a location, set lat and long*/
+                       //Set lat and lng as needed
                         if (userLoc != null) {
                             lat = userLoc.getLatitude();
                             lng = userLoc.getLongitude();
@@ -146,7 +138,7 @@ public class UserLocation implements LocationListener {
             e.printStackTrace();
         }
 
-        //TODO GEOFIRE
+        //Add location to geofire
         geoFire.setLocation(userkey, getLongLat(), new GeoFire.CompletionListener() {
             @Override
             public void onComplete(String key, DatabaseError error) {
@@ -160,25 +152,28 @@ public class UserLocation implements LocationListener {
             }
         });
 
-
         return userLoc;
     }
 
+    //Return a geolocation of the location last found
     public GeoLocation getLongLat() {
         GeoLocation retval = new GeoLocation(lat, lng);
         return retval;
     }
 
+    //Getter for just latitude if ever needed
     public double getLatitude() {
         getLocation();
         return lat;
     }
 
+    //Getter for longitude if ever needed
     public double getLongitude() {
         getLocation();
         return lng;
     }
 
+    //Because this is a location listener, need to override following methods
     @Override
     public void onLocationChanged(Location location) {
         lng = location.getLongitude();
@@ -187,19 +182,16 @@ public class UserLocation implements LocationListener {
 
     @Override
     public void onProviderDisabled(String s) {
-        //do stuff
+        //Do nothing
     }
 
     @Override
     public void onProviderEnabled(String s) {
-        //do stuff
+        //Do nothing
     }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle b) {
-        //Toast.makeText(mContext, "Status Changed", Toast.LENGTH_LONG).show(); //DEBUG
-        getLocation();
-        //Toast.makeText(mContext, "lat" + lat, Toast.LENGTH_LONG).show();
-        //Toast.makeText(mContext, "long" + lng, Toast.LENGTH_LONG).show();
+        getLocation();  //If status of location is changed, check and update location
     }
 }

@@ -43,7 +43,6 @@ import android.widget.EditText;
 public class UserProfileActivity extends AppCompatActivity {
 
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -71,9 +70,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         displayInstruments = (TextView)findViewById(R.id.tvInstruments);
 
+        //Get current user and quick null check
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null)
+            startActivity(new Intent(UserProfileActivity.this,logina_ctivity.class));
 
+        //Pull out storage info
         storage = FirebaseStorage.getInstance().getReference();
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -85,15 +88,15 @@ public class UserProfileActivity extends AppCompatActivity {
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 camObj.setDefaultPhoto(imageView, picWidth, picHeight);
             }
         });
 
+        //Initialize buttons
         init();
         initSaveButton();
 
-        //TODO update according to database saved
+        //Update according to database info
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
@@ -124,12 +127,8 @@ public class UserProfileActivity extends AppCompatActivity {
         */
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
-
-
         //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
-
-
 
         myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
             @Override
@@ -218,9 +217,7 @@ public class UserProfileActivity extends AppCompatActivity {
     }
 
 
-
-
-    //try to create menu
+    //Create nav menu
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
@@ -257,7 +254,6 @@ public class UserProfileActivity extends AppCompatActivity {
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
         }
         return super.onOptionsItemSelected(item);

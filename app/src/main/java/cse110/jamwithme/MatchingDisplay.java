@@ -41,20 +41,19 @@ import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 
-public class MatchingDisplay extends AppCompatActivity {
-
+public class MatchingDisplay extends CreateMenu {
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private FirebaseUser user;
     private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private Intent prev_intent;
-    private String updated;
+    //rivate String updated;
 
     ListView matches;
     static ArrayList<String> userlist;
     static ArrayList<String> userlistname;
+    static ArrayList<String> friends;
     ArrayAdapter<String> userAdapter;
 
     @Override
@@ -67,15 +66,50 @@ public class MatchingDisplay extends AppCompatActivity {
         myRef = database.getReference();
 
         prev_intent = getIntent();
-        updated = prev_intent.getStringExtra("updated");
-        System.out.println("updated: " + updated + "\n");
+        //updated = prev_intent.getStringExtra("updated");
 
         userlist = new ArrayList<String>();
         userlistname = new ArrayList<String>();
+        friends = new ArrayList<String>();
 
-        final Intent userFound = new Intent(this, ProfileDisplay.class);
-        final DatabaseReference userRef = myRef.child("users");
+        //Pull friend list
+        DatabaseReference fref = myRef.child("users").child(mAuth.getCurrentUser().getUid()).child
+                ("friends");
+
         final Context c = this;
+
+        fref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()) {
+                    Toast.makeText(c, "top level ds: " + dataSnapshot.getKey().toString(), Toast
+                            .LENGTH_SHORT).show();
+                    for(DataSnapshot ds: dataSnapshot.getChildren()) {
+                        Toast.makeText(c, "ds: " + ds.getKey().toString(), Toast.LENGTH_SHORT).show();
+                        friends.add(ds.getKey().toString());
+                    }
+                }
+                else {
+                    Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+
+
+
+        Toast.makeText(this, "FRIENDS", Toast.LENGTH_LONG).show();
+        for(int i = 0; i < friends.size(); i++) {
+            Toast.makeText(this, friends.get(i), Toast.LENGTH_SHORT).show();
+        }
+
+
+
+        final DatabaseReference userRef = myRef.child("users");
 
         //Get current user location
         UserLocation ul = new UserLocation(this, mAuth, myRef);
@@ -90,53 +124,29 @@ public class MatchingDisplay extends AppCompatActivity {
                 userlistname);
         matches.setAdapter(userAdapter);
 
-        if (updated.equals("false")) {
-            //Start query
-            GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
-            query.addGeoQueryEventListener(new GeoQueryEventListener() {
-                @Override
-                public void onKeyEntered(String newuserkey, GeoLocation location) {
-                    user = mAuth.getCurrentUser();
-                    String userUID = user.getUid();
+        //Start query
+        GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
+        query.addGeoQueryEventListener(new GeoQueryEventListener() {
+            @Override
+            public void onKeyEntered(String newuserkey, GeoLocation location) {
+                user = mAuth.getCurrentUser();
+                String userUID = user.getUid();
 
-                    // Prevent users from adding themselves to their matches
-                    if (userUID.equals(newuserkey)) {
-                    }
-                    else {
-                        userlist.add(newuserkey);
-
-                        //get username
-                        userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                if (dataSnapshot.exists()) {
-                                    userlistname.add(dataSnapshot.getValue().toString());
-                                    userAdapter.notifyDataSetChanged();
-                                } else {
-                                    //userlistname.add("Failed User");
-                                    userAdapter.notifyDataSetChanged();
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
-                        userAdapter.notifyDataSetChanged();
-                    }
+                // Prevent users from adding themselves to their matches
+                if (userUID.equals(newuserkey) || friends.contains(newuserkey)) {
                 }
+                else {
+                    userlist.add(newuserkey);
 
-                @Override
-                public void onKeyExited(String newuserkey) {
-                    userlist.remove(newuserkey);
+                    //get username
                     userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                userlistname.remove(dataSnapshot.getValue().toString());
+                                userlistname.add(dataSnapshot.getValue().toString());
                                 userAdapter.notifyDataSetChanged();
                             } else {
-                                userlistname.remove("Failed User");
+                                //userlistname.add("Failed User");
                                 userAdapter.notifyDataSetChanged();
                             }
                         }
@@ -147,21 +157,43 @@ public class MatchingDisplay extends AppCompatActivity {
                     });
                     userAdapter.notifyDataSetChanged();
                 }
+            }
 
-                @Override
-                public void onKeyMoved(String key, GeoLocation location) {
-                }
+            @Override
+            public void onKeyExited(String newuserkey) {
+                userlist.remove(newuserkey);
+                userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            userlistname.remove(dataSnapshot.getValue().toString());
+                            userAdapter.notifyDataSetChanged();
+                        } else {
+                            userlistname.remove("Failed User");
+                            userAdapter.notifyDataSetChanged();
+                        }
+                    }
 
-                @Override
-                public void onGeoQueryReady() {
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                userAdapter.notifyDataSetChanged();
+            }
 
-                @Override
-                public void onGeoQueryError(DatabaseError error) {
-                    Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
+            @Override
+            public void onKeyMoved(String key, GeoLocation location) {
+            }
+
+            @Override
+            public void onGeoQueryReady() {
+            }
+
+            @Override
+            public void onGeoQueryError(DatabaseError error) {
+                Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT).show();
+            }
+        });
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -172,48 +204,4 @@ public class MatchingDisplay extends AppCompatActivity {
             }
         });
     }
-
-    //try to create menu
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.log_out:
-                mAuth.signOut();
-                startActivity(new Intent(this,logina_ctivity.class));
-                break;
-            case R.id.action_settings:
-                break;
-            case R.id.navi_disprofile:
-                startActivity(new Intent(this,ProfileDisplay.class));
-                break;
-            case R.id.navi_friend:
-                startActivity(new Intent(this,friend_list.class));
-                break;
-            case R.id.matching:
-                Intent match = new Intent(this, MatchingDisplay.class);
-                match.putExtra("updated", "false");
-                startActivity(match);
-                break;
-            case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
-                try{
-                    startActivity(new Intent(this, DeleteAccountActivity.class));
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }
