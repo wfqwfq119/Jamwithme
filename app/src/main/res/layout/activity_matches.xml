@@ -12,12 +12,6 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 tools:context="cse110.jamwithme.MatchingDisplay" >
 
-    <!--ListView
-        android:id="@+id/Matches_List"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:choiceMode="multipleChoiceModal"/-->
-
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
