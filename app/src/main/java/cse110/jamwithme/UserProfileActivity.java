@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -40,8 +41,7 @@ import com.squareup.picasso.Picasso;
 import android.widget.EditText;
 
 
-public class UserProfileActivity extends AppCompatActivity {
-
+public class UserProfileActivity extends CreateMenu {
     private FirebaseAuth mAuth;
     private StorageReference storage;
     private FirebaseDatabase database;
@@ -59,6 +59,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private UsingCamera camObj;
     private static int picWidth = 50;
     private static int picHeight = 50;
+    Uri img_uri;
+    private ProgressDialog upl_progress;
 
     private TextView displayInstruments;
     private String instruments;
@@ -127,7 +129,6 @@ public class UserProfileActivity extends AppCompatActivity {
         */
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
-        //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
 
         myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
@@ -213,50 +214,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //InstrList(user, instruments);
         //System.out.println(instruments);
 
-        //camObj.dialogBox();
-    }
-
-
-    //Create nav menu
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.log_out:
-                mAuth.signOut();
-                startActivity(new Intent(this,logina_ctivity.class));
-                break;
-            case R.id.action_settings:
-                break;
-            case R.id.navi_disprofile:
-                startActivity(new Intent(this,ProfileDisplay.class));
-                break;
-            case R.id.navi_friend:
-                startActivity(new Intent(this,friend_list.class));
-                break;
-            case R.id.matching:
-                Intent match = new Intent(this, MatchingDisplay.class);
-                match.putExtra("updated", "false");
-                startActivity(match);
-                break;
-            case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
-                try{
-                    startActivity(new Intent(this, DeleteAccountActivity.class));
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     // Give 'add_jams' button functionality
@@ -292,6 +249,18 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
+            img_uri = camObj.usingCamera(data, imageView, picWidth, picHeight);
+        }
+        if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
+            img_uri = camObj.selectFromGallery(data, imageView, picWidth, picHeight);
+        }
+        //camObj.upload_img(img_uri,storage, upl_progress);
     }
 
 }

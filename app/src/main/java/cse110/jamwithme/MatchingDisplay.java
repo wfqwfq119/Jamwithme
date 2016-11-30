@@ -121,6 +121,10 @@ public class MatchingDisplay extends CreateMenu {
 
                 // Prevent users from adding themselves to their matches
                 if (userUID.equals(newuserkey) || friends.contains(newuserkey)) {
+                    System.out.println("Friends: ");
+                    for (String f : friends) {
+                        System.out.println(f);
+                    }
                 }
                 else {
                     userlist.add(newuserkey);

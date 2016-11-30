@@ -60,14 +60,14 @@ public class UsingCamera {
             @Override
             public void onClick(View v) {
                 dialogBox();    //This was PQ
-                //Intent image = new Intent(activity,
-                //        SetUpPicture.class);
-                //image.putExtra("activity", prev_activ);
-                //activity.startActivity(image);
+                Intent image = new Intent(activity,
+                        SetUpPicture.class);
+                image.putExtra("activity", prev_activ);
+                activity.startActivity(image);
             }
         });
-
     }
+
     /** default profile picture **/
     public void setDefaultPhoto(ImageView imageView, int width, int height) {
         Bitmap bm = BitmapFactory.decodeResource(activity.getResources(), R.drawable.default_pic);
@@ -76,11 +76,7 @@ public class UsingCamera {
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                 "Your image", null);
         Picasso.with(activity).load(path).resize(width ,height).into(imageView); // width/height
-        /*Picasso.with(this.activity)
-               .load(path)
-               .fit()
-               .centerInside()
-               .into(imageView); */
+        /*Picasso.with(this.activity).load(path).fit().centerInside().into(imageView); */
     }
 
     /** CREATE DIALOG BOX **/
@@ -95,50 +91,54 @@ public class UsingCamera {
             // check which option user chose
             @Override
             public void onClick(DialogInterface dialog, int item) {
-                if (items[item].equals("Take Photo")) {
-                    userChoosenTask = "Take Photo";
-                    cameraIntent();
-                }
+            if (items[item].equals("Take Photo")) {
+                userChoosenTask = "Take Photo";
+                cameraIntent();
+            }
 
-                else if (items[item].equals("Choose from Library")) {
-                    userChoosenTask="Choose from Library";
-                    galleryIntent();
-                }
-                else if (items[item].equals("Cancel")) {
-                    dialog.dismiss();
-                }
+            else if (items[item].equals("Choose from Library")) {
+                userChoosenTask="Choose from Library";
+                galleryIntent();
+            }
+            else if (items[item].equals("Cancel")) {
+                dialog.dismiss();
+            }
             }
         });
         builder.show();
     }
+
     /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    public void upload_img(Uri toUpload, StorageReference storage, final ProgressDialog upl_progress) {
+    /*public void upload_img(Uri toUpload, StorageReference storage, final ProgressDialog upl_progress) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = "users/" + user.getUid() + "/myimg";
 
         final UploadTask upl_task = storage.child(key).putFile(toUpload);
-        upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        Toast.makeText(activity, "Upload Successful!", Toast.LENGTH_LONG).show();
-                        upl_progress.dismiss();
-                        // next_activ()
-                    }
-                });
-                upl_task.addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(activity, "Upload Failed!", Toast.LENGTH_LONG).show();
-                        upl_progress.dismiss();
-                    }
-                    // next_activ()
-                });
-            }
-        });
+        if (upl_task != null) {
+            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(activity, "Upload Successful!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                            // next_activ()
+                        }
+                    });
+                    upl_task.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(activity, "Upload Failed!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                            // next_activ();
+                        }
+                    });
+                }
+            });
+        }
     }
+    */
 
     /*--------------------------------------GALLERY-----------------------------------------------*/
     /** OPEN THE GALLERY **/
@@ -174,7 +174,6 @@ public class UsingCamera {
         }
         if(path != null) { return Uri.parse(path); }
         return null;
-
     }
     /*----------------------------------------CAMERA----------------------------------------------*/
 
