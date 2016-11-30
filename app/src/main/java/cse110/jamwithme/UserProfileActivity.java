@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
@@ -60,6 +61,8 @@ public class UserProfileActivity extends AppCompatActivity {
     private UsingCamera camObj;
     private static int picWidth = 50;
     private static int picHeight = 50;
+    Uri img_uri;
+    private ProgressDialog upl_progress;
 
     private TextView displayInstruments;
     private String instruments;
@@ -124,9 +127,6 @@ public class UserProfileActivity extends AppCompatActivity {
         */
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
-
-
-        //TODO Nancy move this line to the camera button camObj.dialogBox();
         camObj.cameraButton(camButton);
 
 
@@ -214,7 +214,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //InstrList(user, instruments);
         //System.out.println(instruments);
 
-        //camObj.dialogBox();
     }
 
 
@@ -296,6 +295,18 @@ public class UserProfileActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
+            img_uri = camObj.usingCamera(data, imageView, picWidth, picHeight);
+        }
+        if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
+            img_uri = camObj.selectFromGallery(data, imageView, picWidth, picHeight);
+        }
+        //camObj.upload_img(img_uri,storage, upl_progress);
     }
 
 }

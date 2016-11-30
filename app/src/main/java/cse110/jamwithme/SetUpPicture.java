@@ -58,16 +58,10 @@ public class SetUpPicture extends AppCompatActivity {
         camObj.cameraButton(camButton);
 
         /***** set Default picture *****/
-        //Drawable defaultPic = getResources().getDrawable(R.drawable.default_pic);
-        //imageView.setImageDrawable(defaultPic);
         camObj.setDefaultPhoto(imageView, picWidth, picHeight);
 
-        //camObj.dialogBox(); //TODO remove later
         nextPage();
-
     }
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -99,16 +93,47 @@ public class SetUpPicture extends AppCompatActivity {
         bNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                if (img_uri != null) {
-                    upl_progress.setMessage("Uploading profile picture...");
-                    upl_progress.show();
-                    camObj.upload_img(img_uri,storage, upl_progress);
-                            //(img_uri, storage, upl_progress);
-                    next_activ();
-                }
-                else { next_activ(); }
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (img_uri != null) {
+                upl_progress.setMessage("Uploading profile picture...");
+                upl_progress.show();
+                //camObj.upload_img(img_uri,storage, upl_progress);
+                upload_img(img_uri);
+                next_activ();
+            }
+            else { next_activ(); }
             }
         });
+    }
+
+    /** Upload audio file to FireBase Storage w/authentication and handle results **/
+    public void upload_img(Uri toUpload) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String key = "users/" + user.getUid() + "/myimg";
+
+        final UploadTask upl_task = storage.child(key).putFile(toUpload);
+        if (upl_task != null) {
+            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+                @Override
+                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
+                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            Toast.makeText(SetUpPicture.this, "Upload Successful!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                            // next_activ()
+                        }
+                    });
+                    upl_task.addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(SetUpPicture.this, "Upload Failed!", Toast.LENGTH_LONG).show();
+                            upl_progress.dismiss();
+                            // next_activ();
+                        }
+                    });
+                }
+            });
+        }
     }
 }
