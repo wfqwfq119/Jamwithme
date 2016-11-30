@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,8 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -24,12 +23,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-
-public class MatchQuery extends AppCompatActivity {
+public class MatchQuery extends CreateMenu {
 
     private FirebaseDatabase database;
     private DatabaseReference db_ref;
@@ -47,6 +41,9 @@ public class MatchQuery extends AppCompatActivity {
     private RatingBar viewR;
     private TextView usr_name;
     private TextView instruments;
+
+    private DatabaseWatcher d;
+    private static String uid;
 
     //public MatchQuery(ArrayList<String> next_matches) { matches = next_matches; }
 
@@ -67,9 +64,12 @@ public class MatchQuery extends AppCompatActivity {
         Bdecline = (ImageButton)findViewById(R.id.bDecline);
         Bplay_mp = (ImageButton)findViewById(R.id.bPlay);
         Baccept = (ImageButton)findViewById(R.id.bAccept);
-        viewR = (RatingBar)findViewById(R.id.exp_rating_bar);
-        usr_name = (TextView)findViewById(R.id.tvName);
+        viewR = (RatingBar)findViewById(R.id.ratingBar);
+        usr_name = (TextView)findViewById(R.id.eTName);
         instruments = (TextView)findViewById(R.id.tvInstr);
+
+        d = new DatabaseWatcher(this);
+        uid = MatchingDisplay.userlist.get(idx);
 
         determ_match();
     }
@@ -89,37 +89,8 @@ public class MatchQuery extends AppCompatActivity {
             public void onSuccess(Uri uri) { mp = MediaPlayer.create(MatchQuery.this, uri); }
         });
 
-        // Setup name of next_match
-        db_ref.child(key + "/name").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    m_name = (String) dataSnapshot.getValue();
-                    usr_name.setText(m_name);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
-
-        // Setup rating of next_match
-        db_ref.child(key + "/rating").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    float newval = Float.valueOf(dataSnapshot.getValue().toString());
-                    viewR.setRating(newval);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                System.out.println("The read failed: " + databaseError.getCode());
-            }
-        });
+        //Pull info from database
+        d.updateUserProfile(next_match);
     }
 
     public void suspend_mp() {
@@ -132,19 +103,17 @@ public class MatchQuery extends AppCompatActivity {
     }
 
     public void determ_match() {
-        displayMatch(MatchingDisplay.userlist.get(idx));
+        displayMatch(uid);
         final Intent back = new Intent(MatchQuery.this, MatchingDisplay.class);
-        back.putExtra("updated", "true");
-
+        back.putExtra("udpated", "false");
 
         // Suspend mp if playing, then do nothing else
         Bdecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 suspend_mp();
-                MatchingDisplay.userlist.remove(idx);
-                MatchingDisplay.userlistname.remove(idx);
-                startActivity(back);
+                //TODO delete rejected user from matching with current user ever
+                startActivity(new Intent(MatchQuery.this, MatchingDisplay.class));
             }
         });
 
@@ -157,15 +126,30 @@ public class MatchQuery extends AppCompatActivity {
             }
         });
 
+        //TODO CLEAN  UP THIS CODE OH MY GOD
+        final Context c = this;
         // Suspend mp if playing, then add matched user to curr_user's friends list
         Baccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 suspend_mp();
-                friend_obj next_fr = new friend_obj(MatchingDisplay.userlist.get(idx), m_name);
-                friend_list.friend_Array.add(next_fr);
-                MatchingDisplay.userlist.remove(idx);
-                MatchingDisplay.userlistname.remove(idx);
+
+                String key = "users/" + uid;
+                FirebaseDatabase.getInstance().getReference().child(key).addListenerForSingleValueEvent(new
+                                                                                    ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("name")) {
+                            String name = dataSnapshot.child("name").getValue().toString();
+                            //add friend to database
+                            d.saveDataBy("friends/" + uid, name);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
                 startActivity(back);
             }
         });

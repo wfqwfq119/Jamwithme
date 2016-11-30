@@ -41,10 +41,8 @@ import com.squareup.picasso.Picasso;
 import android.widget.EditText;
 
 
-public class UserProfileActivity extends AppCompatActivity {
-
+public class UserProfileActivity extends CreateMenu {
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -74,9 +72,13 @@ public class UserProfileActivity extends AppCompatActivity {
 
         displayInstruments = (TextView)findViewById(R.id.tvInstruments);
 
+        //Get current user and quick null check
         mAuth = FirebaseAuth.getInstance();
         final FirebaseUser user = mAuth.getCurrentUser();
+        if(user == null)
+            startActivity(new Intent(UserProfileActivity.this,logina_ctivity.class));
 
+        //Pull out storage info
         storage = FirebaseStorage.getInstance().getReference();
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
@@ -88,15 +90,15 @@ public class UserProfileActivity extends AppCompatActivity {
         storage.child("users/" + user.getUid() + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
                 camObj.setDefaultPhoto(imageView, picWidth, picHeight);
             }
         });
 
+        //Initialize buttons
         init();
         initSaveButton();
 
-        //TODO update according to database saved
+        //Update according to database info
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
@@ -128,8 +130,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
 
         camObj.cameraButton(camButton);
-
-
 
         myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
             @Override
@@ -214,52 +214,6 @@ public class UserProfileActivity extends AppCompatActivity {
         //InstrList(user, instruments);
         //System.out.println(instruments);
 
-    }
-
-
-
-
-    //try to create menu
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.log_out:
-                mAuth.signOut();
-                startActivity(new Intent(this,logina_ctivity.class));
-                break;
-            case R.id.action_settings:
-                break;
-            case R.id.navi_disprofile:
-                startActivity(new Intent(this,ProfileDisplay.class));
-                break;
-            case R.id.navi_friend:
-                startActivity(new Intent(this,friend_list.class));
-                break;
-            case R.id.matching:
-                Intent match = new Intent(this, MatchingDisplay.class);
-                match.putExtra("updated", "false");
-                startActivity(match);
-                break;
-            case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
-                try{
-                    startActivity(new Intent(this, DeleteAccountActivity.class));
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     // Give 'add_jams' button functionality

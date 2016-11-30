@@ -3,7 +3,6 @@ package cse110.jamwithme;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.ActivityCompat;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,8 +25,11 @@ public class DatabaseWatcher {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
-    //String userkey;
+    private static CharSequence error_msg = "Error: not enough data to " +
+            "update or not enough matching section for data.";
+    private static String retval;
 
+    //Create databaseWatcher object which contains references to needed details
     public DatabaseWatcher(Context c) {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -43,7 +45,9 @@ public class DatabaseWatcher {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Activity a = (Activity)mContext;
+                //data must exist inside the database at given key
                 if(dataSnapshot.exists()) {
+                    //Update given textview by the value at the key
                     String newval = (String) dataSnapshot.getValue();
                     TextView viewval = (TextView) a.findViewById(tview);
                     viewval.setText(newval);
@@ -58,19 +62,16 @@ public class DatabaseWatcher {
         });
     }
 
-
+    /** check for current user existing and then update */
     public void updateData(String[] keys, final int[] r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
 
-        updateOtherUserData(user.getUid(), keys, r_id);
+        updateOtherUserTextData(user.getUid(), keys, r_id);
     }
 
-    /** Update other users' text data according to userid */
-    public void updateOtherUserData(String userid, String[] keys, final int[] r_id) {
-        CharSequence error_msg = "Error: not enough data to " +
-                "update or not enough matching section for data.";
-
+    /** Update input users' text data according to userid */
+    public void updateOtherUserTextData(String userid, String[] keys, final int[] r_id) {
         //Get key to the user node in database
         String key = "users/" + userid;
 
@@ -85,6 +86,7 @@ public class DatabaseWatcher {
         }
     }
 
+    /** Update rating for current user after checking if they exist */
     public void updateRating(final int r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
@@ -92,6 +94,7 @@ public class DatabaseWatcher {
         updateRating(user.getUid(), r_id);
     }
 
+    /** Update rating for input user */
     public void updateRating(String uid, final int r_id) {
         //Get key to the user node in database
         String key = "users/" + uid + "/rating";
@@ -100,6 +103,7 @@ public class DatabaseWatcher {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Activity a = (Activity)mContext;
+                //If data exists in database, update the rating bar
                 if(dataSnapshot.exists()) {
                     float newval = Float.valueOf(dataSnapshot.getValue().toString());
                     RatingBar viewR = (RatingBar) a.findViewById(r_id);
@@ -117,14 +121,17 @@ public class DatabaseWatcher {
 
     /** Update profile to reflect database info */
     public void updateUserProfile() {
+        //Update user location info
         UserLocation ul = new UserLocation(mContext, mAuth, myRef);
 
+        //Update textviews of personal bio and name sections
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.eTBiography, R.id.eTName};
-
         updateData(elems, info);
-        updateRating(R.id.ratingBar);
-        saveDataBy("location", ul.getLongLat());
+
+        updateRating(R.id.ratingBar);   //Update rating
+        //saveDataBy("location", ul.getLongLat());
+        myRef.child(mAuth.getCurrentUser().getUid() + "/location").setValue(ul.getLongLat()); //Save location info
     }
 
     /** Update profile to reflect database info */
@@ -132,8 +139,30 @@ public class DatabaseWatcher {
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.eTBiography, R.id.eTName};
 
-        updateOtherUserData(uid, elems, info);
+        updateOtherUserTextData(uid, elems, info);
         updateRating(uid, R.id.ratingBar);
+    }
+
+    public String returnName(String uid) {
+        String key = "users/" + uid;
+
+        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.hasChild("name")) {
+                    retval = dataSnapshot.child("name").getValue().toString();
+                }
+                else {
+                    retval = "Failed snapshot";
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        return retval;
     }
 
     /** Save data by giving in the "key" (where to find user info in database) and which view
@@ -148,7 +177,7 @@ public class DatabaseWatcher {
     }
 
     public void saveDataBy(String key, Object newval) {
-        key = mAuth.getCurrentUser().getUid() + key;
+        key = "users/" + mAuth.getCurrentUser().getUid() + "/" + key;
         myRef.child(key).setValue(newval);
     }
 
@@ -170,9 +199,6 @@ public class DatabaseWatcher {
     public void saveData() {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         badUser(user);
-
-        //Get key to the user node in database
-        String key = "users/" + user.getUid();
 
         // added instruments
         String[] k = {"name", "personalBio"};
@@ -229,6 +255,11 @@ public class DatabaseWatcher {
 
         //Get key to the user node in database
         myRef.child("users/" + userstring).removeValue();
+
+        //remove location from geofire query
+        GeoFire gf = new GeoFire(myRef.child("geofire"));
+        gf.removeLocation(userstring);
+
         myRef.child("geofire/" + userstring).removeValue();
         myRef.child(userstring + "location").removeValue();
     }
