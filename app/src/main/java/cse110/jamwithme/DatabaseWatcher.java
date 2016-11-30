@@ -27,7 +27,7 @@ public class DatabaseWatcher {
     private DatabaseReference myRef;
     private static CharSequence error_msg = "Error: not enough data to " +
             "update or not enough matching section for data.";
-    private static String retval;
+    private static boolean retval;
 
     /**Create databaseWatcher object which contains references to needed details*/
     public DatabaseWatcher(Context c) {
@@ -218,6 +218,27 @@ public class DatabaseWatcher {
         if (user == null) {
             badData();
         }
+    }
+
+    public boolean badUser(final String uid) {
+        retval = false;
+
+        myRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.hasChild(uid)) {
+                    retval = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+
+        });
+
+        System.out.println("user " + uid + " exists: " + retval);
+        return retval;
     }
 
     /** if there is bad data, start at login activity */
