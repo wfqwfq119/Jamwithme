@@ -13,7 +13,7 @@
     <string name="register">Register Here</string>
     <string name="reg">Register</string>
     <string name="sup">Sign Up</string>
-    <string name="free">It's Free!</string>
+    <string name="free">It\'s Free!</string>
     <string name="def">Nothing to play...</string>
     <string name="prof_jam_display">Profile Jam:</string>
     <string name="uname">Username</string>
@@ -36,10 +36,11 @@
     <string name="msg">Message</string>
     <string name="sent">Sent</string>
     <string name="nxt">Next</string>
-    <string name="abtblurb">Tell us about yourself. Who's your favorite artist? What's your
-        favorite genre? Other Jammers can't wait to know more about you!</string>
+    <string name="abtblurb">Tell us about yourself. Who\'s your favorite artist? What\'s your
+        favorite genre? Other Jammers can\'t wait to know more about you!</string>
     <string name="expblurb">Brag about yourself! Rate yourself based on your years of experience
-        jammin'! And beginners, don't worry! There are plenty of beginners on Jam With Me.</string>
+        jammin\'! And beginners, don\'t worry! There are plenty of beginners on Jam With Me
+        .</string>
     <string name="confirm">Confirm</string>
     <string name="cpass">Confirm Password</string>
 
