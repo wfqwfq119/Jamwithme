@@ -85,15 +85,15 @@ public class ProfileDisplay extends AppCompatActivity {
         storage.child(key + "/myimg").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
-                //Picasso.with(ProfileDisplay.this).load(uri).fit().into(imageView);
-                Picasso.with(ProfileDisplay.this).load(uri).resize(width, height).into(imageView);
+            //Picasso.with(ProfileDisplay.this).load(uri).fit().into(imageView);
+            Picasso.with(ProfileDisplay.this).load(uri).resize(width, height).into(imageView);
                 }
         });
 
         storage.child(key + "/myimg").getDownloadUrl().addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                camObj.setDefaultPhoto(imageView, width, height);
+            camObj.setDefaultPhoto(imageView, width, height);
             }
         });
 
@@ -102,7 +102,7 @@ public class ProfileDisplay extends AppCompatActivity {
         play_myjam.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                storage.child(key + "/myjam").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+        storage.child(key + "/myjam").getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
                         mp = MediaPlayer.create(ProfileDisplay.this, uri);
@@ -221,5 +221,8 @@ public class ProfileDisplay extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
 
 }

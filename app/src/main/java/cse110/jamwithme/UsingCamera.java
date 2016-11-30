@@ -63,7 +63,7 @@ public class UsingCamera {
                 Intent image = new Intent(activity,
                         SetUpPicture.class);
                 image.putExtra("activity", prev_activ);
-                activity.startActivity(image);
+                //activity.startActivity(image);
             }
         });
     }
@@ -108,21 +108,20 @@ public class UsingCamera {
         builder.show();
     }
 
-    /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    /*public void upload_img(Uri toUpload, StorageReference storage, final ProgressDialog upl_progress) {
+    public void upload_img(Uri toUpload, StorageReference storage, final ProgressDialog upl_progress) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = "users/" + user.getUid() + "/myimg";
 
         final UploadTask upl_task = storage.child(key).putFile(toUpload);
-        if (upl_task != null) {
-            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
+        if (upl_task != null && upl_progress != null) {
+            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() { // TODO error might be here 117
                 @Override
                 public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() { //TODO error might be here 120
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                             Toast.makeText(activity, "Upload Successful!", Toast.LENGTH_LONG).show();
-                            upl_progress.dismiss();
+                            upl_progress.dismiss();    // TODO error might be here 124
                             // next_activ()
                         }
                     });
@@ -138,7 +137,6 @@ public class UsingCamera {
             });
         }
     }
-    */
 
     /*--------------------------------------GALLERY-----------------------------------------------*/
     /** OPEN THE GALLERY **/

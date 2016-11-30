@@ -306,7 +306,7 @@ public class UserProfileActivity extends AppCompatActivity {
         if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
             img_uri = camObj.selectFromGallery(data, imageView, picWidth, picHeight);
         }
-        //camObj.upload_img(img_uri,storage, upl_progress);
+        camObj.upload_img(img_uri,storage, upl_progress);
     }
 
 }

@@ -63,6 +63,7 @@ public class SetUpPicture extends AppCompatActivity {
         nextPage();
     }
 
+    /* Determine whether to take a picture from camera or upload from gallery*/
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -97,8 +98,8 @@ public class SetUpPicture extends AppCompatActivity {
             if (img_uri != null) {
                 upl_progress.setMessage("Uploading profile picture...");
                 upl_progress.show();
-                //camObj.upload_img(img_uri,storage, upl_progress);
-                upload_img(img_uri);
+                camObj.upload_img(img_uri,storage, upl_progress);
+                //upload_img(img_uri);
                 next_activ();
             }
             else { next_activ(); }
@@ -107,7 +108,7 @@ public class SetUpPicture extends AppCompatActivity {
     }
 
     /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    public void upload_img(Uri toUpload) {
+    /*public void upload_img(Uri toUpload) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         String key = "users/" + user.getUid() + "/myimg";
 
@@ -135,5 +136,5 @@ public class SetUpPicture extends AppCompatActivity {
                 }
             });
         }
-    }
+    }*/
 }
