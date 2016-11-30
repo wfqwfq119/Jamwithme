@@ -48,7 +48,7 @@ public class MatchingDisplay extends CreateMenu {
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private Intent prev_intent;
-    //rivate String updated;
+    //0private String updated;
 
     ListView matches;
     static ArrayList<String> userlist;
@@ -67,33 +67,33 @@ public class MatchingDisplay extends CreateMenu {
         myRef = database.getReference();
 
         prev_intent = getIntent();
+        //updated = prev_intent.getStringExtra("updated");
 
         userlist = new ArrayList<String>();
-        userlistname = new ArrayList<String>();
+        //userlistname = new ArrayList<String>();
         friends = new ArrayList<String>();
 
         //Pull friend list
         DatabaseReference fref = myRef.child("users").child(mAuth.getCurrentUser().getUid()).child
                 ("friends");
 
-        final Context c = this;
-
-        fref.addListenerForSingleValueEvent(new ValueEventListener() {
+        fref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.exists()) {
-                    for(DataSnapshot ds: dataSnapshot.getChildren()) {
-                        friends.add(ds.getKey().toString());
-                    }
-                }
-                else {
-                    //Toast.makeText(c, "Data fref doesn't exist!", Toast.LENGTH_SHORT).show();
-                }
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                friends.add(dataSnapshot.getKey().toString());
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {}
         });
 
         final DatabaseReference userRef = myRef.child("users");
@@ -125,33 +125,8 @@ public class MatchingDisplay extends CreateMenu {
                     for (String f : friends) {
                         System.out.println(f);
                     }
-                }
-                else {
+                } else {
                     userlist.add(newuserkey);
-
-                    //get username
-                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
-                                                                                                 ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                String ds = dataSnapshot.getValue().toString();
-                                //userlistname.add(dataSnapshot.getValue().toString());
-                                userlistname.add(ds);
-
-                                userAdapter.notifyDataSetChanged();
-                            } else {
-                                //userlistname.add("Failed User");
-                                userAdapter.notifyDataSetChanged();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                        }
-                    });
-
-
                     userAdapter.notifyDataSetChanged();
                 }
             }
@@ -184,6 +159,25 @@ public class MatchingDisplay extends CreateMenu {
 
             @Override
             public void onGeoQueryReady() {
+                userlistname = new ArrayList<String>();
+                for (String s : userlist) {
+                    userRef.child(s).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String ds = dataSnapshot.getValue().toString();
+                                userlistname.add(ds);
+                            } else {
+                                //userlistname.add("Failed User");
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                        }
+                    });
+                    userAdapter.notifyDataSetChanged();
+                }
             }
 
             @Override
@@ -192,12 +186,15 @@ public class MatchingDisplay extends CreateMenu {
             }
         });
 
+        //If click a person, go to display their profile for a "match"
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                userAdapter.notifyDataSetChanged();
                 Intent query = new Intent(MatchingDisplay.this, MatchQuery.class);
                 String pos = Integer.toString(position);
                 query.putExtra("position", pos);
+
                 startActivity(query);
             }
         });

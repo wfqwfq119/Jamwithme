@@ -104,6 +104,8 @@ public class MatchQuery extends CreateMenu {
 
     public void determ_match() {
         displayMatch(uid);
+        final Intent back = new Intent(MatchQuery.this, MatchingDisplay.class);
+        back.putExtra("udpated", "false");
 
         // Suspend mp if playing, then do nothing else
         Bdecline.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +150,6 @@ public class MatchQuery extends CreateMenu {
                     public void onCancelled(DatabaseError databaseError) {}
                 });
 
-                Intent back = new Intent(c, MatchingDisplay.class);
                 startActivity(back);
             }
         });

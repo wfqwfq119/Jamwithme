@@ -108,39 +108,6 @@ public class friend_list extends CreateMenu {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
-
-        /*friend_ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User_Uid = dataSnapshot.child("userId").toString();
-                User_name = dataSnapshot.child("name").getValue().toString();
-                //System.out.println(User_name);
-                friend_Array_show.add(User_name);
-                friend_Array.add(new friend_obj(User_Uid,User_name));
-                friend_showAdp.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
 }
