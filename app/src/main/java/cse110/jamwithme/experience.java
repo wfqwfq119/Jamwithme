@@ -10,12 +10,14 @@ import android.widget.RatingBar;
 public class experience extends AppCompatActivity {
 
     Button bNext4;
+    Button bBack4;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_experience);
 
         nextPage4();
+        backPage4();
     }
 
     // NANCY AND MAYA
@@ -31,5 +33,16 @@ public class experience extends AppCompatActivity {
             }
         } );
 
+    }
+
+    public void backPage4() {
+        bBack4 = (Button) findViewById(R.id.bBack4);
+        final DatabaseWatcher d = new DatabaseWatcher(this);
+        bBack4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(experience.this, InstrumentSelect.class));
+            }
+        } );
     }
 }

@@ -113,7 +113,7 @@
         android:text="Back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/bNext2"
+        android:id="@+id/bBack2"
         android:background="?android:attr/statusBarColor"
         android:textColor="@android:color/white"
         android:layout_alignParentBottom="true"

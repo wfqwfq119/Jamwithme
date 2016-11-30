@@ -47,6 +47,7 @@ public class add_jams_activity extends AppCompatActivity {
     private Button select_aud;
     private Button delete_aud;
     private Button bNext2;
+    private Button bBack2;
     private TextView filename_TV;
 
 
@@ -134,7 +135,15 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
-    }
+        bBack2 = (Button)findViewById(R.id.bBack2);
+        // final DatabaseWatcher d = new DatabaseWatcher(this);
+        bBack2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    startActivity(new Intent(add_jams_activity.this, UsingCamera.class));
+                }
+            } );
+        }
 
     /** Set up next activity page **/
     public void nextTask() {

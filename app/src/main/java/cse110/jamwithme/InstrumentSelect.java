@@ -42,6 +42,7 @@ public class InstrumentSelect extends AppCompatActivity {
     DatabaseReference mChildRef;
 
     Button bNext3; // MAYA AND NANCY
+    Button bBack3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,6 +157,7 @@ public class InstrumentSelect extends AppCompatActivity {
         });
 
         nextPage3(); // MAYA and NANCY
+        backPage3();
     }
 
     // MAYA AND NANCY
@@ -175,6 +177,17 @@ public class InstrumentSelect extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void backPage3() {
+        bBack3 = (Button) findViewById(R.id.bBack3);
+        final DatabaseWatcher d = new DatabaseWatcher(this);
+        bBack3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(InstrumentSelect.this, add_jams_activity.class));
+            }
+        } );
     }
 
 }
