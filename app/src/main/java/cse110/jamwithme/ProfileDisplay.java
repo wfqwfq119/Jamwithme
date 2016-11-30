@@ -41,8 +41,7 @@ import java.io.IOException;
  * Created by Storm Quark on 11/12/2016.
  */
 
-public class ProfileDisplay extends AppCompatActivity {
-
+public class ProfileDisplay extends CreateMenu {
     private FirebaseAuth mAuth;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
@@ -71,6 +70,7 @@ public class ProfileDisplay extends AppCompatActivity {
         final FirebaseUser user = mAuth.getCurrentUser();
         storage = FirebaseStorage.getInstance().getReference();
 
+        //See who is being displayed by input uid, default being current user
         if(getIntent().hasExtra("userid")) {
             userID = getIntent().getStringExtra("userid");
         }
@@ -112,9 +112,9 @@ public class ProfileDisplay extends AppCompatActivity {
             }
         });
 
-        init();
+        init(); //Initialize button
 
-        //TODO update according to database saved
+        //update according to database saved on the user's id
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
         DatabaseWatcher d = new DatabaseWatcher(this);
@@ -178,51 +178,4 @@ public class ProfileDisplay extends AppCompatActivity {
             edit_button.setVisibility(View.GONE);
         }
     }
-
-    //try to create menu
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_main,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item)
-    {
-        switch (item.getItemId())
-        {
-            case R.id.log_out:
-                mAuth.signOut();
-                startActivity(new Intent(this,logina_ctivity.class));
-                break;
-            case R.id.action_settings:
-                break;
-            case R.id.navi_disprofile:
-                startActivity(new Intent(this,ProfileDisplay.class));
-                break;
-            case R.id.navi_friend:
-                startActivity(new Intent(this,friend_list.class));
-                break;
-            case R.id.matching:
-                Intent match = new Intent(this, MatchingDisplay.class);
-                match.putExtra("updated", "false");
-                startActivity(match);
-                break;
-            case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
-                try{
-                    startActivity(new Intent(this, DeleteAccountActivity.class));
-                }catch(Exception e) {
-                    e.printStackTrace();
-                }
-
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
-
-
-
 }

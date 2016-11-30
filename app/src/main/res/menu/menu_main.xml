@@ -9,31 +9,31 @@
         app:showAsAction="never" />
     <item
         android:id="@+id/navi_disprofile"
-        android:title="User Profile"
+        android:title="@string/uprof"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
         android:id="@+id/navi_friend"
-        android:title="Friend"
+        android:title="@string/friend"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
         android:id="@+id/matching"
-        android:title="Matching"
+        android:title="@string/match"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
         android:id="@+id/log_out"
-        android:title="Log out"
+        android:title="@string/logout"
         app:showAsAction="never"
         android:orderInCategory="100"
         />
     <item
         android:id="@+id/delete_acct"
-        android:title="DELETE ACCOUNT"
+        android:title="@string/del"
         app:showAsAction="never"
         android:orderInCategory="100"
         />

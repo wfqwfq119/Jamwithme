@@ -23,7 +23,6 @@ public class message_model {
         }
 
         public message_model(){
-
         }
 
         public String getMessageText() {

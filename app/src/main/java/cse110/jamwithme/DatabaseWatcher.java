@@ -29,7 +29,7 @@ public class DatabaseWatcher {
             "update or not enough matching section for data.";
     private static String retval;
 
-    //Create databaseWatcher object which contains references to needed details
+    /**Create databaseWatcher object which contains references to needed details*/
     public DatabaseWatcher(Context c) {
         mAuth = FirebaseAuth.getInstance();
         database = FirebaseDatabase.getInstance();
@@ -62,7 +62,7 @@ public class DatabaseWatcher {
         });
     }
 
-    /** check for current user existing and then update */
+    /** Check for current user existing and then update */
     public void updateData(String[] keys, final int[] r_id) {
         FirebaseUser user = mAuth.getCurrentUser();
         badUser(user);
@@ -130,39 +130,16 @@ public class DatabaseWatcher {
         updateData(elems, info);
 
         updateRating(R.id.ratingBar);   //Update rating
-        //saveDataBy("location", ul.getLongLat());
         myRef.child(mAuth.getCurrentUser().getUid() + "/location").setValue(ul.getLongLat()); //Save location info
     }
 
-    /** Update profile to reflect database info */
+    /** Update profile to reflect database info from given uid*/
     public void updateUserProfile(String uid) {
         String[] elems = {"personalBio", "name"};
         final int[] info = {R.id.eTBiography, R.id.eTName};
 
         updateOtherUserTextData(uid, elems, info);
         updateRating(uid, R.id.ratingBar);
-    }
-
-    public String returnName(String uid) {
-        String key = "users/" + uid;
-
-        myRef.child(key).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if(dataSnapshot.hasChild("name")) {
-                    retval = dataSnapshot.child("name").getValue().toString();
-                }
-                else {
-                    retval = "Failed snapshot";
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        return retval;
     }
 
     /** Save data by giving in the "key" (where to find user info in database) and which view
@@ -176,16 +153,18 @@ public class DatabaseWatcher {
         myRef.child(key).setValue(newInput);
     }
 
+    /** Save basic object into a user's account via provided key */
     public void saveDataBy(String key, Object newval) {
         key = "users/" + mAuth.getCurrentUser().getUid() + "/" + key;
         myRef.child(key).setValue(newval);
     }
 
+    /** Save current user's rating */
     public void saveRating(int r_id) {
-        FirebaseUser u = mAuth.getCurrentUser();
-        saveRating(u.getUid(), r_id);
+        saveRating(mAuth.getCurrentUser().getUid(), r_id);
     }
 
+    /** Save input user's rating */
     public void saveRating(String user, final int r_id) {
         String key = "users/" + user + "/rating";
 
@@ -200,7 +179,7 @@ public class DatabaseWatcher {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         badUser(user);
 
-        // added instruments
+        // name and personalBio
         String[] k = {"name", "personalBio"};
         int[] r_id = {R.id.eTName, R.id.eTBiography};
 

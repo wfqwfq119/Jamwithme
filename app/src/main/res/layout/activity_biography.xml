@@ -11,7 +11,7 @@
     tools:context="cse110.jamwithme.Biography">
 
     <TextView
-        android:text="About Me"
+        android:text="@string/abt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
@@ -23,7 +23,7 @@
         android:layout_centerHorizontal="true" />
 
     <Button
-        android:text="Next"
+        android:text="@string/nxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -34,7 +34,7 @@
         android:background="?android:attr/statusBarColor"/>
 
     <TextView
-        android:text="Tell us about yourself. Who's your favorite artist? What's your favorite genre? Other Jammers can't wait to know more about you!"
+        android:text="@string/abtblurb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/textView2"

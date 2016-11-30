@@ -28,7 +28,6 @@
         <activity android:name=".RegisterActivity" />
         <activity android:name=".DeleteAccountActivity" />
         <activity android:name=".UserProfileActivity" />
-        <activity android:name=".DisplayOtherUserActivity" />
         <activity android:name=".MatchingDisplay" />
         <activity android:name=".Splash">
             <intent-filter>
@@ -46,8 +45,7 @@
         <activity android:name=".experience" />
         <activity android:name=".Biography" />
         <activity
-            android:name=".messagerAct"
-            android:label="messagerAct" />
+            android:name=".messagerAct"/>
         <!--
  ATTENTION: This was auto-generated to add Google Play services to your project for
      App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.

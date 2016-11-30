@@ -106,35 +106,4 @@ public class SetUpPicture extends AppCompatActivity {
             }
         });
     }
-
-    /** Upload audio file to FireBase Storage w/authentication and handle results **/
-    /*public void upload_img(Uri toUpload) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String key = "users/" + user.getUid() + "/myimg";
-
-        final UploadTask upl_task = storage.child(key).putFile(toUpload);
-        if (upl_task != null) {
-            upl_task.addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onProgress(UploadTask.TaskSnapshot taskSnapshot) {
-                    upl_task.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(SetUpPicture.this, "Upload Successful!", Toast.LENGTH_LONG).show();
-                            upl_progress.dismiss();
-                            // next_activ()
-                        }
-                    });
-                    upl_task.addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(SetUpPicture.this, "Upload Failed!", Toast.LENGTH_LONG).show();
-                            upl_progress.dismiss();
-                            // next_activ();
-                        }
-                    });
-                }
-            });
-        }
-    }*/
 }

@@ -64,9 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
                 registerUser();
             }
         });
-
-        //Test menu
-        //getMenuInflater().inflate(R.menu.menu_main, );
     }
 
     //Adds created user to Firebase database
@@ -79,7 +76,7 @@ public class RegisterActivity extends AppCompatActivity {
             startActivity(new Intent(RegisterActivity.this,logina_ctivity.class));
         }
 
-        //Create user object and places into database
+        //Create user object and place into database
         User newUser = new User();
         newUser.setName(username);
         newUser.setUid(user.getUid());
@@ -87,8 +84,6 @@ public class RegisterActivity extends AppCompatActivity {
         newUser.setLocation(ul.getLongLat());
 
         mDatabase.child("users").child(user.getUid()).setValue(newUser);
-
-        //TODO Assign user instrument values
     }
 
     private void registerUser(){

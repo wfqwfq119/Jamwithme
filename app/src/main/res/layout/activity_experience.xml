@@ -8,10 +8,11 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="cse110.jamwithme.experience">
+    tools:context="cse110.jamwithme.experience"
+    tools:targetApi="ICE_CREAM_SANDWICH_MR1">
 
     <TextView
-        android:text="Brag about yourself! Rate yourself based on your years of experience jammin'! And beginners, don't worry! There are plenty of beginners on Jam With Me."
+        android:text="@string/expblurb"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvExperience"
@@ -27,7 +28,7 @@
         android:textAlignment="viewStart" />
 
     <TextView
-        android:text="Experience Level"
+        android:text="@string/exp_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="34dp"
@@ -47,7 +48,8 @@
         android:layout_alignTop="@+id/ratingBar2"
         android:layout_alignLeft="@+id/ratingBar2"
         android:layout_alignStart="@+id/ratingBar2"
-        android:layout_marginTop="54dp" />
+        android:layout_marginTop="54dp"
+        android:layout_centerHorizontal="true"/>
 
     <RatingBar
         android:layout_width="wrap_content"
@@ -55,11 +57,10 @@
         android:id="@+id/ratingBar2"
         android:layout_marginTop="28dp"
         android:layout_below="@+id/tvInfo"
-        android:layout_alignLeft="@+id/tvInfo"
-        android:layout_alignStart="@+id/tvInfo" />
+        android:layout_centerHorizontal="true"/>
 
     <Button
-        android:text="Next"
+        android:text="@string/nxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

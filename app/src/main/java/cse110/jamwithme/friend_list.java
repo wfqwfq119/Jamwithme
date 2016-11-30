@@ -66,6 +66,7 @@ public class friend_list extends CreateMenu {
 
         friend_list.setAdapter(friend_showAdp);
 
+        //When you click on a friend, go to message with them
         friend_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,15 +77,10 @@ public class friend_list extends CreateMenu {
             }
         });
 
-        final Context c = this;
-
-        final DatabaseReference userref = myRef.child("users");
-
         DatabaseReference fref = myRef.child("users").child(FirebaseAuth.getInstance()
                 .getCurrentUser().getUid()).child("friends");
 
-        final DatabaseWatcher d = new DatabaseWatcher(this);
-
+        //Initialize friend list
         fref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

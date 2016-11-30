@@ -121,14 +121,6 @@ public class UserProfileActivity extends CreateMenu {
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camButton = (ImageButton) findViewById(R.id.camButton);
 
-        /*
-        intent = getIntent();
-        instruments = intent.getStringExtra("instrs");
-        displayInstruments = (TextView) findViewById(R.id.tvInstruments);
-        displayInstruments.setText(instruments);
-        */
-        //displayInstruments.setText(instrumentSelect.select_list.toString()); //TODO
-
         camObj.cameraButton(camButton);
 
         myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
@@ -139,9 +131,8 @@ public class UserProfileActivity extends CreateMenu {
                     return;
                 }
                 String my_list = dataSnapshot.getValue().toString();
-                //System.out.println(my_list);
                 String[] new_list = my_list.split(",");
-                //System.out.println(new_list);
+
                 for(String si : new_list){
                     if(si == null)
                         break;
@@ -160,60 +151,25 @@ public class UserProfileActivity extends CreateMenu {
                         instruments += ", ";
                     }
                 }
-                //System.out.println(instruments);
                 displayInstruments.setText(instruments);
             }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-                /*if(dataSnapshot.getValue() == null) {
-                    displayInstruments.setText("No Instruments selected");
-                    return;
-                }
-                String my_list = dataSnapshot.getValue().toString();
-                //System.out.println(my_list);
-                String[] new_list = my_list.split(",");
-                System.out.println(new_list);
-                for(String si : new_list){
-                    if(si == null)
-                        break;
-                    //String[] check_list = si.split("=");
-                    //System.out.println(check_list[0]);
-
-                    if(instruments == null){
-                        instruments = si;
-                        instruments += ", ";
-                    }
-                    else if(instruments.toCharArray().length == new_list.length){
-                        instruments += si;
-                    }
-                    else {
-                        instruments += si;
-                        instruments += ", ";
-                    }
-                }
-                //System.out.println(instruments);
-                displayInstruments.setText(instruments);*/
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
-        //InstrList(user, instruments);
-        //System.out.println(instruments);
-
     }
 
     // Give 'add_jams' button functionality
@@ -230,7 +186,7 @@ public class UserProfileActivity extends CreateMenu {
         });
     }
 
-    // Allow saving
+    // Allow saving from save button
     public void initSaveButton() {
         saveB = (Button)findViewById(R.id.save_button);
         final DatabaseWatcher d = new DatabaseWatcher(this);
@@ -239,9 +195,9 @@ public class UserProfileActivity extends CreateMenu {
             public void onClick(View v) {
                 d.saveData();
                 try {
-                    FirebaseUser user = mAuth.getCurrentUser();
+                    //Display user profile in non-editable form
                     Intent displayProf = new Intent(UserProfileActivity.this, ProfileDisplay.class);
-                    displayProf.putExtra("userid", user.getUid());
+                    displayProf.putExtra("userid", mAuth.getCurrentUser().getUid());
                     startActivity(displayProf);
                 }
                 catch(Exception e) {

@@ -42,7 +42,7 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword"
         android:ems="10"
-        android:hint="Confirm Password"
+        android:hint="@string/cpass"
         android:id="@+id/Register_password_confirm"
         android:layout_marginTop="10dp"
         android:layout_below="@+id/Register_password"
@@ -57,7 +57,7 @@
         android:inputType="textEmailAddress"
         android:ems="10"
         android:id="@+id/Register_Email"
-        android:hint="Email"
+        android:hint="@string/email"
         android:layout_below="@+id/Re_Username"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -66,7 +66,7 @@
         android:layout_alignParentEnd="true" />
 
     <Button
-        android:text="Sign Up"
+        android:text="@string/sup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/Re_button"
@@ -78,7 +78,7 @@
         android:layout_marginBottom="16dp" />
 
     <TextView
-        android:text="It's free!"
+        android:text="@string/free"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="61dp"

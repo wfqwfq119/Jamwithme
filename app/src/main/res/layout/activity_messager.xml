@@ -10,14 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="cse110.jamwithme.messagerAct">
 
-
     <include layout="@layout/content_messager" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Message"
+        android:hint="@string/msg"
         android:ems="10"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
@@ -26,7 +25,7 @@
         android:id="@+id/mes_Text" />
 
     <Button
-        android:text="Sent"
+        android:text="@string/sent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -35,6 +34,5 @@
         android:layout_marginRight="13dp"
         android:layout_marginEnd="13dp"
         android:id="@+id/mes_sent" />
-
 
 </RelativeLayout>

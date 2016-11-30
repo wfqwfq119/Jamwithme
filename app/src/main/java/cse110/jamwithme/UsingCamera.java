@@ -81,7 +81,7 @@ public class UsingCamera {
 
     /** CREATE DIALOG BOX **/
     public void dialogBox() {
-        // create diaglog with three options
+        // create dialog with three options
         final CharSequence[] items = { "Take Photo", "Choose from Library",
                 "Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(activity);

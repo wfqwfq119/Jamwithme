@@ -31,12 +31,9 @@ public class messagerAct extends CreateMenu {
     private ListView mes_list;
     private DatabaseReference mRootRef;
     private DatabaseReference mChildRef;
-    private Query my_Query;
     private ArrayAdapter<String> mes_adp;
     private Button mes_senter;
-    private String[] my_String;
     private message_model my_Message;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,25 +46,18 @@ public class messagerAct extends CreateMenu {
         mes_list.setAdapter(mes_adp);
 
         String User_Uid = getIntent().getStringExtra("Uid");
-        //System.out.println(User_Uid);
-        //my_String = User_Uid.split(",");
-        //my_String = my_String[1].split(" ");
-        //System.out.println(my_String[3]);
-        //User_Uid = my_String[3];
 
         mRootRef = FirebaseDatabase.getInstance().getReference().getRoot();
-       //my_Query = mRootRef.child("users").orderByKey().equalTo(User_Uid);
         mChildRef = FirebaseDatabase.getInstance().getReference("/users/"+User_Uid+"/Message");
 
         mes_senter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 EditText input = (EditText)findViewById(R.id.mes_Text);
                 my_Message = new message_model(input.getText().toString(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName(),
                         FirebaseAuth.getInstance().getCurrentUser().getUid());
                 mRootRef.child("Message").push().setValue(my_Message);
-                 mChildRef.push().setValue(my_Message.getMessageText());
+                mChildRef.push().setValue(my_Message.getMessageText());
                 input.setText("");
             }
         });
@@ -83,22 +73,18 @@ public class messagerAct extends CreateMenu {
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onChildRemoved(DataSnapshot dataSnapshot) {
-
             }
 
             @Override
             public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
         });
     }

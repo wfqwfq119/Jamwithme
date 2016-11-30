@@ -4,25 +4,12 @@ package cse110.jamwithme;
  * Created by Storm Quark on 11/21/2016.
  */
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
-import android.widget.RatingBar;
 import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
@@ -44,17 +31,16 @@ import java.util.ArrayList;
 public class MatchingDisplay extends CreateMenu {
     private FirebaseAuth mAuth;
     private FirebaseUser user;
-    private StorageReference storage;
+    //private StorageReference storage;
     private FirebaseDatabase database;
     private DatabaseReference myRef;
     private Intent prev_intent;
-    //0private String updated;
+    //private String updated;
 
     ListView matches;
     static ArrayList<String> userlist;
     static ArrayList<String> userlistname;
     static ArrayList<String> friends;
-    static int indx;
     ArrayAdapter<String> userAdapter;
 
     @Override
@@ -66,7 +52,7 @@ public class MatchingDisplay extends CreateMenu {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        prev_intent = getIntent();
+        //prev_intent = getIntent();
         //updated = prev_intent.getStringExtra("updated");
 
         userlist = new ArrayList<String>();
@@ -131,6 +117,7 @@ public class MatchingDisplay extends CreateMenu {
                 }
             }
 
+            //Remove users from matches once they exit query
             @Override
             public void onKeyExited(String newuserkey) {
                 userlist.remove(newuserkey);
@@ -157,6 +144,7 @@ public class MatchingDisplay extends CreateMenu {
             public void onKeyMoved(String key, GeoLocation location) {
             }
 
+            //Once query is done adjusting, initialize all user names from the user id's noted
             @Override
             public void onGeoQueryReady() {
                 userlistname = new ArrayList<String>();
@@ -176,6 +164,7 @@ public class MatchingDisplay extends CreateMenu {
                         public void onCancelled(DatabaseError databaseError) {
                         }
                     });
+                    //Update the list view with the names
                     userAdapter.notifyDataSetChanged();
                 }
             }

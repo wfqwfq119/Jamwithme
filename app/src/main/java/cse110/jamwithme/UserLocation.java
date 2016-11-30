@@ -16,11 +16,9 @@ import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
-import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by Matthew on 11/13/2016.
@@ -86,14 +84,6 @@ public class UserLocation implements LocationListener {
                                     .ACCESS_FINE_LOCATION, Manifest.permission
                             .ACCESS_COARSE_LOCATION}, 1);
                 }
-
-                /*int perm = ContextCompat.checkSelfPermission(mContext, android.Manifest.permission
-                        .ACCESS_FINE_LOCATION );
-                Toast.makeText(mContext, "perm: " + perm, Toast.LENGTH_LONG)
-                        .show();
-                int grant = PackageManager.PERMISSION_GRANTED;
-                Toast.makeText(mContext, "granted: " + grant, Toast.LENGTH_LONG).show();*/
-                //return null;
             }
 
            //If no permissions, inform user that location can't be accessed

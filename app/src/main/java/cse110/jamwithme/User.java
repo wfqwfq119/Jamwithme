@@ -12,10 +12,7 @@ public class User {
     private String name;
     private String personalBio;
     private int age;
-    private File profile_jam;
     private float rating;
-    //private Song[] exampleSongs;
-    //private ProfilePics[] profilePics;
     private GeoLocation location;
 
     /** Constructors for User */
@@ -26,7 +23,6 @@ public class User {
         location = new GeoLocation(0.0, 0.0);
         rating = 0;
         uid = "No UID";
-        //profile_jam = null;
     }
 
     public User(String inname, String pBio, int userAge, GeoLocation g, float r, String userid) {
@@ -68,8 +64,6 @@ public class User {
             personalBio = newBio.substring(0, 499);
     }
 
-    //public User getUsr() { return this; }
-
     public void setAge(int newAge) {
         age = newAge;
     }
@@ -81,6 +75,4 @@ public class User {
     public void setRating(float newR) { rating = newR; }
 
     public void setUid(String inUid) { uid = inUid; }
-
-    //public void setProfile_jam(File nextjam) { profile_jam = nextjam; }
 }

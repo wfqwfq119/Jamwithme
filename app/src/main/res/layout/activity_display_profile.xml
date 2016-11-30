@@ -49,7 +49,7 @@
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:text="Years of Experience"
+        android:text="@string/exp_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/exp"
@@ -84,7 +84,7 @@
         android:layout_marginBottom="17dp" />
 
     <TextView
-        android:text="Instruments"
+        android:text="@string/instruments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvInstruments"

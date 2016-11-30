@@ -13,7 +13,7 @@
     tools:context="cse110.jamwithme.UserProfileActivity">
 
     <TextView
-        android:text="Years of Experience"
+        android:text="@string/exp_lvl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tVExperience"
@@ -91,7 +91,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:id="@+id/eTName"
-        android:hint="Username"
+        android:hint="@string/uname"
         android:layout_marginTop="42dp"
         android:layout_below="@+id/ivProfile"
         android:layout_alignParentLeft="true"
@@ -106,7 +106,7 @@
         android:layout_alignParentEnd="true" />
 
     <TextView
-        android:text="Instruments"
+        android:text="@string/instruments"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/Profile_add_button"

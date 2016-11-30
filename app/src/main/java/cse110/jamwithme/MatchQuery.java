@@ -29,7 +29,6 @@ public class MatchQuery extends CreateMenu {
     private DatabaseReference db_ref;
     private Intent prev_intent;
     private String str_idx;
-    private String m_name;
     private int idx;
     private StorageReference storage;
 
@@ -126,8 +125,6 @@ public class MatchQuery extends CreateMenu {
             }
         });
 
-        //TODO CLEAN  UP THIS CODE OH MY GOD
-        final Context c = this;
         // Suspend mp if playing, then add matched user to curr_user's friends list
         Baccept.setOnClickListener(new View.OnClickListener() {
             @Override

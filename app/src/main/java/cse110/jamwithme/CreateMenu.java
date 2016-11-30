@@ -11,12 +11,12 @@ import com.google.firebase.auth.FirebaseAuth;
 
 /**
  * Created by Storm Quark on 11/29/2016.
+ * This is a class that can be extended from an activity which creates the menu for the context.
  */
 
 public class CreateMenu extends AppCompatActivity {
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-    //Create Menu
     public boolean onCreateOptionsMenu(Menu menu)
     {
         MenuInflater inflater = getMenuInflater();
@@ -51,14 +51,12 @@ public class CreateMenu extends AppCompatActivity {
                 }
                 break;
             case R.id.delete_acct:
-                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)
-                        .show();
+                Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT).show();
                 try{
                     startActivity(new Intent(this, DeleteAccountActivity.class));
                 }catch(Exception e) {
                     e.printStackTrace();
                 }
-
                 break;
         }
         return super.onOptionsItemSelected(item);
