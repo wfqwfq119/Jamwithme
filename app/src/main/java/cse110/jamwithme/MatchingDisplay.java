@@ -54,6 +54,7 @@ public class MatchingDisplay extends CreateMenu {
     static ArrayList<String> userlist;
     static ArrayList<String> userlistname;
     static ArrayList<String> friends;
+    static int indx;
     ArrayAdapter<String> userAdapter;
 
     @Override
@@ -66,7 +67,6 @@ public class MatchingDisplay extends CreateMenu {
         myRef = database.getReference();
 
         prev_intent = getIntent();
-        //updated = prev_intent.getStringExtra("updated");
 
         userlist = new ArrayList<String>();
         userlistname = new ArrayList<String>();
@@ -121,17 +121,20 @@ public class MatchingDisplay extends CreateMenu {
 
                 // Prevent users from adding themselves to their matches
                 if (userUID.equals(newuserkey) || friends.contains(newuserkey)) {
-                    return;
                 }
                 else {
                     userlist.add(newuserkey);
 
                     //get username
-                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+                    userRef.child(newuserkey).child("name").addListenerForSingleValueEvent(new
+                                                                                                 ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                userlistname.add(dataSnapshot.getValue().toString());
+                                String ds = dataSnapshot.getValue().toString();
+                                //userlistname.add(dataSnapshot.getValue().toString());
+                                userlistname.add(ds);
+
                                 userAdapter.notifyDataSetChanged();
                             } else {
                                 //userlistname.add("Failed User");
@@ -143,6 +146,8 @@ public class MatchingDisplay extends CreateMenu {
                         public void onCancelled(DatabaseError databaseError) {
                         }
                     });
+
+
                     userAdapter.notifyDataSetChanged();
                 }
             }
@@ -157,7 +162,7 @@ public class MatchingDisplay extends CreateMenu {
                             userlistname.remove(dataSnapshot.getValue().toString());
                             userAdapter.notifyDataSetChanged();
                         } else {
-                            userlistname.remove("Failed User");
+                            //userlistname.remove("Failed User");
                             userAdapter.notifyDataSetChanged();
                         }
                     }
@@ -182,6 +187,7 @@ public class MatchingDisplay extends CreateMenu {
                 Toast.makeText(getBaseContext(), "Error retrieving geoquery", Toast.LENGTH_SHORT).show();
             }
         });
+
         matches.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

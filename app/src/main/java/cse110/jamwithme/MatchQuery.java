@@ -1,5 +1,6 @@
 package cse110.jamwithme;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -39,6 +43,7 @@ public class MatchQuery extends CreateMenu {
     private TextView instruments;
 
     private DatabaseWatcher d;
+    private static String uid;
 
     //public MatchQuery(ArrayList<String> next_matches) { matches = next_matches; }
 
@@ -64,6 +69,7 @@ public class MatchQuery extends CreateMenu {
         instruments = (TextView)findViewById(R.id.tvInstr);
 
         d = new DatabaseWatcher(this);
+        uid = MatchingDisplay.userlist.get(idx);
 
         determ_match();
     }
@@ -97,18 +103,15 @@ public class MatchQuery extends CreateMenu {
     }
 
     public void determ_match() {
-        displayMatch(MatchingDisplay.userlist.get(idx));
-        final Intent back = new Intent(MatchQuery.this, MatchingDisplay.class);
-        back.putExtra("updated", "true");
+        displayMatch(uid);
 
         // Suspend mp if playing, then do nothing else
         Bdecline.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 suspend_mp();
-                MatchingDisplay.userlist.remove(idx);
-                MatchingDisplay.userlistname.remove(idx);
-                startActivity(back);
+                //TODO delete rejected user from matching with current user ever
+                startActivity(new Intent(MatchQuery.this, MatchingDisplay.class));
             }
         });
 
@@ -121,20 +124,31 @@ public class MatchQuery extends CreateMenu {
             }
         });
 
+        //TODO CLEAN  UP THIS CODE OH MY GOD
+        final Context c = this;
         // Suspend mp if playing, then add matched user to curr_user's friends list
         Baccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 suspend_mp();
-                friend_obj next_fr = new friend_obj(MatchingDisplay.userlist.get(idx), m_name);
-                friend_list.friend_Array.add(next_fr);
-                MatchingDisplay.userlist.remove(idx);
-                MatchingDisplay.userlistname.remove(idx);
 
-                String name = d.returnName(next_fr.getUser_Uid());
-                //add friend to database
-                d.saveDataBy("friends/" + next_fr.getUser_Uid(), name);
+                String key = "users/" + uid;
+                FirebaseDatabase.getInstance().getReference().child(key).addListenerForSingleValueEvent(new
+                                                                                    ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.hasChild("name")) {
+                            String name = dataSnapshot.child("name").getValue().toString();
+                            //add friend to database
+                            d.saveDataBy("friends/" + uid, name);
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {}
+                });
+
+                Intent back = new Intent(c, MatchingDisplay.class);
                 startActivity(back);
             }
         });

@@ -42,9 +42,13 @@ public class CreateMenu extends AppCompatActivity {
                 startActivity(new Intent(this,friend_list.class));
                 break;
             case R.id.matching:
-                Intent match = new Intent(this, MatchingDisplay.class);
-                match.putExtra("updated", "false");
-                startActivity(match);
+                try {
+                    Intent match = new Intent(this, MatchingDisplay.class);
+                    match.putExtra("updated", "false");
+                    startActivity(match);
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case R.id.delete_acct:
                 Toast.makeText(this, "Please verify account!", Toast.LENGTH_SHORT)

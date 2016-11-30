@@ -26,9 +26,7 @@ import com.google.firebase.database.Query;
 
 import java.util.ArrayList;
 
-public class messagerAct extends AppCompatActivity {
-
-
+public class messagerAct extends CreateMenu {
     private ArrayList<String> text_list;
     private ListView mes_list;
     private DatabaseReference mRootRef;
@@ -52,10 +50,10 @@ public class messagerAct extends AppCompatActivity {
 
         String User_Uid = getIntent().getStringExtra("Uid");
         //System.out.println(User_Uid);
-        my_String = User_Uid.split(",");
-        my_String = my_String[1].split(" ");
+        //my_String = User_Uid.split(",");
+        //my_String = my_String[1].split(" ");
         //System.out.println(my_String[3]);
-        User_Uid = my_String[3];
+        //User_Uid = my_String[3];
 
         mRootRef = FirebaseDatabase.getInstance().getReference().getRoot();
        //my_Query = mRootRef.child("users").orderByKey().equalTo(User_Uid);
