@@ -39,7 +39,7 @@ public class MatchingDisplay extends CreateMenu {
 
     ListView matches;
     static ArrayList<String> userlist;
-    static ArrayList<String> userlistname;
+    static ArrayList<String> userlistname = new ArrayList<String>();
     static ArrayList<String> friends;
     ArrayAdapter<String> userAdapter;
 
@@ -56,7 +56,6 @@ public class MatchingDisplay extends CreateMenu {
         //updated = prev_intent.getStringExtra("updated");
 
         userlist = new ArrayList<String>();
-        //userlistname = new ArrayList<String>();
         friends = new ArrayList<String>();
 
         //Pull friend list
