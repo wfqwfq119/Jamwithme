@@ -10,7 +10,14 @@ import android.widget.RatingBar;
 public class experience extends AppCompatActivity {
 
     Button bNext4;
+<<<<<<< HEAD
     Button bBack4;
+=======
+
+    /*
+    * Description: this method is called to set up the activity when it starts
+    */
+>>>>>>> origin/master
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

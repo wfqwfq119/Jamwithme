@@ -51,8 +51,9 @@ public class add_jams_activity extends AppCompatActivity {
     private TextView filename_TV;
 
 
-    /** Setup layout: ListView with arr_jams[] elems, Buttons for Media Player,
-                  Buttons for profile customization                             **/
+    /* Setup layout: ListView with arr_jams[] elems, Buttons for Media Player,
+     * Buttons for profile customization
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,7 +99,7 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
-
+        /* takes care of deleting the audio file the user has uploaded */
         delete_aud = (Button)findViewById(R.id.bdelete);
         delete_aud.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +115,7 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
-
+        // stops the music when the user clicks next
         bNext2 = (Button)findViewById(R.id.bNext2);
         bNext2.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,7 +126,7 @@ public class add_jams_activity extends AppCompatActivity {
                         mp.release();
                     }
                 }
-
+                // uploads jam to data base when the user clicks next
                 if (aud_uri != null) {
                     upl_progress.setMessage("Uploading profile jam...");
                     upl_progress.show();
@@ -145,7 +146,7 @@ public class add_jams_activity extends AppCompatActivity {
             } );
         }
 
-    /** Set up next activity page **/
+    /** Set up next activity page by determining what the previous activity was**/
     public void nextTask() {
         if (prev_activ.equals("UserProfileActivity")) {
             startActivity(new Intent(add_jams_activity.this, UserProfileActivity.class));

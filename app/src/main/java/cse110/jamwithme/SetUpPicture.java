@@ -42,6 +42,9 @@ public class SetUpPicture extends AppCompatActivity {
     private static int picWidth = 55;
     private static int picHeight = 60;
 
+    /*
+     * Description: this method is called to set up the activity when it starts
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

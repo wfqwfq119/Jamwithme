@@ -4,8 +4,10 @@ package cse110.jamwithme;
  * Created by Storm Quark on 11/21/2016.
  */
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -39,9 +41,10 @@ public class MatchingDisplay extends CreateMenu {
 
     ListView matches;
     static ArrayList<String> userlist;
-    static ArrayList<String> userlistname;
+    static ArrayList<String> userlistname = new ArrayList<String>();
     static ArrayList<String> friends;
     ArrayAdapter<String> userAdapter;
+    static ArrayList<friend_obj> ulist;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +55,7 @@ public class MatchingDisplay extends CreateMenu {
         database = FirebaseDatabase.getInstance();
         myRef = database.getReference();
 
-        //prev_intent = getIntent();
-        //updated = prev_intent.getStringExtra("updated");
-
         userlist = new ArrayList<String>();
-        //userlistname = new ArrayList<String>();
         friends = new ArrayList<String>();
 
         //Pull friend list
@@ -101,19 +100,16 @@ public class MatchingDisplay extends CreateMenu {
         GeoQuery query = findUsers.queryAtLocation(ul.getLongLat(), rad);
         query.addGeoQueryEventListener(new GeoQueryEventListener() {
             @Override
-            public void onKeyEntered(String newuserkey, GeoLocation location) {
+            public void onKeyEntered(final String newuserkey, GeoLocation location) {
                 user = mAuth.getCurrentUser();
                 String userUID = user.getUid();
 
                 // Prevent users from adding themselves to their matches
                 if (userUID.equals(newuserkey) || friends.contains(newuserkey)) {
-                    System.out.println("Friends: ");
-                    for (String f : friends) {
-                        System.out.println(f);
-                    }
+                    //Don't do anything, already "matched" as friends
                 } else {
+                    //user exist check
                     userlist.add(newuserkey);
-                    userAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -147,17 +143,24 @@ public class MatchingDisplay extends CreateMenu {
             //Once query is done adjusting, initialize all user names from the user id's noted
             @Override
             public void onGeoQueryReady() {
-                userlistname = new ArrayList<String>();
-                for (String s : userlist) {
+                userlistname = new ArrayList<String>(userlist.size());
+                ulist = new ArrayList<friend_obj>();
+                for (final String s : userlist) {
                     userRef.child(s).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 String ds = dataSnapshot.getValue().toString();
                                 userlistname.add(ds);
+
+                                friend_obj fo = new friend_obj(s, ds);
+                                ulist.add(fo);
+
+                                userAdapter.notifyDataSetChanged();
                             } else {
                                 //userlistname.add("Failed User");
                             }
+                            userAdapter.notifyDataSetChanged();
                         }
 
                         @Override
@@ -181,8 +184,10 @@ public class MatchingDisplay extends CreateMenu {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 userAdapter.notifyDataSetChanged();
                 Intent query = new Intent(MatchingDisplay.this, MatchQuery.class);
-                String pos = Integer.toString(position);
-                query.putExtra("position", pos);
+                for(friend_obj fo : ulist) {
+                    if(fo.getUser_name() == userlistname.get(position))
+                        query.putExtra("position", fo.getUser_Uid());
+                }
 
                 startActivity(query);
             }

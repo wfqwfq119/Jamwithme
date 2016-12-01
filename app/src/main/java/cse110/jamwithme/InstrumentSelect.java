@@ -41,9 +41,17 @@ public class InstrumentSelect extends AppCompatActivity {
     String User_Uid;
     DatabaseReference mChildRef;
 
+<<<<<<< HEAD
     Button bNext3; // MAYA AND NANCY
     Button bBack3;
+=======
+    Button bNext3;
+>>>>>>> origin/master
 
+    /*
+    * Description: this method is called to set up the activity when it starts,
+    * which includes displaying the instruments users can choose
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +63,7 @@ public class InstrumentSelect extends AppCompatActivity {
         
         instr_view = (ListView)findViewById(R.id.Instr_List);
         instr_selected = new Intent(this,experience.class);
-
+        // list of instruments users can choose
         items_list.add("Keyboard");
         items_list.add("Piano");
         items_list.add(("Recorder"));
@@ -72,6 +80,9 @@ public class InstrumentSelect extends AppCompatActivity {
         instr_view.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
         instr_view.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
             @Override
+            /*
+             * Description: This method keeps track of the instruments that the user selects
+             */
             public void onItemCheckedStateChanged(ActionMode mode, int position, long id, boolean checked) {
                 if(select_list.contains(items_list.get(position))){
                     mode.setTitle("instrument already selected");
@@ -160,12 +171,15 @@ public class InstrumentSelect extends AppCompatActivity {
         backPage3();
     }
 
-    // MAYA AND NANCY
+    /*
+     * Description: Goes to the appropriate activity page based on which activity it was previously
+     *              called from.
+     */
     public void nextPage3() {
         bNext3 = (Button) findViewById(R.id.bNext3);
         final DatabaseWatcher d = new DatabaseWatcher(this);
 
-
+        // define the action taken when the user clicks the next button
         bNext3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

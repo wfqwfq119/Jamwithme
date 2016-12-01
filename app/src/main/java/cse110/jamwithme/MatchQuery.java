@@ -53,7 +53,6 @@ public class MatchQuery extends CreateMenu {
         mp = null;
         prev_intent = getIntent();
         str_idx = prev_intent.getStringExtra("position");
-        idx = Integer.parseInt(str_idx);
 
         storage = FirebaseStorage.getInstance().getReference();
         database = FirebaseDatabase.getInstance();
@@ -68,7 +67,7 @@ public class MatchQuery extends CreateMenu {
         instruments = (TextView)findViewById(R.id.tvInstr);
 
         d = new DatabaseWatcher(this);
-        uid = MatchingDisplay.userlist.get(idx);
+        uid = str_idx;
 
         determ_match();
     }
