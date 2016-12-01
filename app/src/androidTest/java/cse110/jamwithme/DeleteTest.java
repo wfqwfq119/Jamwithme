@@ -1,13 +1,16 @@
 package cse110.jamwithme;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
+import android.widget.Toast;
 
 import com.firebase.geofire.GeoFire;
+import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -52,22 +55,21 @@ public class DeleteTest {
     @Test
     public void clickDelete() {
         //Given user exists
-        /*final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference myRef = FirebaseDatabase.getInstance().getReference();
+        final FirebaseAuth fa = FirebaseAuth.getInstance();
+
+        //If user exists, sign in
         myRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot uid : dataSnapshot.getChildren()) {
                     String name = uid.child("name").getValue().toString();
                     if(name.equals("Espresso Test")) {
-                        final String userstring = uid.getKey().toString();
-
-                        fa.signInWithEmailAndPassword("espressotest@ex.com", "testtest").addOnCompleteListener
+                        fa.signInWithEmailAndPassword("espressotest@ex.com", "password")
+                                .addOnCompleteListener
                                 (new OnCompleteListener<AuthResult>() {
                                     @Override
                                     public void onComplete(@NonNull Task<AuthResult> task) {
-                                        if (!task.isSuccessful()) {
-                                            System.exit(1);
-                                        }
                                     }
                                 });
                     }
@@ -75,81 +77,92 @@ public class DeleteTest {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
+            public void onCancelled(DatabaseError databaseError) {}
 
         });
 
-
-        FirebaseAuth fa = FirebaseAuth.getInstance();
-        fa.signInWithEmailAndPassword("espressotest@ex.com", "testtest").addOnCompleteListener
+        //If isn't found, create account
+        fa.createUserWithEmailAndPassword("espressotest@ex.com", "password").addOnCompleteListener
                 (new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (!task.isSuccessful()) {
-                            System.exit(1);
-                        }
-                        else {
-                            //FirebaseUser fu = fa.getCurrentUser();
-                            if(fu != null)
-                            {
-                            }
-                        }
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+
+                    if (user == null) {
+                        System.out.println("Failed to log in");
                     }
-                });*/
 
-        ViewInteraction appCompatTextView7 = onView(
-                allOf(withId(R.id.title), withText("Delete Account"), isDisplayed()));
-        appCompatTextView7.perform(click());
+                    //Create user object and place into database
+                    User newUser = new User();
+                    newUser.setName("Espresso Test");
+                    newUser.setUid(user.getUid());
+                    newUser.setLocation(new GeoLocation(0,0));
 
-        ViewInteraction del = onView(withId(R.id.activity_delete));
-        del.check(matches(isDisplayed()));
+                    mDatabase.child("users").child(user.getUid()).setValue(newUser);
+                }
+            }
+        });
 
-        ViewInteraction appCompatEditText19 = onView(
-                allOf(withId(R.id.Login_email),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText19.perform(click());
+        try {
+            Thread.sleep(5000);
 
-        ViewInteraction appCompatEditText20 = onView(
-                allOf(withId(R.id.Login_email),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText20.perform(replaceText("espressotest@ex.com"), closeSoftKeyboard());
+            ViewInteraction appCompatTextView7 = onView(
+                    allOf(withId(R.id.title), withText("Delete Account"), isDisplayed()));
+            appCompatTextView7.perform(click());
 
-        ViewInteraction appCompatEditText21 = onView(
-                allOf(withId(R.id.Login_email), withText("espressotest@ex.com"),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText21.perform(pressImeActionButton());
+            ViewInteraction del = onView(withId(R.id.activity_delete));
+            del.check(matches(isDisplayed()));
 
-        ViewInteraction appCompatEditText22 = onView(
-                allOf(withId(R.id.Login_pass),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText22.perform(replaceText("password"), closeSoftKeyboard());
+            ViewInteraction appCompatEditText19 = onView(
+                    allOf(withId(R.id.Login_email),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatEditText19.perform(click());
 
-        ViewInteraction appCompatEditText23 = onView(
-                allOf(withId(R.id.Login_pass), withText("password"),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatEditText23.perform(pressImeActionButton());
+            ViewInteraction appCompatEditText20 = onView(
+                    allOf(withId(R.id.Login_email),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatEditText20.perform(replaceText("espressotest@ex.com"), closeSoftKeyboard());
 
-        ViewInteraction appCompatButton9 = onView(
-                allOf(withId(R.id.delete_button), withText("Delete Account"),
-                        withParent(allOf(withId(R.id.activity_delete),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatButton9.perform(click());
+            ViewInteraction appCompatEditText21 = onView(
+                    allOf(withId(R.id.Login_email), withText("espressotest@ex.com"),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatEditText21.perform(pressImeActionButton());
 
-        ViewInteraction login = onView(withId(R.id.activity_logina_ctivity));
-        login.check(matches(isDisplayed()));
+            ViewInteraction appCompatEditText22 = onView(
+                    allOf(withId(R.id.Login_pass),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatEditText22.perform(replaceText("password"), closeSoftKeyboard());
 
+            ViewInteraction appCompatEditText23 = onView(
+                    allOf(withId(R.id.Login_pass), withText("password"),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatEditText23.perform(pressImeActionButton());
+
+            ViewInteraction appCompatButton9 = onView(
+                    allOf(withId(R.id.delete_button), withText("Delete Account"),
+                            withParent(allOf(withId(R.id.activity_delete),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatButton9.perform(click());
+
+            ViewInteraction login = onView(withId(R.id.activity_logina_ctivity));
+            login.check(matches(isDisplayed()));
+
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
