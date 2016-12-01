@@ -11,6 +11,10 @@ import com.google.firebase.auth.FirebaseUser;
 public class Biography extends AppCompatActivity {
 
     Button bNext5;
+
+    /*
+    * Description: this method is called to set up the activity when it starts
+    */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

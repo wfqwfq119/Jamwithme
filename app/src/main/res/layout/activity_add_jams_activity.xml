@@ -109,5 +109,15 @@
         android:layout_toRightOf="@+id/bdelete"
         android:layout_toEndOf="@+id/bdelete" />
 
+    <Button
+        android:text="Back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/bBack2"
+        android:background="?android:attr/statusBarColor"
+        android:textColor="@android:color/white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

@@ -110,7 +110,8 @@ public class CreateAccountLogout {
 
         });
 
-        //Sleep
+        /** Test here */
+        //Sleep and then begin test
         try {
             Thread.sleep(5000);
 
@@ -200,8 +201,6 @@ public class CreateAccountLogout {
             ViewInteraction appCompatTextView2 = onView(
                     allOf(withId(R.id.title), withText("Settings"), isDisplayed()));
             appCompatTextView2.perform(click());
-
-            //openActionBarOverflowOrOptionsMenu(getInstrumentation().getTargetContext());
 
             ViewInteraction appCompatTextView3 = onView(
                     allOf(withId(R.id.title), withText("Log out"), isDisplayed()));
