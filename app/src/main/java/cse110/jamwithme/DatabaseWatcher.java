@@ -220,27 +220,6 @@ public class DatabaseWatcher {
         }
     }
 
-    public boolean badUser(final String uid) {
-        retval = false;
-
-        myRef.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.hasChild(uid)) {
-                    retval = true;
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-
-        });
-
-        System.out.println("user " + uid + " exists: " + retval);
-        return retval;
-    }
-
     /** if there is bad data, start at login activity */
     private void badData() {
         System.out.println("USER IS NULL!!!!\n");
