@@ -45,7 +45,7 @@ import static org.hamcrest.Matchers.allOf;
 public class RegisterTest {
 
     @Rule
-    public ActivityTestRule<Splash> mActivityTestRule = new ActivityTestRule<>(Splash.class);
+    public ActivityTestRule<logina_ctivity> mActivityTestRule = new ActivityTestRule<>(logina_ctivity.class);
 
     @Test
     public void registerTest() {
