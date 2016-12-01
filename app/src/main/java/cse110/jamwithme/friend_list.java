@@ -25,6 +25,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+/*
+ * This class keeps a list of friends based on the people you have matched with.
+ */
+
 public class friend_list extends CreateMenu {
 
     private ListView recent_find;

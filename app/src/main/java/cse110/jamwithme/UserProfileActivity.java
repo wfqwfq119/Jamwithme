@@ -40,6 +40,10 @@ import android.widget.Toast;
 import com.squareup.picasso.Picasso;
 import android.widget.EditText;
 
+/*
+ * This class displays the user profile, while still allowing the user to make final
+ * modifications to the profile and save them.
+ */
 
 public class UserProfileActivity extends CreateMenu {
     private FirebaseAuth mAuth;

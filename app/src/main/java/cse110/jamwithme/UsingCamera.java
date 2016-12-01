@@ -34,6 +34,8 @@ import java.io.IOException;
 
 /**
  * Created by Nancy on 11/20/2016.
+ * This class contains methods that will be used by activities in order to access the camera
+ * and gallery from the users phone to enable them to upload a picture for their profile.
  */
 
 public class UsingCamera {
@@ -63,7 +65,6 @@ public class UsingCamera {
                 Intent image = new Intent(activity,
                         SetUpPicture.class);
                 image.putExtra("activity", prev_activ);
-                //activity.startActivity(image);
             }
         });
     }
@@ -76,7 +77,6 @@ public class UsingCamera {
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                 "Your image", null);
         Picasso.with(activity).load(path).resize(width ,height).into(imageView); // width/height
-        /*Picasso.with(this.activity).load(path).fit().centerInside().into(imageView); */
     }
 
     /** CREATE DIALOG BOX **/
@@ -95,7 +95,6 @@ public class UsingCamera {
                 userChoosenTask = "Take Photo";
                 cameraIntent();
             }
-
             else if (items[item].equals("Choose from Library")) {
                 userChoosenTask="Choose from Library";
                 galleryIntent();
@@ -162,6 +161,7 @@ public class UsingCamera {
 
                 path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bm,
                         "Your image", null);
+                // resize the image
                 Picasso.with(activity).load(path).resize(width, height).into(imageView);
                 Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
             }
@@ -182,8 +182,8 @@ public class UsingCamera {
     }
 
     /*
-       TAKE A PHOTO USING CAMERA
-    */
+     * TAKE A PHOTO USING CAMERA
+     */
     public Uri usingCamera(Intent data, ImageView imageView, int width, int height) {
         Bundle bundle = new Bundle();
         bundle = data.getExtras();
@@ -191,6 +191,7 @@ public class UsingCamera {
         imageView.setImageBitmap(bitMap);
         String path = MediaStore.Images.Media.insertImage(activity.getContentResolver(),bitMap,
                 "Your image", null);
+        // resize the image chosen
         Picasso.with(activity).load(path).resize(width, height).into(imageView);
         Toast.makeText(activity, "Looking good!", Toast.LENGTH_LONG).show();
         return Uri.parse(path);

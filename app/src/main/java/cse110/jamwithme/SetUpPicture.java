@@ -60,7 +60,7 @@ public class SetUpPicture extends AppCompatActivity {
 
         camObj.cameraButton(camButton);
 
-        /***** set Default picture *****/
+        // set Default picture
         camObj.setDefaultPhoto(imageView, picWidth, picHeight);
 
         nextPage();
@@ -83,7 +83,6 @@ public class SetUpPicture extends AppCompatActivity {
         if (prev_activ.equals("RegisterActivity")) {
             Intent next = new Intent(SetUpPicture.this, add_jams_activity.class);
             next.putExtra("activity", "SetUpPicture");
-
             startActivity(next);
         }
         else if (prev_activ.equals("UserProfileActivity")) {

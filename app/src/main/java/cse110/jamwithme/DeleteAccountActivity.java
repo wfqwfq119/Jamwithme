@@ -2,6 +2,9 @@ package cse110.jamwithme;
 
 /**
  * Created by Storm Quark on 11/20/2016.
+ * This class allows the user to delete their account. It asks the user
+ * to enter the correct login information to confirm they want to delete
+ * the account.
  */
 
 import android.content.Intent;

@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.provider.OpenableColumns;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,7 +28,11 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-
+/*
+ * This class is used to enable users to upload a sound file to their profile. They can then
+ * choose to delete, play, stop, save the sound. The name of the sound file they uploaded will
+ * be displayed.
+ */
 public class add_jams_activity extends AppCompatActivity {
     private static final int AUDIO_INTENT = 1;
     private static final int REQ_READ_EXT_STORAGE = 2;
@@ -76,6 +81,7 @@ public class add_jams_activity extends AppCompatActivity {
         // 'SELECT JAM' button is on --> Single audio file can be selected from device
         select_aud = (Button)findViewById(R.id.bselect) ;
         select_aud.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.M)
             @Override
             public void onClick(View v) {
                 sel_sound = new Intent(Intent.ACTION_GET_CONTENT);

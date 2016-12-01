@@ -23,7 +23,10 @@ public class Biography extends AppCompatActivity {
         nextPage5();
     }
 
-    // NANCY AND MAYA
+     /*
+      * Goes to the next page of setting up the profile since this is the last
+      * step it will display the completed user profile
+      */
     public void nextPage5() {
         bNext5 = (Button) findViewById(R.id.bNext5);
         final DatabaseWatcher d = new DatabaseWatcher(this);

@@ -7,6 +7,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RatingBar;
 
+/*
+ * This activity lets the user enter the experience they've had with music
+ * based on the amount of years they have been playing.
+ */
 public class experience extends AppCompatActivity {
 
     Button bNext4;
@@ -22,7 +26,10 @@ public class experience extends AppCompatActivity {
         nextPage4();
     }
 
-    // NANCY AND MAYA
+    /*
+     * This method enables the user to move on to the next activity by clicking the
+     * next button.
+     */
     public void nextPage4() {
         bNext4 = (Button) findViewById(R.id.bNext4);
         final DatabaseWatcher d = new DatabaseWatcher(this);
@@ -34,6 +41,5 @@ public class experience extends AppCompatActivity {
                 startActivity(new Intent(experience.this, Biography.class));
             }
         } );
-
     }
 }
