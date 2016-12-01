@@ -142,14 +142,6 @@ public class add_jams_activity extends AppCompatActivity {
             }
         });
 
-        bBack2 = (Button)findViewById(R.id.bBack2);
-        // final DatabaseWatcher d = new DatabaseWatcher(this);
-        bBack2.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(add_jams_activity.this, UsingCamera.class));
-                }
-            } );
         }
 
     /** Set up next activity page by determining what the previous activity was**/
