@@ -96,7 +96,7 @@ public class CreateAccountLogout {
         appCompatButton3.perform(click());
 
         ViewInteraction appCompatButton4 = onView(
-                allOf(withId(R.id.bNext3), withText("NEXT"), isDisplayed()));
+                allOf(withId(R.id.bNext3), withText("Next"), isDisplayed()));
         appCompatButton4.perform(click());
 
         ViewInteraction appCompatButton5 = onView(

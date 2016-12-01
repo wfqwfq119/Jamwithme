@@ -65,6 +65,9 @@ public class UserProfileActivity extends CreateMenu {
     private TextView displayInstruments;
     private String instruments;
 
+    /*
+     * Description: Starts and sets up the activity of getting the user profile information
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,11 +119,12 @@ public class UserProfileActivity extends CreateMenu {
             }
         });
 
-        /****** CAMERA - Nancy *****/
+        /** created objects necessary to operate camera and gallery **/
         camObj = new UsingCamera(this, "UserProfileActivity");
         imageView = (ImageView) findViewById(R.id.ivProfile);
         camButton = (ImageButton) findViewById(R.id.camButton);
 
+        // add functionality to camera button by calling method
         camObj.cameraButton(camButton);
 
         myRef.child("users/" + user.getUid() + "/Instruments").addChildEventListener(new ChildEventListener() {
@@ -136,8 +140,6 @@ public class UserProfileActivity extends CreateMenu {
                 for(String si : new_list){
                     if(si == null)
                         break;
-                    //String[] check_list = si.split("=");
-                    //System.out.println(check_list[0]);
 
                     if(instruments == null){
                         instruments = si;
@@ -207,12 +209,18 @@ public class UserProfileActivity extends CreateMenu {
         });
     }
 
+     /*
+      * Description: This method determines whether the user chooses to take a picture using the
+      * camera or choose a picture from gallery and then uploads it.
+      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // calls method to use camera
         if (requestCode == REQUEST_CAMERA && resultCode == Activity.RESULT_OK) {
             img_uri = camObj.usingCamera(data, imageView, picWidth, picHeight);
         }
+        // calls method to use gallery
         if (requestCode == REQUEST_GALLERY && resultCode == Activity.RESULT_OK) {
             img_uri = camObj.selectFromGallery(data, imageView, picWidth, picHeight);
         }
