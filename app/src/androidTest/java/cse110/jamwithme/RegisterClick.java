@@ -6,6 +6,8 @@ import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -25,15 +27,24 @@ public class RegisterClick {
     @Rule
     public ActivityTestRule<Splash> mActivityTestRule = new ActivityTestRule<>(Splash.class);
 
+    /** Given on login screen, person can click to register instead of log in */
     @Test
     public void registerClick() {
-        ViewInteraction appCompatTextView = onView(
-                allOf(withId(R.id.Login_tv), withText("Register Here"),
-                        withParent(allOf(withId(R.id.activity_logina_ctivity),
-                                withParent(withId(android.R.id.content)))),
-                        isDisplayed()));
-        appCompatTextView.perform(click());
+        //Given on login splash screen
+        FirebaseAuth.getInstance().signOut();   //Log out
 
+        try {
+            Thread.sleep(5000);
+
+            ViewInteraction appCompatTextView = onView(
+                    allOf(withId(R.id.Login_tv), withText("Register Here"),
+                            withParent(allOf(withId(R.id.activity_logina_ctivity),
+                                    withParent(withId(android.R.id.content)))),
+                            isDisplayed()));
+            appCompatTextView.perform(click());
+        }catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
